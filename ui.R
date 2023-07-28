@@ -11,7 +11,7 @@ ui <- fluidPage(
   hr(),
   
   # Create a text input for the DNA sequence to be introduced by the user
-  textInput(inputId = "sequence", value = "AAGGTCTCAAAAGGTCTCAAAAAGAGACCAAAAAGAGACCAA",
+  textInput(inputId = "sequence", value = "AAGGTCTCAAAAGGTCTCAAAAAGAGACCAAAAGAGACCAA",
             label = "Sequence"
   ),
   
@@ -23,6 +23,9 @@ ui <- fluidPage(
   
   # Line break
   br(),
+  
+  textOutput("bsaI_search"),
+  
   DTOutput("table")
 )
 
