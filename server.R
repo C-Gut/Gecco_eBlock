@@ -9,8 +9,16 @@ server <- function(input, output, session) {
       #[[1]] is to make a data frame instead of a matrix
         # to call the input use the id given in the UI after the $ sign. 
     
-    bsaI1.df <- str_locate_all(input$sequence, "GGTCTC")[[1]] %>% as.data.frame()
-    bsaI2.df <- str_locate_all(input$sequence, "GAGACC")[[1]] %>% as.data.frame()
+    bsaI1.df <- str_locate_all(input$sequence, "GGTCTC")[[1]]
+    bsaI2.df <- str_locate_all(input$sequence, "GAGACC")[[1]]
+    
+     if (is.na(bsaI1.df[1]) == TRUE && is.na(bsaI2.df[1]) == TRUE ){
+       bsaI_search <- "No BsaI sites were found"
+       print(bsaI_search)
+     } else {
+
+     bsaI1.df <- as.data.frame(bsaI1.df)
+     bsaI2.df <- as.data.frame(bsaI2.df)
     
     #Create extra columns to indicate whether fw or rv BsaI sites have been found
     bsaI1.df$GGTCTC <- TRUE
@@ -28,14 +36,19 @@ server <- function(input, output, session) {
     bsaI.df$position <- bsaI.df$start %% 3
     bsaI.df$position[bsaI.df$position == 0] <- 3
     
+    #If there are not BsaI sites a message saying: 
+    #"No BsaI sites found" appears and the rest of steps are done with the same input sequence
     
-    
+    #If there are BsaI sites, the table with the sites and positions found appear and a message appear asking to provide 
+    #a sequence without the sites and an alternative sequence
+    bsaI.df  
+        }
 ## 1: GGT = GGC
 ## 2: GTC = GTG
 ## 3: TCT = TCC
     
     
-    bsaI.df   
+     
   })
   
   output$table <- renderDT(processed_input())
