@@ -16,3 +16,6 @@ sequence <- readline()
 
 # Call the findPattern function
 findPattern(sequence)
+
+
+#testestest
