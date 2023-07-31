@@ -12,15 +12,25 @@ server <- function(input, output, session) {
     bsaI1.df <- str_locate_all(input$sequence, "GGTCTC")[[1]]
     bsaI2.df <- str_locate_all(input$sequence, "GAGACC")[[1]]
     
-     if (is.na(bsaI1.df[1]) == TRUE && is.na(bsaI2.df[1]) == TRUE ){
-       bsaI_search <- "No BsaI sites were found"
-       print(bsaI_search)
-     } else {
-
-     bsaI1.df <- as.data.frame(bsaI1.df)
-     bsaI2.df <- as.data.frame(bsaI2.df)
-    
-    #Create extra columns to indicate whether fw or rv BsaI sites have been found
+    if (nrow(bsaI1.df) == 0 && nrow(bsaI2.df) == 0) {
+      output$bsaI_search <- renderText("No BsaI sites were found")
+      return(NULL)  # Return NULL when no BsaI sites are found
+    } else if (nrow(bsaI1.df) > 0 && nrow(bsaI2.df) == 0) {
+      output$bsaI_search <- renderText("BsaI1 sites were found")
+      bsaI1.df$GGTCTC <- TRUE
+      bsaI1.df$GAGACC <- FALSE
+      bsaI1.df$suggested_sequence <- sub("GGT", "GGC", input$sequence)  # Create the suggested sequence for BsaI1
+      return(bsaI1.df)  # Return the data frame for BsaI1 sites when only BsaI1 sites are found
+    } else if (nrow(bsaI1.df) == 0 && nrow(bsaI2.df) > 0) {
+      output$bsaI_search <- renderText("BsaI2 sites were found")
+      bsaI2.df$GGTCTC <- FALSE
+      bsaI2.df$GAGACC <- TRUE
+      bsaI2.df$suggested_sequence <- sub("GAGACC", "GAGACC", input$sequence)  # Create the suggested sequence for BsaI2
+      return(bsaI2.df)  # Return the data frame for BsaI2 sites when only BsaI2 sites are found
+    } else {
+      output$bsaI_search <- renderText("Both BsaI1 and BsaI2 sites were found")
+      # Both data frames have BsaI sites, so merge them 
+      #Create extra columns to indicate whether fw or rv BsaI sites have been found
     bsaI1.df$GGTCTC <- TRUE
     bsaI1.df$GAGACC <- FALSE 
     bsaI2.df$GGTCTC <- FALSE
@@ -36,12 +46,12 @@ server <- function(input, output, session) {
     bsaI.df$position <- bsaI.df$start %% 3
     bsaI.df$position[bsaI.df$position == 0] <- 3
     
-    #If there are not BsaI sites a message saying: 
-    #"No BsaI sites found" appears and the rest of steps are done with the same input sequence
-    
-    #If there are BsaI sites, the table with the sites and positions found appear and a message appear asking to provide 
-    #a sequence without the sites and an alternative sequence
-    bsaI.df  
+      # Create suggested sequences for both BsaI1 and BsaI2
+      bsaI.df$suggested_sequence <- ifelse(bsaI.df$position == 1,
+                                           sub("GGT", "GGC", input$sequence),
+                                           sub("GAG", "GAA", input$sequence))
+      
+      return(bsaI.df)  # Return the merged data frame with BsaI sites
         }
 ## 1: GGT = GGC
 ## 2: GTC = GTG
@@ -51,5 +61,11 @@ server <- function(input, output, session) {
      
   })
   
-  output$table <- renderDT(processed_input())
+  output$table <- renderDT({
+    if (!is.null(processed_input())) {
+      datatable(processed_input(), options = list(dom = 't'))  # Display the data table
+    } else {
+      data.frame()  # Return an empty data frame when no BsaI sites are found
+    }
+  })
 }
