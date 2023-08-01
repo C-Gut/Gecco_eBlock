@@ -9,8 +9,8 @@ server <- function(input, output, session) {
       #[[1]] is to make a data frame instead of a matrix
         # to call the input use the id given in the UI after the $ sign. 
     
-    bsaI1.df <- str_locate_all(input$sequence, "GGTCTC")[[1]]
-    bsaI2.df <- str_locate_all(input$sequence, "GAGACC")[[1]]
+    bsaI1.df <- str_locate_all(input$sequence, "GGTCTC")[[1]] %>% as.data.frame() # output of str_locate is matrix, need to convert to df
+    bsaI2.df <- str_locate_all(input$sequence, "GAGACC")[[1]] %>% as.data.frame()
     
     if (nrow(bsaI1.df) == 0 && nrow(bsaI2.df) == 0) {
       output$bsaI_search <- renderText("No BsaI sites were found")
