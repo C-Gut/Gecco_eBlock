@@ -58,9 +58,14 @@ server <- function(input, output, session) {
     #   
     #   return(bsaI.df)  # Return the merged data frame with BsaI sites
     # }
+    ## GGTCTC
     ## 1: GGT = GGC
     ## 2: GTC = GTG
     ## 3: TCT = TCC
+    ## GAGACC
+    ## 1: GAG = GAA
+    ## 2: AGA = CGT
+    ## 3: GAC = GAT
     
     seq <- toupper(input$sequence)
     
