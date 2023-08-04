@@ -68,10 +68,10 @@ server <- function(input, output, session) {
     ## GGTCTC
     ## 1: GGT = GGC
     ## 2: GTC = GTG
-    ## 3: TCT = TCC
+    ## 3: TCT = AGC
     ## GAGACC
     ## 1: GAG = GAA
-    ## 2: AGA = AGG
+    ## 2: AGA = CGT
     ## 3: GAC = GAT
     
     seq <- toupper(input$sequence)
@@ -87,8 +87,8 @@ server <- function(input, output, session) {
                                     c('GTC','GGT','TCT')[(df$cod_pos %% 3) + 1], 
                                     c('AGA', 'GAG', 'GAC')[(df$cod_pos %% 3) + 1])
     df$change_cod_to <- ifelse(df$dir == 'fw', 
-                               c('GTG','GGC','TCC')[(df$cod_pos %% 3) + 1], 
-                               c('AGG', 'GAA', 'GAT')[(df$cod_pos %% 3) + 1])
+                               c('GTG','GGC','AGC')[(df$cod_pos %% 3) + 1], 
+                               c('CGT', 'GAA', 'GAT')[(df$cod_pos %% 3) + 1])
     
     df[order(df$start),]
   
@@ -99,7 +99,7 @@ server <- function(input, output, session) {
 
   # Number of fragments needed: 1 (0-288), 2 (291-580), 3 (581-870), 4 (871-1160), 5 (1161-1450)
   if (length_seq <= 288*3) {
-    fragm1 <- cat(BsaTGGT, seq, BsaSTOPCTTG, sep = "")
+    fragments <- cat(BsaTGGT, seq, BsaSTOPCTTG, sep = "")
 
   } else if (length_seq <= 580*3){
     piece1 <- substr(seq, 1, nchar(seq)/2)
@@ -107,6 +107,8 @@ server <- function(input, output, session) {
     
     piece2 <- substr(seq, (nchar(seq)/2)+1, nchar(seq))
     fragm2 <- cat(BsaMid2, piece2, BsaSTOPCTTG, sep = "")
+    
+    fragments <- c(fragm1, fragm2)
     
   } else if (length_seq <= 870*3){
     piece1 <- substr(seq, 1, nchar(seq)/3)
@@ -117,6 +119,8 @@ server <- function(input, output, session) {
     
     piece3 <- substr(seq, (nchar(seq)/3*2)+1, nchar(seq))
     fragm3 <- cat(BsaMid2, piece3, BsaSTOPCTTG, sep = "")
+    
+    fragments <- c(fragm1, fragm2, fragm3)
     
   } else if (length_seq <= 1160*3){
     piece1 <- substr(seq, 1, nchar(seq)/4)
@@ -131,6 +135,7 @@ server <- function(input, output, session) {
     piece4 <- substr(seq, (nchar(seq)/4*3)+1, nchar(seq))
     fragm4 <- cat(BsaMid2, piece4, BsaSTOPCTTG, sep = "")
 
+    fragments <- c(fragm1, fragm2, fragm3, fragm4)
     
   } else if (length_seq <= 1450*3){
     piece1 <- substr(seq, 1, nchar(seq)/5)
@@ -148,11 +153,13 @@ server <- function(input, output, session) {
     piece5 <- substr(seq, (nchar(seq)/5*4)+1, nchar(seq))
     fragm5 <- cat(BsaMid2, piece5, BsaSTOPCTTG, sep = "")
     
+    fragments <- c(fragm1, fragm2, fragm3, fragm4, fragm5)
+    
   } else {
   #this should be a text output 
     return("Sequence too long")
   }
-  
+
   
   output$table <- renderDT({
     if (!is.null(processed_input())) {
