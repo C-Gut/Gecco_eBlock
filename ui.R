@@ -10,11 +10,11 @@ ui <- fluidPage(
   # Horizontal line
   hr(),
   
+
   # Create a text input for the DNA sequence to be introduced by the user
-  textInput(inputId = "sequence", value = "AAGGTCTCAAAAGGTCTCAAAAAGAGACCAAAAGAGACCAA",
-            label = "Sequence"
-  ),
-  
+  textInput('ex_len', 'example seq length', value = 41),
+  textInput('frag_len', 'eblock fragment max. length', value = 870),
+  textInput(inputId = "sequence", value = 'AAGGTCTCAAAAGGTCTCAAAAAGAGACCAAAAGAGACCAA', width = '100%', label = "Sequence"),
   # Horizontal line
   hr(),
   
@@ -22,10 +22,12 @@ ui <- fluidPage(
   HTML("<strong>Output</strong>"),
   
   # Line break
-  br(),
+  br(),hr(),
   
-  textOutput("bsaI_search"),
+  htmlOutput("total_len"),
+  # Line break
+  hr(),
   
-  DTOutput("table")
+  DTOutput("bsai_table"),
+  DTOutput("frag_table")
 )
-
