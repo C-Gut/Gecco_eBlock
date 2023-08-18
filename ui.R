@@ -29,5 +29,9 @@ ui <- fluidPage(
   hr(),
   
   DTOutput("bsai_table"),
+  br(),
+  hr(),
+  HTML("<strong>Suggested sequence without BsaI sites:</strong>"),
+  hr(),
   DTOutput("frag_table")
 )
