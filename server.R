@@ -7,168 +7,6 @@ BBseq2 <- "CTTGGGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCAT
 sumoBB1 <- "ATGCCATAGCATTTTTATCCATAAGATTAGCGGATCCTACCTGACGCTTTTTATCGCAACTCTCTACTGTTTCTCCATACCCGTTTTTTGGGCTAACAGGAGGAATTAACCATGGGCAGCAGCCATCATCATCATCATCACGGCAGCGGCCTGGTGCCGCGCGGCAGCGCTAGCATGTCGGACTCAGAAGTCAATCAAGAAGCTAAGCCAGAGGTCAAGCCAGAAGTCAAGCCTGAGACTCACATCAATTTAAAGGTGTCCGATGGATCTTCAGAGATCTTCTTCAAGATCAAAAAGACCACTCCTTTAAGAAGGCTGATGGAAGCGTTCGCTAAAAGACAGGGTAAGGAAATGGACTCCTTAAGATTCTTGTACGACGGTATTAGAATTCAAGCTGATCAGACCCCTGAAGATTTGGACATGGAGGATAACGATATTATTGAGGCTCACAGAGAACAGATTGGTGGT"
 sumoBB2 <-"GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATTGAGTTTAAACGGACTCCAGCTTGGCTGTTTTGGCGGATGAGAGAAGATTTTCAGCCTGATACAGATTAAATCAGAACGCAGAAGCGGTCTGATAAAACAGAATTTGCCTGGCGGCAGTAGCGCGGTGGTCCCACCTGACCCCATGCCGAACTCAGAAGTGAAACGCCGTAGCGCCGATGGTAGTGTGGGGTGTCCCCATGCGAGAGTAGGGAACTGCCAGGCATCAAATAAAACGAAAGGCTCAGTCGAAAGACTGGGCCTTTCGTTTTATCTGTTGTTTGTCGGTGAACGCTCTCCTGAGTAGGACAAATCCGCCGGGAGCGGATTTGAACGTTGCGAAGCAACGGCCCGGAGGGTGGCGGGCAGGACGCCCGCCATAAACTGCCAGGCATCAAATTAAGCAGAAGGCCATCCTGACGGATGGCCTTTTTGCGTTTCTACAAACTCTTTTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTGTTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGAGTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATCGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGTATACACTCCGCTATCGCTACGTGACTGGGTCATGGCTGCGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGGCAGCAGATCAATTCGCGCGCGAAGGCGAAGCGGCATGCATAATGTGCCTGTCAAATGGACGAAGCAGGGATTCTGCAAACCCTATGCTACTCCGTCAAGCCGTCAATTGTCTGATTCGTTACCAATTATGACAACTTGACGGCTACATCATTCACTTTTTCTTCACAACCGGCACGGAACTCGCTCGGGCTGGCCCCGGTGCATTTTTTAAATACCCGCGAGAAATAGAGTTGATCGTCAAAACCAACATTGCGACCGACGGTGGCGATAGGCATCCGGGTGGTGCTCAAAAGCAGCTTCGCCTGGCTGATACGTTGGTCCTCGCGCCAGCTTAAGACGCTAATCCCTAACTGCTGGCGGAAAAGATGTGACAGACGCGACGGCGACAAGCAAACATGCTGTGCGACGCTGGCGATATCAAAATTGCTGTCTGCCAGGTGATCGCTGATGTACTGACAAGCCTCGCGTACCCGATTATCCATCGGTGGATGGAGCGACTCGTTAATCGCTTCCATGCGCCGCAGTAACAATTGCTCAAGCAGATTTATCGCCAGCAGCTCCGAATAGCGCCCTTCCCCTTGCCCGGCGTTAATGATTTGCCCAAACAGGTCGCTGAAATGCGGCTGGTGCGCTTCATCCGGGCGAAAGAACCCCGTATTGGCAAATATTGACGGCCAGTTAAGCCATTCATGCCAGTAGGCGCGCGGACGAAAGTAAACCCACTGGTGATACCATTCGCGAGCCTCCGGATGACGACCGTAGTGATGAATCTCTCCTGGCGGGAACAGCAAAATATCACCCGGTCGGCAAACAAATTCTCGTCCCTGATTTTTCACCACCCCCTGACCGCGAATGGTGAGATTGAGAATATAACCTTTCATTCCCAGCGGTCGGTCGATAAAAAAATCGAGATAACCGTTGGCCTCAATCGGCGTTAAACCCGCCACCAGATGGGCATTAAACGAGTATCCCGGCAGCAGGGGATCATTTTGCGCTTCAGCCATACTTTTCATACTCCCGCCATTCAGAGAAGAAACCAATTGTCCATATTGCATCAGACATTGCCGTCACTGCGTCTTTTACTGGCTCTTCTCGCTAACCAAACCGGTAACCCCGCTTATTAAAAGCATTCTGTAACAAAGCGGGACCAAAGCCATGACAAAAACGCGTAACAAAAGTGTCTATAATCACGGCAGAAAAGTCCACATTGATTATTTGCACGGCGTCACACTTTGCT"
 
-# server <- function(input, output, session) {
-#   
-#   processed_input <- reactive({
-#     #Create 2 data frames containing the positions where bsaI1 site "GGTCTC" and bsaI2 site "GAGACC" are found in the given input DNA sequence.
-#     #[[1]] is to make a data frame instead of a matrix
-#     # to call the input use the id given in the UI after the $ sign.
-#     
-#      bsaI1.df <- str_locate_all(input$sequence, "GGTCTC")[[1]] %>% as.data.frame() # output of str_locate is matrix, need to convert to df
-#      bsaI2.df <- str_locate_all(input$sequence, "GAGACC")[[1]] %>% as.data.frame()
-#      
-#      if (nrow(bsaI1.df) == 0 && nrow(bsaI2.df) == 0) {
-#        output$bsaI_search <- renderText("No BsaI sites were found")
-#        return(NULL)  # Return NULL when no BsaI sites are found
-#      } else if (nrow(bsaI1.df) > 0 && nrow(bsaI2.df) == 0) {
-#        output$bsaI_search <- renderText("BsaI1 sites were found")
-#        bsaI1.df$GGTCTC <- TRUE
-#        bsaI1.df$GAGACC <- FALSE
-#        bsaI1.df$suggested_sequence <-
-#          sub("GGT", "GGC", input$sequence)  # Create the suggested sequence for BsaI1
-#        return(bsaI1.df)  # Return the data frame for BsaI1 sites when only BsaI1 sites are found
-#        
-#      } else if (nrow(bsaI1.df) == 0 && nrow(bsaI2.df) > 0) {
-#        output$bsaI_search <- renderText("BsaI2 sites were found")
-#        bsaI2.df$GGTCTC <- FALSE
-#        bsaI2.df$GAGACC <- TRUE
-#        bsaI2.df$suggested_sequence <-
-#          sub("GAGACC", "GAGACC", input$sequence)  # Create the suggested sequence for BsaI2
-#        return(bsaI2.df)  # Return the data frame for BsaI2 sites when only BsaI2 sites are found
-#        
-#      } else {
-#        output$bsaI_search <-
-#          renderText("Both BsaI1 and BsaI2 sites were found")
-#        # Both data frames have BsaI sites, so merge them
-#        #Create extra columns to indicate whether fw or rv BsaI sites have been found
-#        bsaI1.df$GGTCTC <- TRUE
-#        bsaI1.df$GAGACC <- FALSE
-#        bsaI2.df$GGTCTC <- FALSE
-#        bsaI2.df$GAGACC <- TRUE
-#        
-#        #Merge both data frames
-#        bsaI.df <- rbind(bsaI1.df, bsaI2.df) %>% as.data.frame()
-#        
-#        #Create an extra column to indicate the position of the BsaI site in the codon.
-#        #%% 3 gives you the rest after dividing by 3. When the rest is 1 is in position 1,
-#        #when it´s 2 in position 2, and when it´s 0 in position 3.
-#        #Substitute 0s by 3s
-#        bsaI.df$position <- bsaI.df$start %% 3
-#        bsaI.df$position[bsaI.df$position == 0] <- 3
-#        
-#        # Create suggested sequences for both BsaI1 and BsaI2
-#        bsaI.df$suggested_sequence <- ifelse(
-#          bsaI.df$position == 1,
-#          sub("GGT", "GGC", input$sequence),
-#          sub("GAG", "GAA", input$sequence)
-#        )
-#        
-#        return(bsaI.df)  # Return the merged data frame with BsaI sites
-#      }
-#     ## GGTCTC
-#     ## 1: GGT = GGC
-#     ## 2: GTC = GTG
-#     ## 3: TCT = AGC
-#     ## GAGACC
-#     ## 1: GAG = GAA
-#     ## 2: AGA = CGT
-#     ## 3: GAC = GAT
-#     
-#     seq <- toupper(input$sequence)
-#     
-# #!!bug!! when the position is 1 (BsaI starts at first base of a codon) it changes the first BsaI site that it finds, whichever it is. When it is in position 3, changes the 3rd BsaI site.
-#     
-#     df <- rbind(
-#       seq %>% str_locate_all(., "GGTCTC") %>% as.data.frame() %>% mutate(dir = 'fw'),
-#       seq %>% str_locate_all(., "GAGACC") %>% as.data.frame() %>% mutate(dir = 'rv')
-#     ) %>% mutate(cod_pos = ((start + 2) %% 3) + 1) 
-#     
-#     df$first_cod_to_change <- ifelse(df$dir == 'fw', 
-#                                     c('GTC','GGT','TCT')[(df$cod_pos %% 3) + 1], 
-#                                     c('AGA', 'GAG', 'GAC')[(df$cod_pos %% 3) + 1])
-#     df$change_cod_to <- ifelse(df$dir == 'fw', 
-#                                c('GTG','GGC','AGC')[(df$cod_pos %% 3) + 1], 
-#                                c('CGT', 'GAA', 'GAT')[(df$cod_pos %% 3) + 1])
-#     
-#     df[order(df$start),]
-#   
-#   })
-#   
-#   # Check length of sequence 
-#   length_seq <- nchar(seq)
-# 
-#   # Number of fragments needed: 1 (0-288), 2 (291-580), 3 (581-870), 4 (871-1160), 5 (1161-1450)
-#   if (length_seq <= 288*3) {
-#     fragments <- cat(BsaTGGT, seq, BsaSTOPCTTG, sep = "")
-# 
-#   } else if (length_seq <= 580*3){
-#     piece1 <- substr(seq, 1, nchar(seq)/2)
-#     fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
-#     
-#     piece2 <- substr(seq, (nchar(seq)/2)+1, nchar(seq))
-#     fragm2 <- cat(BsaMid2, piece2, BsaSTOPCTTG, sep = "")
-#     
-#     fragments <- c(fragm1, fragm2)
-#     
-#   } else if (length_seq <= 870*3){
-#     piece1 <- substr(seq, 1, nchar(seq)/3)
-#     fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
-#     
-#     piece2 <- substr(seq, (nchar(seq)/3)+1, nchar(seq)/3*2)
-#     fragm2 <- cat(BsaMid2, piece2, BsaMid1, sep = "")
-#     
-#     piece3 <- substr(seq, (nchar(seq)/3*2)+1, nchar(seq))
-#     fragm3 <- cat(BsaMid2, piece3, BsaSTOPCTTG, sep = "")
-#     
-#     fragments <- c(fragm1, fragm2, fragm3)
-#     
-#   } else if (length_seq <= 1160*3){
-#     piece1 <- substr(seq, 1, nchar(seq)/4)
-#     fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
-#     
-#     piece2 <- substr(seq, (nchar(seq)/4)+1, nchar(seq)/4*2)
-#     fragm2 <- cat(BsaMid2, piece2, BsaMid1, sep = "")
-#     
-#     piece3 <- substr(seq, (nchar(seq)/4*2)+1, nchar(seq)/4*3)
-#     fragm3 <- cat(BsaMid2, piece3, BsaMid1, sep = "")
-#     
-#     piece4 <- substr(seq, (nchar(seq)/4*3)+1, nchar(seq))
-#     fragm4 <- cat(BsaMid2, piece4, BsaSTOPCTTG, sep = "")
-# 
-#     fragments <- c(fragm1, fragm2, fragm3, fragm4)
-#     
-#   } else if (length_seq <= 1450*3){
-#     piece1 <- substr(seq, 1, nchar(seq)/5)
-#     fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
-#     
-#     piece2 <- substr(seq, (nchar(seq)/5)+1, nchar(seq)/5*2)
-#     fragm2 <- cat(BsaMid2, piece2, BsaMid1, sep = "")
-#     
-#     piece3 <- substr(seq, (nchar(seq)/5*2)+1, nchar(seq)/5*3)
-#     fragm3 <- cat(BsaMid2, piece3, BsaMid1, sep = "")
-#     
-#     piece4 <- substr(seq, (nchar(seq)/5*3)+1, nchar(seq)/5*4)
-#     fragm4 <- cat(BsaMid2, piece4, BsaMid1, sep = "")
-#     
-#     piece5 <- substr(seq, (nchar(seq)/5*4)+1, nchar(seq))
-#     fragm5 <- cat(BsaMid2, piece5, BsaSTOPCTTG, sep = "")
-#     
-#     fragments <- c(fragm1, fragm2, fragm3, fragm4, fragm5)
-#     
-#   } else {
-#   #this should be a text output 
-#     return("Sequence too long")
-#   }
-# 
-#   
-#   output$table <- renderDT({
-#     if (!is.null(processed_input())) {
-#       datatable(processed_input(), options = list(dom = 't'))  # Display the data table
-#     } else {
-#       data.frame()  # Return an empty data frame when no BsaI sites are found
-#     }
-#   })
-# }
 
 # function to make a random DNA sequence of length n, for testing
 example_seq <- function(n) {
@@ -211,8 +49,8 @@ split_seq_in_chunks <- function(seq, max_len) {
 
 # calculate new sequence here, can use something like substr(seq, start, stop) <- 'replacem_codon'
 # calc_new_seq <- function(seq, bsai_info) {
-#   
-#   new_seq <- str_replace(seq, )
+# 
+#   new_seq <- str_replace(seq, df$first_cod_to_change, df$change_cod_to)
 #   new_seq
 # }
 
@@ -229,17 +67,22 @@ server <- function(input, output, session) {
   }, ignoreInit = TRUE)
   
   # process the sequence: upper case, detect bsai sites, find position within codon, suggest swapped codon
-  # process the sequence: upper case, detect bsai sites, find position within codon, suggest swapped codon
-  processed_input <- reactive({
+
+    processed_input <- reactive({
     df <- bsai_locate(seq = toupper(input$sequence))
-    df$first_cod_to_change <- ifelse(df$dir == 'fw', 
-                                     c('GTC', 'GGT', 'TCT')[(df$cod_pos %% 3) + 1], 
+    df$first_cod_to_change <- ifelse(df$dir == 'fw',
+                                     c('GTC', 'GGT', 'TCT')[(df$cod_pos %% 3) + 1],
                                      c('AGA', 'GAG', 'GAC')[(df$cod_pos %% 3) + 1])
-    df$change_cod_to <- ifelse(df$dir == 'fw', 
-                               c('GTG', 'GGC', 'TCC')[(df$cod_pos %% 3) + 1], 
+    df$change_cod_to <- ifelse(df$dir == 'fw',
+                               c('GTG', 'GGC', 'TCC')[(df$cod_pos %% 3) + 1],
                                c('AGG', 'GAA', 'GAT')[(df$cod_pos %% 3) + 1])
-    df_modified <- df  # Create a copy of the original data frame
-    
+  #   
+  #   new_seq <- str_replace(input$sequence, df$first_cod_to_change, df$change_cod_to)
+  # 
+  #   df
+  #   
+  #  })
+
     # Replace codons in the input sequence
     modified_sequence <- toupper(input$sequence)
     for (i in 1:nrow(df)) {
@@ -254,34 +97,34 @@ server <- function(input, output, session) {
       modified_sequence <- paste0(substring(modified_sequence, 1, pos_in_sequence - 1), 
                                   replacement, 
                                   substring(modified_sequence, pos_in_sequence + 3))
-      
-      # Update the corresponding row in df_modified with the modified codon
-      df_modified$first_cod_to_change[i] <- replacement
+       print(modified_sequence)
+
     }
+    df
+
+    })
     
-    # Return both the data frame and the modified sequence as a list
-    list(df_modified, modified_sequence)
-  })
-  
-  output$table <- renderDT({
-    df <- processed_input()[[1]]  # Get the modified data frame from processed_input
-    datatable(df, options = list(dom = 't'))  # Display the data frame as a table
-  })
-  
-  output$modified_sequence <- renderText({
-    modified_seq <- processed_input()[[2]]  # Get the modified sequence from processed_input
-    modified_seq
-  })
+    output$table <- renderDT({
+      df <- processed_data_df()  # Get the modified data frame from processed_data_df
+      datatable(df, options = list(dom = 't'))  # Display the data frame as a table
+    })
+    
+    output$modified_sequence <- renderText({
+      modified_seq <- processed_data_df()$modified_sequence  # Get the modified sequence from processed_data_df
+      print(modified_seq)
+    })
   
   
   # output table for bsai sites
   output$bsai_table <- renderDT({
     # something like this for filling a new text input field with the new sequence
-    # updateTextInput(session = getDefaultReactiveDomain(), 
+    # updateTextInput(session = getDefaultReactiveDomain(),
     #                 inputId = 'sequence',
     #                 value = calc_new_seq(seq = input$sequence, bsai_info = processed_input()))
     datatable(processed_input(), options = list(dom = 't'))  # option removes (here) pointless search field
   })
+  
+  
   
   # output table for fragments
   output$frag_table <- renderDT({
@@ -293,7 +136,7 @@ server <- function(input, output, session) {
     mid_sites_to_add <- calc_break_points(seq = input$sequence, max_len = as.numeric(input$frag_len))
     total_len <- nchar(input$sequence) + nchar(BsaTGGT) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
     HTML(paste0("Input sequence length: &nbsp", as.character(nchar(input$sequence)), "<br>", 
-                "Number of fragments &nbsp: &nbsp", as.character(mid_sites_to_add), "<br>",
+                "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(input$sequence)/(max_len = as.numeric(input$frag_len)))), "<br>",
                 "Final number of bases: &nbsp", as.character(total_len)))
   })
 }
