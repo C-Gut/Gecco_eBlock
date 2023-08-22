@@ -97,7 +97,7 @@ server <- function(input, output, session) {
       modified_sequence <- paste0(substring(modified_sequence, 1, pos_in_sequence - 1), 
                                   replacement, 
                                   substring(modified_sequence, pos_in_sequence + 3))
-       print(modified_sequence)
+
 
     }
     df
