@@ -79,41 +79,57 @@ server <- function(input, output, session) {
   #   
   #   new_seq <- str_replace(input$sequence, df$first_cod_to_change, df$change_cod_to)
   # 
-  #   df
+     df
   #   
-  #  })
 
+
+  for (i in 1:nrow(df)) {
+    if (df$cod_pos = 3) {
+      df$calc_pos <- df$start + 1
+    }
+    if (df$cod_pos = 2) {
+      df$calc_pos <- df$start + 2    
+    }
+    if (df$cod_pos = 1) {
+      df$calc_pos <- df$start  
+    }
+  }
+    print(df)
     # Replace codons in the input sequence
     modified_sequence <- toupper(input$sequence)
-    for (i in 1:nrow(df)) {
-      start_pos <- df$start[i]
-      end_pos <- df$end[i]
-      replacement <- df$change_cod_to[i]
+
+     for (i in 1:nrow(df)) {
+       start_pos <- df$start[i]
+       end_pos <- df$end[i]
+       replacement <- df$change_cod_to[i]
+       pos_in_seq <- start_pos + df$calc_pos[i] 
       
-      # Calculate the position for replacement
-      pos_in_sequence <- start_pos + (df$cod_pos[i] - 1)
+     modified_sequence <- paste0(substring(modified_sequence, 1, pos_in_seq - 1), 
+                                 replacement, 
+                                 substring(modified_sequence, pos_in_seq + 3))  
+     }
+
+    })
       
-      # Replace the codon in the modified_sequence
-      modified_sequence <- paste0(substring(modified_sequence, 1, pos_in_sequence - 1), 
-                                  replacement, 
-                                  substring(modified_sequence, pos_in_sequence + 3))
+    # Replace the codon in the modified_sequence
 
-
-    }
-    df
-
-    })
-    
-    output$table <- renderDT({
-      df <- processed_data_df()  # Get the modified data frame from processed_data_df
-      datatable(df, options = list(dom = 't'))  # Display the data frame as a table
-    })
-    
-    output$modified_sequence <- renderText({
-      modified_seq <- processed_data_df()$modified_sequence  # Get the modified sequence from processed_data_df
-      print(modified_seq)
-    })
-  
+    # 
+    # 
+    # }
+    # df
+    # 
+    # })
+    # 
+    # output$table <- renderDT({
+    #   df <- processed_data_df()  # Get the modified data frame from processed_data_df
+    #   datatable(df, options = list(dom = 't'))  # Display the data frame as a table
+    # })
+    # 
+    # output$modified_sequence <- renderText({
+    #   modified_seq <- processed_data_df()$modified_sequence  # Get the modified sequence from processed_data_df
+    #   print(modified_seq)
+    # })
+    # 
   
   # output table for bsai sites
   output$bsai_table <- renderDT({
