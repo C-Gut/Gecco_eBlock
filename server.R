@@ -68,7 +68,7 @@ server <- function(input, output, session) {
   
   # process the sequence: upper case, detect bsai sites, find position within codon, suggest swapped codon
 
-    processed_input <- reactive({
+  processed_input <- reactive({
     df <- bsai_locate(seq = toupper(input$sequence))
     df$first_cod_to_change <- ifelse(df$dir == 'fw',
                                      c('GTC', 'GGT', 'TCT')[(df$cod_pos %% 3) + 1],
@@ -76,83 +76,61 @@ server <- function(input, output, session) {
     df$change_cod_to <- ifelse(df$dir == 'fw',
                                c('GTG', 'GGC', 'TCC')[(df$cod_pos %% 3) + 1],
                                c('AGG', 'GAA', 'GAT')[(df$cod_pos %% 3) + 1])
-  #   
-  #   new_seq <- str_replace(input$sequence, df$first_cod_to_change, df$change_cod_to)
-  # 
-     df
-  #   
 
+# Create a new column with the position on the sequence where the codon that has to be changed starts.
+    
+     for (i in 1:nrow(df)) {
+       if (df$cod_pos[i] == 3)
+         df$calc_pos[i] <- df$start[i] + 1
+       
+       if (df$cod_pos[i] == 2)
+         df$calc_pos[i] <- df$start[i] + 2
+       
+       if (df$cod_pos[i] == 1)
+         df$calc_pos[i] <- df$start[i]
+     }
 
-  for (i in 1:nrow(df)) {
-    if (df$cod_pos = 3) {
-      df$calc_pos <- df$start + 1
-    }
-    if (df$cod_pos = 2) {
-      df$calc_pos <- df$start + 2    
-    }
-    if (df$cod_pos = 1) {
-      df$calc_pos <- df$start  
-    }
-  }
-    print(df)
+   
     # Replace codons in the input sequence
     modified_sequence <- toupper(input$sequence)
 
      for (i in 1:nrow(df)) {
-       start_pos <- df$start[i]
-       end_pos <- df$end[i]
-       replacement <- df$change_cod_to[i]
-       pos_in_seq <- start_pos + df$calc_pos[i] 
-      
-     modified_sequence <- paste0(substring(modified_sequence, 1, pos_in_seq - 1), 
-                                 replacement, 
-                                 substring(modified_sequence, pos_in_seq + 3))  
+       start_pos <- df[i, "start"]
+       end_pos <- df[i, "end"]
+       replacement <- df[i, "change_cod_to"]
+       pos_in_seq <- df[i, "calc_pos"]
+
+     modified_sequence <- paste0(substring(modified_sequence, 1, pos_in_seq - 1),
+                                 replacement,
+                                 substring(modified_sequence, pos_in_seq + 3))
      }
-
+    
+    list(df, modified_sequence)
     })
-      
-    # Replace the codon in the modified_sequence
 
-    # 
-    # 
-    # }
-    # df
-    # 
-    # })
-    # 
-    # output$table <- renderDT({
-    #   df <- processed_data_df()  # Get the modified data frame from processed_data_df
-    #   datatable(df, options = list(dom = 't'))  # Display the data frame as a table
-    # })
-    # 
-    # output$modified_sequence <- renderText({
-    #   modified_seq <- processed_data_df()$modified_sequence  # Get the modified sequence from processed_data_df
-    #   print(modified_seq)
-    # })
-    # 
   
   # output table for bsai sites
   output$bsai_table <- renderDT({
     # something like this for filling a new text input field with the new sequence
-    # updateTextInput(session = getDefaultReactiveDomain(),
-    #                 inputId = 'sequence',
-    #                 value = calc_new_seq(seq = input$sequence, bsai_info = processed_input()))
-    datatable(processed_input(), options = list(dom = 't'))  # option removes (here) pointless search field
+    updateTextInput(session = getDefaultReactiveDomain(),
+                    inputId = 'mod_seq',
+                    value = processed_input()[[2]])
+    datatable(processed_input()[[1]], options = list(dom = 't'))  # option removes (here) pointless search field
   })
-  
-  
+
   
   # output table for fragments
   output$frag_table <- renderDT({
-    split_seq_in_chunks(seq = input$sequence, max_len = as.numeric(input$frag_len))
+    split_seq_in_chunks(seq = input$mod_seq, max_len = as.numeric(input$frag_len))
   })
   
   # return some info about framgents as text
   output$total_len <- renderText({
-    mid_sites_to_add <- calc_break_points(seq = input$sequence, max_len = as.numeric(input$frag_len))
-    total_len <- nchar(input$sequence) + nchar(BsaTGGT) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
-    HTML(paste0("Input sequence length: &nbsp", as.character(nchar(input$sequence)), "<br>", 
-                "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(input$sequence)/(max_len = as.numeric(input$frag_len)))), "<br>",
+    frag_input_seq <- input$mod_seq
+    mid_sites_to_add <- calc_break_points(seq = frag_input_seq, max_len = as.numeric(input$frag_len))
+    total_len <- nchar(frag_input_seq) + nchar(BsaTGGT) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
+    HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>", 
+                "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
                 "Final number of bases: &nbsp", as.character(total_len)))
   })
 }
