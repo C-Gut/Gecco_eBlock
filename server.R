@@ -179,8 +179,20 @@ server <- function(input, output, session) {
     
     # Invert the 'repeat' column, so it's TRUE for rows with repeats and FALSE for others
     fragm.df$p5_overhang_check_repeats <- !fragm.df$p5_overhang_check_repeats
+
+    #4# pass all checks?
     
-   fragm.df
+    # Create a new column 'test' based on the conditions
+    fragm.df$test <- ifelse(fragm.df$p5_overhang_check_unique & fragm.df$p5_overhang_check_palindrome & fragm.df$p5_overhang_check_repeats, TRUE, FALSE)
+    
+    ### this only if all checks are true, otherwise change fragments
+    # Create another data frame by pasting values from fragm.df
+    
+    full_fragm.df <- data.frame(full_fragm = NA)
+    # full_fragm.df <- data.frame(full_fragm = paste(fragm.df$p5_Bsa, fragm.df$p5_overhang, fragm.df$fragments, fragm.df$p3_Bsa))
+  print(fragm.df)  
+  full_fragm.df
+  #list(fragm.df, full_fragm.df)
   })
   
   # return some info about fragments as text
