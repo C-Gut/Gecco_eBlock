@@ -148,7 +148,7 @@ server <- function(input, output, session) {
       cat("Duplicate values found in the following rows:\n")
       for (row_num in duplicated_rows) {
         cat("Row", row_num, ":", combined_column[row_num], "\n")
-        fragm.df$p5_overhang_check_unique <- FALSE
+        fragm.df$p5_overhang_check_unique[i] <- FALSE
       }
     } else {
       cat("No duplicate values found between the two columns.\n")
@@ -156,32 +156,31 @@ server <- function(input, output, session) {
       
     }
     
-    #2# is any overhang palindromic?
+      #2# is any overhang palindromic?
 
     # Function to check if a DNAString is palindromic
     is_palindromic <- function(sequence) {
       complement_sequence <- reverseComplement(DNAString(sequence))
-      identical(DNAString(sequence), complement_sequence)
-    }
-
-    # Check if any of the sequences in the 'Sequence' column are palindromic
-    palindromic_rows <- which(sapply(fragm.df$p5_overhang, is_palindromic))
-
-    # Print the results
-    if (length(palindromic_rows) > 0) {
-      cat("Palindromic sequences found in the following rows:", palindromic_rows, "\n")
-      cat("Palindromic sequences:\n")
-      for (row_num in palindromic_rows) {
-        cat("Row", row_num, ":", fragm.df$p5_overhang[row_num], "\n")
-        fragm.df$p5_overhang_check_palindrom <- FALSE
-      }
-    } else {
-      cat("No palindromic sequences found in the column.\n")
-      fragm.df$p5_overhang_check_palindrom <- TRUE
+      identical(sequence, as.character(complement_sequence))
     }
     
-    #3# does any overhang have more than 2 repeats?    
-        fragm.df
+    # Check if each sequence in the 'Sequence' column is palindromic
+    fragm.df$p5_overhang_check_palindrome <- sapply(fragm.df$p5_overhang, function(seq) !is_palindromic(seq))
+    
+
+      #3# does any overhang have more than 2 repeats?   
+   
+    # Function to check for repeated characters more than twice
+    has_repeated_characters <- function(text) {
+      any(rle(strsplit(text, "")[[1]])$lengths > 2)
+    }
+    # Check if each value in the 'Text' column has repeated characters more than twice
+    fragm.df$p5_overhang_check_repeats <- sapply(fragm.df$p5_overhang, has_repeated_characters)
+    
+    # Invert the 'repeat' column, so it's TRUE for rows with repeats and FALSE for others
+    fragm.df$p5_overhang_check_repeats <- !fragm.df$p5_overhang_check_repeats
+    
+   fragm.df
   })
   
   # return some info about fragments as text
