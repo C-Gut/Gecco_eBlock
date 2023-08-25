@@ -20,6 +20,12 @@ bsai_locate <- function(seq) {
     seq %>% str_locate_all(., "GAGACC") %>% as.data.frame() %>% mutate(dir = 'rv')
   ) %>% mutate(cod_pos = ((start + 2) %%3) + 1)
   df[order(df$start),] # return in order of where site was encountered
+  
+  # Create a new data frame with updated row numbers
+  df <- data.frame(RowNumber = 1:nrow(df), df)
+  
+  # Remove the 'RowNumber' column
+  df <- subset(df, select = -RowNumber)
 }
 
 # func. to determine how many fragments are required given a sequence and a max. frag. length
@@ -120,10 +126,10 @@ server <- function(input, output, session) {
     fragm.df[1, "p5_Bsa"] <- BsaTGGT
     fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG  
     fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
-    fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
-    
-    # checks overhangs  
-      # are all overhangs unique?
+    #fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
+    print(fragm.df[, "p5_overhang"])
+    ### checks overhangs  
+      #1# are all overhangs unique?
     
         # Find duplicated values and report row numbers
     
@@ -135,18 +141,46 @@ server <- function(input, output, session) {
     combined_column <- c(column1_to_check, column2_to_check)
     
     # Find duplicated values and report row numbers
-    duplicated_rows <- which(duplicated(combined_column) | duplicated(combined_column, fromLast = TRUE))
+    duplicated_rows <- which(duplicated(column1_to_check) | duplicated(column1_to_check, fromLast = TRUE))
     
     # Check if there are any duplicated values
     if (length(duplicated_rows) > 0) {
       cat("Duplicate values found in the following rows:\n")
       for (row_num in duplicated_rows) {
         cat("Row", row_num, ":", combined_column[row_num], "\n")
+        fragm.df$p5_overhang_check_unique <- FALSE
       }
     } else {
       cat("No duplicate values found between the two columns.\n")
+      fragm.df$p5_overhang_check_unique <- TRUE
+      
     }
     
+    #2# is any overhang palindromic?
+
+    # Function to check if a DNAString is palindromic
+    is_palindromic <- function(sequence) {
+      complement_sequence <- reverseComplement(DNAString(sequence))
+      identical(DNAString(sequence), complement_sequence)
+    }
+
+    # Check if any of the sequences in the 'Sequence' column are palindromic
+    palindromic_rows <- which(sapply(fragm.df$p5_overhang, is_palindromic))
+
+    # Print the results
+    if (length(palindromic_rows) > 0) {
+      cat("Palindromic sequences found in the following rows:", palindromic_rows, "\n")
+      cat("Palindromic sequences:\n")
+      for (row_num in palindromic_rows) {
+        cat("Row", row_num, ":", fragm.df$p5_overhang[row_num], "\n")
+        fragm.df$p5_overhang_check_palindrom <- FALSE
+      }
+    } else {
+      cat("No palindromic sequences found in the column.\n")
+      fragm.df$p5_overhang_check_palindrom <- TRUE
+    }
+    
+    #3# does any overhang have more than 2 repeats?    
         fragm.df
   })
   
