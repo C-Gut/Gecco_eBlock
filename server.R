@@ -189,9 +189,10 @@ server <- function(input, output, session) {
     # Create another data frame by pasting values from fragm.df
     
     full_fragm.df <- data.frame(full_fragm = NA)
-    # full_fragm.df <- data.frame(full_fragm = paste(fragm.df$p5_Bsa, fragm.df$p5_overhang, fragm.df$fragments, fragm.df$p3_Bsa))
-  print(fragm.df)  
-  full_fragm.df
+    
+    #full_fragm.df$full_fragm <- ifelse(fragm.df$test, paste(fragm.df$p5_Bsa, fragm.df$p5_overhang, fragm.df$fragments, fragm.df$p3_Bsa), xxxxxxxxxxx)
+  print(full_fragm.df)  
+  fragm.df
   #list(fragm.df, full_fragm.df)
   })
   
