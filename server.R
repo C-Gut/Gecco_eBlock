@@ -1,7 +1,7 @@
 BsaTGGT <- "CTGGTCTCGTGGT"
 BsaSTOPCTTG <- "TAACTTGAGAGACCTG"
-BsaMid1 <- "AGAGACCTG"
-BsaMid2 <- "CTGGTCTCG"
+BsaMid2 <- "AGAGACCTG"
+BsaMid1 <- "CTGGTCTCG"
 BBseq1 <- "ATGCCATAGCATTTTTATCCATAAGATTAGCGGATCCTACCTGACGCTTTTTATCGCAACTCTCTACTGTTTCTCCATACCCGTTTTTTGGGCTAACAGGAGGAATTAACCATGGGCAGCAGCCATCATCATCATCATCACGGCAGCGGCCTGGTGCCGCGCGGCAGCGCTGGT"
 BBseq2 <- "CTTGGGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATTGAGTTTAAACGGACTCCAGCTTGGCTGTTTTGGCGGATGAGAGAAGATTTTCAGCCTGATACAGATTAAATCAGAACGCAGAAGCGGTCTGATAAAACAGAATTTGCCTGGCGGCAGTAGCGCGGTGGTCCCACCTGACCCCATGCCGAACTCAGAAGTGAAACGCCGTAGCGCCGATGGTAGTGTGGGGTGTCCCCATGCGAGAGTAGGGAACTGCCAGGCATCAAATAAAACGAAAGGCTCAGTCGAAAGACTGGGCCTTTCGTTTTATCTGTTGTTTGTCGGTGAACGCTCTCCTGAGTAGGACAAATCCGCCGGGAGCGGATTTGAACGTTGCGAAGCAACGGCCCGGAGGGTGGCGGGCAGGACGCCCGCCATAAACTGCCAGGCATCAAATTAAGCAGAAGGCCATCCTGACGGATGGCCTTTTTGCGTTTCTACAAACTCTTTTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTGTTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGAGTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATCGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGTATACACTCCGCTATCGCTACGTGACTGGGTCATGGCTGCGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGGCAGCAGATCAATTCGCGCGCGAAGGCGAAGCGGCATGCATAATGTGCCTGTCAAATGGACGAAGCAGGGATTCTGCAAACCCTATGCTACTCCGTCAAGCCGTCAATTGTCTGATTCGTTACCAATTATGACAACTTGACGGCTACATCATTCACTTTTTCTTCACAACCGGCACGGAACTCGCTCGGGCTGGCCCCGGTGCATTTTTTAAATACCCGCGAGAAATAGAGTTGATCGTCAAAACCAACATTGCGACCGACGGTGGCGATAGGCATCCGGGTGGTGCTCAAAAGCAGCTTCGCCTGGCTGATACGTTGGTCCTCGCGCCAGCTTAAGACGCTAATCCCTAACTGCTGGCGGAAAAGATGTGACAGACGCGACGGCGACAAGCAAACATGCTGTGCGACGCTGGCGATATCAAAATTGCTGTCTGCCAGGTGATCGCTGATGTACTGACAAGCCTCGCGTACCCGATTATCCATCGGTGGATGGAGCGACTCGTTAATCGCTTCCATGCGCCGCAGTAACAATTGCTCAAGCAGATTTATCGCCAGCAGCTCCGAATAGCGCCCTTCCCCTTGCCCGGCGTTAATGATTTGCCCAAACAGGTCGCTGAAATGCGGCTGGTGCGCTTCATCCGGGCGAAAGAACCCCGTATTGGCAAATATTGACGGCCAGTTAAGCCATTCATGCCAGTAGGCGCGCGGACGAAAGTAAACCCACTGGTGATACCATTCGCGAGCCTCCGGATGACGACCGTAGTGATGAATCTCTCCTGGCGGGAACAGCAAAATATCACCCGGTCGGCAAACAAATTCTCGTCCCTGATTTTTCACCACCCCCTGACCGCGAATGGTGAGATTGAGAATATAACCTTTCATTCCCAGCGGTCGGTCGATAAAAAAATCGAGATAACCGTTGGCCTCAATCGGCGTTAAACCCGCCACCAGATGGGCATTAAACGAGTATCCCGGCAGCAGGGGATCATTTTGCGCTTCAGCCATACTTTTCATACTCCCGCCATTCAGAGAAGAAACCAATTGTCCATATTGCATCAGACATTGCCGTCACTGCGTCTTTTACTGGCTCTTCTCGCTAACCAAACCGGTAACCCCGCTTATTAAAAGCATTCTGTAACAAAGCGGGACCAAAGCCATGACAAAAACGCGTAACAAAAGTGTCTATAATCACGGCAGAAAAGTCCACATTGATTATTTGCACGGCGTCACACTTTGCT"
 sumoBB1 <- "ATGCCATAGCATTTTTATCCATAAGATTAGCGGATCCTACCTGACGCTTTTTATCGCAACTCTCTACTGTTTCTCCATACCCGTTTTTTGGGCTAACAGGAGGAATTAACCATGGGCAGCAGCCATCATCATCATCATCACGGCAGCGGCCTGGTGCCGCGCGGCAGCGCTAGCATGTCGGACTCAGAAGTCAATCAAGAAGCTAAGCCAGAGGTCAAGCCAGAAGTCAAGCCTGAGACTCACATCAATTTAAAGGTGTCCGATGGATCTTCAGAGATCTTCTTCAAGATCAAAAAGACCACTCCTTTAAGAAGGCTGATGGAAGCGTTCGCTAAAAGACAGGGTAAGGAAATGGACTCCTTAAGATTCTTGTACGACGGTATTAGAATTCAAGCTGATCAGACCCCTGAAGATTTGGACATGGAGGATAACGATATTATTGAGGCTCACAGAGAACAGATTGGTGGT"
@@ -46,13 +46,6 @@ split_seq_in_chunks <- function(seq, max_len) {
   data.frame(length = lapply(chunks, function(x) str_length(x)) %>% unlist(), 
              fragments = unlist(chunks)) # convert list into data frame, can add more info (columns) about fragments
 } 
-
-# calculate new sequence here, can use something like substr(seq, start, stop) <- 'replacem_codon'
-# calc_new_seq <- function(seq, bsai_info) {
-# 
-#   new_seq <- str_replace(seq, df$first_cod_to_change, df$change_cod_to)
-#   new_seq
-# }
 
 
 server <- function(input, output, session) {
@@ -110,8 +103,8 @@ server <- function(input, output, session) {
 
   
   # output table for bsai sites
+  # filling a new text input field with the new sequence
   output$bsai_table <- renderDT({
-    # something like this for filling a new text input field with the new sequence
     updateTextInput(session = getDefaultReactiveDomain(),
                     inputId = 'mod_seq',
                     value = processed_input()[[2]])
@@ -121,10 +114,43 @@ server <- function(input, output, session) {
   
   # output table for fragments
   output$frag_table <- renderDT({
-    split_seq_in_chunks(seq = input$mod_seq, max_len = as.numeric(input$frag_len))
+    fragm.df <- split_seq_in_chunks(seq = input$mod_seq, max_len = as.numeric(input$frag_len))
+    fragm.df$p5_Bsa <- BsaMid1
+    fragm.df$p3_Bsa <- BsaMid2
+    fragm.df[1, "p5_Bsa"] <- BsaTGGT
+    fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG  
+    fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
+    fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
+    
+    # checks overhangs  
+      # are all overhangs unique?
+    
+        # Find duplicated values and report row numbers
+    
+    # Define the columns you want to compare for uniqueness
+    column1_to_check <- fragm.df$p5_overhang
+    column2_to_check <- fragm.df$p3_overhang
+    
+    # Combine both columns into a single vector for comparison
+    combined_column <- c(column1_to_check, column2_to_check)
+    
+    # Find duplicated values and report row numbers
+    duplicated_rows <- which(duplicated(combined_column) | duplicated(combined_column, fromLast = TRUE))
+    
+    # Check if there are any duplicated values
+    if (length(duplicated_rows) > 0) {
+      cat("Duplicate values found in the following rows:\n")
+      for (row_num in duplicated_rows) {
+        cat("Row", row_num, ":", combined_column[row_num], "\n")
+      }
+    } else {
+      cat("No duplicate values found between the two columns.\n")
+    }
+    
+        fragm.df
   })
   
-  # return some info about framgents as text
+  # return some info about fragments as text
   output$total_len <- renderText({
     frag_input_seq <- input$mod_seq
     mid_sites_to_add <- calc_break_points(seq = frag_input_seq, max_len = as.numeric(input$frag_len))
@@ -133,5 +159,75 @@ server <- function(input, output, session) {
                 "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
                 "Final number of bases: &nbsp", as.character(total_len)))
   })
+  
+  # add BsaI sites at the beginning and end of the fragments
+  
+    # # Check length of sequence
+    # length_seq <- nchar(seq)
+    # 
+    # # Number of fragments needed: 1 (0-288), 2 (291-580), 3 (581-870), 4 (871-1160), 5 (1161-1450)
+    # if (length_seq <= 288*3) {
+    #   fragments <- cat(BsaTGGT, seq, BsaSTOPCTTG, sep = "")
+    # 
+    # } else if (length_seq <= 580*3){
+    #   piece1 <- substr(seq, 1, nchar(seq)/2)
+    #   fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
+    # 
+    #   piece2 <- substr(seq, (nchar(seq)/2)+1, nchar(seq))
+    #   fragm2 <- cat(BsaMid2, piece2, BsaSTOPCTTG, sep = "")
+    # 
+    #   fragments <- c(fragm1, fragm2)
+    # 
+    # } else if (length_seq <= 870*3){
+    #   piece1 <- substr(seq, 1, nchar(seq)/3)
+    #   fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
+    # 
+    #   piece2 <- substr(seq, (nchar(seq)/3)+1, nchar(seq)/3*2)
+    #   fragm2 <- cat(BsaMid2, piece2, BsaMid1, sep = "")
+    # 
+    #   piece3 <- substr(seq, (nchar(seq)/3*2)+1, nchar(seq))
+    #   fragm3 <- cat(BsaMid2, piece3, BsaSTOPCTTG, sep = "")
+    # 
+    #   fragments <- c(fragm1, fragm2, fragm3)
+    # 
+    # } else if (length_seq <= 1160*3){
+    #   piece1 <- substr(seq, 1, nchar(seq)/4)
+    #   fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
+    # 
+    #   piece2 <- substr(seq, (nchar(seq)/4)+1, nchar(seq)/4*2)
+    #   fragm2 <- cat(BsaMid2, piece2, BsaMid1, sep = "")
+    # 
+    #   piece3 <- substr(seq, (nchar(seq)/4*2)+1, nchar(seq)/4*3)
+    #   fragm3 <- cat(BsaMid2, piece3, BsaMid1, sep = "")
+    # 
+    #   piece4 <- substr(seq, (nchar(seq)/4*3)+1, nchar(seq))
+    #   fragm4 <- cat(BsaMid2, piece4, BsaSTOPCTTG, sep = "")
+    # 
+    #   fragments <- c(fragm1, fragm2, fragm3, fragm4)
+    # 
+    # } else if (length_seq <= 1450*3){
+    #   piece1 <- substr(seq, 1, nchar(seq)/5)
+    #   fragm1 <- cat(BsaTGGT, piece1, BsaMid1, sep = "")
+    # 
+    #   piece2 <- substr(seq, (nchar(seq)/5)+1, nchar(seq)/5*2)
+    #   fragm2 <- cat(BsaMid2, piece2, BsaMid1, sep = "")
+    # 
+    #   piece3 <- substr(seq, (nchar(seq)/5*2)+1, nchar(seq)/5*3)
+    #   fragm3 <- cat(BsaMid2, piece3, BsaMid1, sep = "")
+    # 
+    #   piece4 <- substr(seq, (nchar(seq)/5*3)+1, nchar(seq)/5*4)
+    #   fragm4 <- cat(BsaMid2, piece4, BsaMid1, sep = "")
+    # 
+    #   piece5 <- substr(seq, (nchar(seq)/5*4)+1, nchar(seq))
+    #   fragm5 <- cat(BsaMid2, piece5, BsaSTOPCTTG, sep = "")
+    # 
+    #   fragments <- c(fragm1, fragm2, fragm3, fragm4, fragm5)
+    # 
+    # } else {
+    # #this should be a text output
+    #   return("Sequence too long")
+    # }
+  
+  
 }
 
