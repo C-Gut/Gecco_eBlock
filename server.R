@@ -55,6 +55,8 @@ parse_fasta <- function(input_text) {
   
   # Create a data frame from the vectors
   fasta_df <- data.frame(Name = seq_names, Sequence = seq_data)
+  # Create a list from the vectors
+  fasta_list <- list(Name = seq_names, Sequence = seq_data)
   
   return(fasta_df)
 }
@@ -111,7 +113,7 @@ bsai_locate <- function(seq) {
 
 
 # Use lapply to apply the bsai_locate function to each sequence in the list
-result_list <- lapply(combined_df, bsai_locate)
+result_list <- lapply(fasta_list, bsai_locate)
 
 # Print the resulting list of data frames
 print(result_list)
