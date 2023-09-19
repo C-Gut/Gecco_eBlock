@@ -111,7 +111,7 @@ bsai_locate <- function(seq) {
 
 
 # Use lapply to apply the bsai_locate function to each sequence in the list
-result_list <- lapply(fasta_table, bsai_locate)
+result_list <- lapply(combined_df, bsai_locate)
 
 # Print the resulting list of data frames
 print(result_list)
