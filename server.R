@@ -8,25 +8,114 @@ sumoBB1 <- "ATGCCATAGCATTTTTATCCATAAGATTAGCGGATCCTACCTGACGCTTTTTATCGCAACTCTCTACT
 sumoBB2 <-"GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATTGAGTTTAAACGGACTCCAGCTTGGCTGTTTTGGCGGATGAGAGAAGATTTTCAGCCTGATACAGATTAAATCAGAACGCAGAAGCGGTCTGATAAAACAGAATTTGCCTGGCGGCAGTAGCGCGGTGGTCCCACCTGACCCCATGCCGAACTCAGAAGTGAAACGCCGTAGCGCCGATGGTAGTGTGGGGTGTCCCCATGCGAGAGTAGGGAACTGCCAGGCATCAAATAAAACGAAAGGCTCAGTCGAAAGACTGGGCCTTTCGTTTTATCTGTTGTTTGTCGGTGAACGCTCTCCTGAGTAGGACAAATCCGCCGGGAGCGGATTTGAACGTTGCGAAGCAACGGCCCGGAGGGTGGCGGGCAGGACGCCCGCCATAAACTGCCAGGCATCAAATTAAGCAGAAGGCCATCCTGACGGATGGCCTTTTTGCGTTTCTACAAACTCTTTTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTGTTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGAGTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATCGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGTATACACTCCGCTATCGCTACGTGACTGGGTCATGGCTGCGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGGCAGCAGATCAATTCGCGCGCGAAGGCGAAGCGGCATGCATAATGTGCCTGTCAAATGGACGAAGCAGGGATTCTGCAAACCCTATGCTACTCCGTCAAGCCGTCAATTGTCTGATTCGTTACCAATTATGACAACTTGACGGCTACATCATTCACTTTTTCTTCACAACCGGCACGGAACTCGCTCGGGCTGGCCCCGGTGCATTTTTTAAATACCCGCGAGAAATAGAGTTGATCGTCAAAACCAACATTGCGACCGACGGTGGCGATAGGCATCCGGGTGGTGCTCAAAAGCAGCTTCGCCTGGCTGATACGTTGGTCCTCGCGCCAGCTTAAGACGCTAATCCCTAACTGCTGGCGGAAAAGATGTGACAGACGCGACGGCGACAAGCAAACATGCTGTGCGACGCTGGCGATATCAAAATTGCTGTCTGCCAGGTGATCGCTGATGTACTGACAAGCCTCGCGTACCCGATTATCCATCGGTGGATGGAGCGACTCGTTAATCGCTTCCATGCGCCGCAGTAACAATTGCTCAAGCAGATTTATCGCCAGCAGCTCCGAATAGCGCCCTTCCCCTTGCCCGGCGTTAATGATTTGCCCAAACAGGTCGCTGAAATGCGGCTGGTGCGCTTCATCCGGGCGAAAGAACCCCGTATTGGCAAATATTGACGGCCAGTTAAGCCATTCATGCCAGTAGGCGCGCGGACGAAAGTAAACCCACTGGTGATACCATTCGCGAGCCTCCGGATGACGACCGTAGTGATGAATCTCTCCTGGCGGGAACAGCAAAATATCACCCGGTCGGCAAACAAATTCTCGTCCCTGATTTTTCACCACCCCCTGACCGCGAATGGTGAGATTGAGAATATAACCTTTCATTCCCAGCGGTCGGTCGATAAAAAAATCGAGATAACCGTTGGCCTCAATCGGCGTTAAACCCGCCACCAGATGGGCATTAAACGAGTATCCCGGCAGCAGGGGATCATTTTGCGCTTCAGCCATACTTTTCATACTCCCGCCATTCAGAGAAGAAACCAATTGTCCATATTGCATCAGACATTGCCGTCACTGCGTCTTTTACTGGCTCTTCTCGCTAACCAAACCGGTAACCCCGCTTATTAAAAGCATTCTGTAACAAAGCGGGACCAAAGCCATGACAAAAACGCGTAACAAAAGTGTCTATAATCACGGCAGAAAAGTCCACATTGATTATTTGCACGGCGTCACACTTTGCT"
 
 
-# function to make a random DNA sequence of length n, for testing
-example_seq <- function(n) {
-  sample(c('A', 'C', 'T', 'G'), n, replace = TRUE) %>% paste0(collapse = '')
+# # function to make a random DNA sequence of length n, for testing
+# example_seq <- function(n) {
+#   sample(c('A', 'C', 'T', 'G'), n, replace = TRUE) %>% paste0(collapse = '')
+# }
+
+####
+
+# Function to parse FASTA format and create a data frame
+parse_fasta <- function(input_text) {
+  # Initialize empty vectors to store sequence names and sequences
+  seq_names <- character(0)
+  seq_data <- character(0)
+  
+  # Split the input text into lines
+  lines <- unlist(strsplit(input_text, "\n"))
+  
+  # Initialize variables to keep track of the current sequence name and sequence data
+  current_name <- ""
+  current_data <- ""
+  
+  # Iterate through each line in the input text
+  for (line in lines) {
+    # Check if the line starts with ">"
+    if (substr(line, 1, 1) == ">") {
+      # If a sequence is already being processed, store it
+      if (current_name != "") {
+        seq_names <- c(seq_names, current_name)
+        seq_data <- c(seq_data, current_data)
+      }
+      
+      # Set the current sequence name and reset sequence data
+      current_name <- substr(line, 2, nchar(line))
+      current_data <- ""
+    } else {
+      # Append the line to the current sequence data
+      current_data <- paste(current_data, line, sep = "")
+    }
+  }
+  
+  # Add the last sequence to the vectors
+  if (current_name != "") {
+    seq_names <- c(seq_names, current_name)
+    seq_data <- c(seq_data, current_data)
+  }
+  
+  # Create a data frame from the vectors
+  fasta_df <- data.frame(Name = seq_names, Sequence = seq_data)
+  
+  return(fasta_df)
 }
 
-# func. to find bsai sites in input seq, returns a dataframe
+##
+
+
+# # func. to find bsai sites in input seq, returns a dataframe
+# bsai_locate <- function(seq) {
+#   df <- rbind(
+#     seq %>% str_locate_all(., "GGTCTC") %>% as.data.frame() %>% mutate(dir = 'fw'),
+#     seq %>% str_locate_all(., "GAGACC") %>% as.data.frame() %>% mutate(dir = 'rv')
+#   ) %>% mutate(cod_pos = ((start + 2) %%3) + 1)
+#   df[order(df$start),] # return in order of where site was encountered
+#   
+#   # Create a new data frame with updated row numbers
+#   df <- data.frame(RowNumber = 1:nrow(df), df)
+#   
+#   # Remove the 'RowNumber' column
+#   df <- subset(df, select = -RowNumber)
+# }
+
+### Modify bsai_locate function so it uses values of  list as input
+
 bsai_locate <- function(seq) {
-  df <- rbind(
-    seq %>% str_locate_all(., "GGTCTC") %>% as.data.frame() %>% mutate(dir = 'fw'),
-    seq %>% str_locate_all(., "GAGACC") %>% as.data.frame() %>% mutate(dir = 'rv')
-  ) %>% mutate(cod_pos = ((start + 2) %%3) + 1)
-  df[order(df$start),] # return in order of where site was encountered
+  fw_matches <- str_locate_all(seq, "GGTCTC")[[1]]
+  rv_matches <- str_locate_all(seq, "GAGACC")[[1]]
   
-  # Create a new data frame with updated row numbers
-  df <- data.frame(RowNumber = 1:nrow(df), df)
+  if (is.null(fw_matches) && is.null(rv_matches)) {
+    # If no matches were found, create a row with NA values
+    combined_df <- data.frame(start = NA, end = NA, dir = NA, cod_pos = NA, seq_name = "Seq")
+  } else {
+    if (length(fw_matches) == 0) {
+      fw_df <- data.frame(start = NA, end = NA, dir = 'fw')
+    } else {
+      fw_df <- data.frame(start = fw_matches[, 1], end = fw_matches[, 2], dir = 'fw')
+    }
+    
+    if (length(rv_matches) == 0) {
+      rv_df <- data.frame(start = NA, end = NA, dir = 'rv')
+    } else {
+      rv_df <- data.frame(start = rv_matches[, 1], end = rv_matches[, 2], dir = 'rv')
+    }
+    
+    combined_df <- bind_rows(fw_df, rv_df) %>%
+      mutate(cod_pos = ifelse(!is.na(start), ((start + 2) %% 3) + 1, NA),
+             seq_name = "Seq")
+  }
   
-  # Remove the 'RowNumber' column
-  df <- subset(df, select = -RowNumber)
+  combined_df <- combined_df[order(combined_df$start), ]
+  
+  return(combined_df)
 }
+
+
+# Use lapply to apply the bsai_locate function to each sequence in the list
+result_list <- lapply(fasta_table, bsai_locate)
+
+# Print the resulting list of data frames
+print(result_list)
+###
 
 # func. to determine how many fragments are required given a sequence and a max. frag. length
 calc_fragments <- function(seq, max_len) {
@@ -56,19 +145,29 @@ split_seq_in_chunks <- function(seq, max_len) {
 
 server <- function(input, output, session) {
   
+  # accept multiple fasta sequences
+  parsed_data <- reactive({
+    input_text <- input$fasta_input
+    parse_fasta(input_text)
+  })
+  
+  output$fasta_table <- renderTable({
+    parsed_data()
+  })
+  
   # for testing; create random sequences of length specified in input$ex_len
-  observeEvent(input$ex_len, {
-    if (str_detect(input$ex_len, '^[0-9]+$')) {
-      updateTextInput(session = getDefaultReactiveDomain(), 
-                      inputId = 'sequence',
-                      value = example_seq(n = as.numeric(input$ex_len)))
-    }
-  }, ignoreInit = TRUE)
+  # observeEvent(input$ex_len, {
+  #   if (str_detect(input$ex_len, '^[0-9]+$')) {
+  #     updateTextInput(session = getDefaultReactiveDomain(),
+  #                     inputId = 'sequence',
+  #                     value = example_seq(n = as.numeric(input$ex_len)))
+  #   }
+  # }, ignoreInit = TRUE)
   
   # process the sequence: upper case, detect bsai sites, find position within codon, suggest swapped codon
 
   processed_input <- reactive({
-    df <- bsai_locate(seq = toupper(input$sequence))
+    df <- bsai_locate(seq = toupper(input$fasta_input))
     df$first_cod_to_change <- ifelse(df$dir == 'fw',
                                      c('GTC', 'GGT', 'TCT')[(df$cod_pos %% 3) + 1],
                                      c('AGA', 'GAG', 'GAC')[(df$cod_pos %% 3) + 1])
@@ -91,7 +190,7 @@ server <- function(input, output, session) {
 
    
     # Replace codons in the input sequence
-    modified_sequence <- toupper(input$sequence)
+    modified_sequence <- toupper(input$fasta_input)
 
      for (i in 1:nrow(df)) {
        start_pos <- df[i, "start"]
