@@ -55,7 +55,7 @@ TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACG", label = "Sequenc
   br(),
   hr(),
 
-textInput("mod_seq", "Suggested sequence without BsaI sites:", width = "100%"),
+  textAreaInput("mod_seq", "Suggested sequence without BsaI sites:", width = "100%"),
   
   br(),
   hr(),
