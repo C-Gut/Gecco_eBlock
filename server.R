@@ -193,13 +193,11 @@ server <- function(input, output, session) {
       df <- bsai_table(x)
       modified_sequence <- modified_seq(df, x)
       list(df, modified_sequence)
-      
     })
     
     seqs <- lapply(list_bsai_dfs, function(x) x[[2]])
     
-    fasta_out <-
-      c(rbind(names(seqs), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
+    fasta_out <- c(rbind(names(seqs), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
     updateTextInput(session = getDefaultReactiveDomain(),
                                       inputId = 'mod_seq',
                                       value = fasta_out)
