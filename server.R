@@ -61,8 +61,7 @@ parse_fasta <- function(input_text) {
   return(fasta_df)
 }
 
-##
-
+###
 
 # # func. to find bsai sites in input seq, returns a dataframe
 # bsai_locate <- function(seq) {
@@ -113,10 +112,10 @@ bsai_locate <- function(seq) {
 
 
 # Use lapply to apply the bsai_locate function to each sequence in the list
-result_list <- lapply(fasta_list, bsai_locate)
+#result_list <- lapply(fasta_list, bsai_locate)
 
 # Print the resulting list of data frames
-print(result_list)
+#print(result_list)
 ###
 
 # func. to determine how many fragments are required given a sequence and a max. frag. length
