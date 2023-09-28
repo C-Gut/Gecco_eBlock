@@ -21,9 +21,10 @@ parse_fasta <- function(input_text) {
   seq_data <- character(0)
   
   # Split the input text into lines
+# the nchar(trimws(lines)) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
   lines <- unlist(strsplit(input_text, "\n"))
   seq_names <- lines[str_detect(lines, "^>")]
-  seq_data <- lines[!str_detect(lines, "^>")] 
+  seq_data <- lines[!str_detect(lines, "^>") & nchar(trimws(lines)) > 0]
   
   if (length(seq_names) != length(seq_data)) {
     print("problem with sequence")
@@ -57,7 +58,7 @@ parse_fasta <- function(input_text) {
 #   df <- subset(df, select = -RowNumber)
 # }
 
-### Modify bsai_locate function so it uses values of  list as input
+### Modify bsai_locate function so it uses values of list as input
 
 bsai_locate <- function(seq) {
   fw_matches <- str_locate_all(seq, "GGTCTC")[[1]]
@@ -87,6 +88,7 @@ bsai_locate <- function(seq) {
   combined_df <- combined_df[order(combined_df$start), ]
   
   combined_df <- combined_df[!is.na(combined_df$start),]
+  print(combined_df)
   return(combined_df)
 }
 
