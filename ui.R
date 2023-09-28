@@ -25,7 +25,15 @@ CGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGAT
 >Seq3
 TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACG", 
 label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
-  actionButton("parse_button", "Parse"),
+  #actionButton("parse_button", "Parse"),
+
+  # Line break
+  br(), hr(),
+  
+  HTML("<strong><u>Extracted Sequences</u></strong>"),
+  
+  # Line break
+  br(),hr(),
 
   tableOutput("fasta_table"),
 
@@ -37,18 +45,18 @@ label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '1
   hr(),
   
   # Title for the outputs section
-  HTML("<strong>Output</strong>"),
-  
+  HTML("<strong><u>Output</u></strong>"),
+
   # Line break
   br(),hr(),
-  
-  htmlOutput("total_len"),
-  # Line break
-  hr(),
-  
-  DTOutput("bsai_table"),
-  br(),
-  hr(),
+
+  # htmlOutput("total_len"),
+  # # Line break
+  # hr(),
+  # 
+  # DTOutput("bsai_table"),
+  # br(),
+  # hr(),
 
   textAreaInput("mod_seq", "Suggested sequence without BsaI sites:", width = "100%"),
   
