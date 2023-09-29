@@ -134,7 +134,7 @@ server <- function(input, output, session) {
     parse_fasta(input_text)
   })
   
-  output$fasta_table <- renderTable({
+  output$fasta_table <- renderDT({
     parsed_data()[[2]]
   })
   
