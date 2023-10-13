@@ -46,10 +46,10 @@ label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '1
 
     )
   ),
-titlePanel("Download CSV"),
+HTML("<strong>Download sequence(s) without BsaI sites</strong>"),
 sidebarLayout(
   sidebarPanel(
-    downloadButton("downloadCSV_wo_bsai", "Download CSV without BsaI sites")
+    downloadButton("downloadCSV_wo_bsai", "Download CSV")
   ),
   mainPanel(
     tableOutput("df_wo_bsai")
