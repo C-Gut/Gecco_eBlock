@@ -45,5 +45,14 @@ label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '1
       DTOutput("fasta_table"),
 
     )
+  ),
+titlePanel("Download CSV"),
+sidebarLayout(
+  sidebarPanel(
+    downloadButton("downloadCSV_wo_bsai", "Download CSV without BsaI sites")
+  ),
+  mainPanel(
+    tableOutput("df_wo_bsai")
   )
+)
 )
