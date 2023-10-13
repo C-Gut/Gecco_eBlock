@@ -17,26 +17,50 @@ sumoBB2 <-"GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATT
 # }
 
 
-### Function to clean the FASTA input (remove spaces and empty lines) and create a data frame and a list
+### Function to clean the FASTA input and create a data frame and a list. It accepts both fasta format and tab-separated field as input
 
 clean_fasta <- function(input_text) {
   # Initialize empty vectors to store sequence names and sequences
   seq_names <- character(0)
   seq_data <- character(0)
   
+  # Check if input contains tabs
+  # if (any(grepl("\t", input_text))) {
+  #   input_text <- gsub("\t", "\n", input_text)
+  #   print("lines1:")
+  #   print(lines)
+  #   
+  #   # Split the input text by tabs to separate names and sequences
+  #   lines <- unlist(strsplit(input_text, "\n"))
+  # 
+  #   print("lines3")
+  #   print(lines)
+  #   lines <- gsub(" ", "", lines)
+  # 
+  #   seq_names <- sapply(lines, function(line) strsplit(line, "\t")[[1]][1])
+  #   print("names:")
+  #   print(seq_names)
+  #   seq_data <- sapply(lines, function(line) strsplit(line, "\t")[[1]][2])
+  #   
+  #   print("data:")
+  #   print(seq_data)
+  # 
+  # } else {
+  
   # Split the input text into lines, remove spaces, and ignore empty lines
     # the nchar(lines) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
+  input_text <- gsub("\t", "\n", input_text)
   lines <- unlist(strsplit(input_text, "\n"))
   lines <- gsub(" ", "", lines)
-  
     # Remove spaces from each line
   seq_names <- lines[str_detect(lines, "^>")]
   seq_data <- lines[!str_detect(lines, "^>") & nchar(lines) > 0]
+    
   
   if (length(seq_names) != length(seq_data)) {
     print("problem with sequence")
     return()
-  }
+   }
   
   # Create a data frame from the vectors
   fasta_df <- data.frame(Name = seq_names, Sequence = seq_data)
