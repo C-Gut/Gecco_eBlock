@@ -27,7 +27,8 @@ clean_fasta <- function(input_text) {
   # Split the input text into lines, remove spaces, and ignore empty lines
     # the nchar(lines) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
   lines <- unlist(strsplit(input_text, "\n"))
-  lines <- gsub(" ", "", lines)  
+  lines <- gsub(" ", "", lines)
+  
     # Remove spaces from each line
   seq_names <- lines[str_detect(lines, "^>")]
   seq_data <- lines[!str_detect(lines, "^>") & nchar(lines) > 0]
