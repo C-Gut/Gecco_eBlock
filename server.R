@@ -1,4 +1,4 @@
-###### 1. Set fixed variables ######
+################ 1. Set fixed variables ################
 
 BsaTGGT <- "CTGGTCTCGTGGT"
 BsaSTOPCTTG <- "TAACTTGAGAGACCTG"
@@ -9,7 +9,7 @@ BBseq2 <- "CTTGGGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCAT
 sumoBB1 <- "ATGCCATAGCATTTTTATCCATAAGATTAGCGGATCCTACCTGACGCTTTTTATCGCAACTCTCTACTGTTTCTCCATACCCGTTTTTTGGGCTAACAGGAGGAATTAACCATGGGCAGCAGCCATCATCATCATCATCACGGCAGCGGCCTGGTGCCGCGCGGCAGCGCTAGCATGTCGGACTCAGAAGTCAATCAAGAAGCTAAGCCAGAGGTCAAGCCAGAAGTCAAGCCTGAGACTCACATCAATTTAAAGGTGTCCGATGGATCTTCAGAGATCTTCTTCAAGATCAAAAAGACCACTCCTTTAAGAAGGCTGATGGAAGCGTTCGCTAAAAGACAGGGTAAGGAAATGGACTCCTTAAGATTCTTGTACGACGGTATTAGAATTCAAGCTGATCAGACCCCTGAAGATTTGGACATGGAGGATAACGATATTATTGAGGCTCACAGAGAACAGATTGGTGGT"
 sumoBB2 <-"GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATTGAGTTTAAACGGACTCCAGCTTGGCTGTTTTGGCGGATGAGAGAAGATTTTCAGCCTGATACAGATTAAATCAGAACGCAGAAGCGGTCTGATAAAACAGAATTTGCCTGGCGGCAGTAGCGCGGTGGTCCCACCTGACCCCATGCCGAACTCAGAAGTGAAACGCCGTAGCGCCGATGGTAGTGTGGGGTGTCCCCATGCGAGAGTAGGGAACTGCCAGGCATCAAATAAAACGAAAGGCTCAGTCGAAAGACTGGGCCTTTCGTTTTATCTGTTGTTTGTCGGTGAACGCTCTCCTGAGTAGGACAAATCCGCCGGGAGCGGATTTGAACGTTGCGAAGCAACGGCCCGGAGGGTGGCGGGCAGGACGCCCGCCATAAACTGCCAGGCATCAAATTAAGCAGAAGGCCATCCTGACGGATGGCCTTTTTGCGTTTCTACAAACTCTTTTTGTTTATTTTTCTAAATACATTCAAATATGTATCCGCTCATGAGACAATAACCCTGATAAATGCTTCAATAATATTGAAAAAGGAAGAGTATGAGTATTCAACATTTCCGTGTCGCCCTTATTCCCTTTTTTGCGGCATTTTGCCTTCCTGTTTTTGCTCACCCAGAAACGCTGGTGAAAGTAAAAGATGCTGAAGATCAGTTGGGTGCACGAGTGGGTTACATCGAACTGGATCTCAACAGCGGTAAGATCCTTGAGAGTTTTCGCCCCGAAGAACGTTTTCCAATGATGAGCACTTTTAAAGTTCTGCTATGTGGCGCGGTATTATCCCGTGTTGACGCCGGGCAAGAGCAACTCGGTCGCCGCATACACTATTCTCAGAATGACTTGGTTGAGTACTCACCAGTCACAGAAAAGCATCTTACGGATGGCATGACAGTAAGAGAATTATGCAGTGCTGCCATAACCATGAGTGATAACACTGCGGCCAACTTACTTCTGACAACGATCGGAGGACCGAAGGAGCTAACCGCTTTTTTGCACAACATGGGGGATCATGTAACTCGCCTTGATCGTTGGGAACCGGAGCTGAATGAAGCCATACCAAACGACGAGCGTGACACCACGATGCCTGTAGCAATGGCAACAACGTTGCGCAAACTATTAACTGGCGAACTACTTACTCTAGCTTCCCGGCAACAATTAATAGACTGGATGGAGGCGGATAAAGTTGCAGGACCACTTCTGCGCTCGGCCCTTCCGGCTGGCTGGTTTATTGCTGATAAATCTGGAGCCGGTGAGCGTGGGAGTCGCGGTATCATTGCAGCACTGGGGCCAGATGGTAAGCCCTCCCGTATCGTAGTTATCTACACGACGGGGAGTCAGGCAACTATGGATGAACGAAATAGACAGATCGCTGAGATAGGTGCCTCACTGATTAAGCATTGGTAACTGTCAGACCAAGTTTACTCATATATACTTTAGATTGATTTAAAACTTCATTTTTAATTTAAAAGGATCTAGGTGAAGATCCTTTTTGATAATCTCATGACCAAAATCCCTTAACGTGAGTTTTCGTTCCACTGAGCGTCAGACCCCGTAGAAAAGATCAAAGGATCTTCTTGAGATCCTTTTTTTCTGCGCGTAATCTGCTGCTTGCAAACAAAAAAACCACCGCTACCAGCGGTGGTTTGTTTGCCGGATCAAGAGCTACCAACTCTTTTTCCGAAGGTAACTGGCTTCAGCAGAGCGCAGATACCAAATACTGTCCTTCTAGTGTAGCCGTAGTTAGGCCACCACTTCAAGAACTCTGTAGCACCGCCTACATACCTCGCTCTGCTAATCCTGTTACCAGTGGCTGCTGCCAGTGGCGATAAGTCGTGTCTTACCGGGTTGGACTCAAGACGATAGTTACCGGATAAGGCGCAGCGGTCGGGCTGAACGGGGGGTTCGTGCACACAGCCCAGCTTGGAGCGAACGACCTACACCGAACTGAGATACCTACAGCGTGAGCTATGAGAAAGCGCCACGCTTCCCGAAGGGAGAAAGGCGGACAGGTATCCGGTAAGCGGCAGGGTCGGAACAGGAGAGCGCACGAGGGAGCTTCCAGGGGGAAACGCCTGGTATCTTTATAGTCCTGTCGGGTTTCGCCACCTCTGACTTGAGCGTCGATTTTTGTGATGCTCGTCAGGGGGGCGGAGCCTATGGAAAAACGCCAGCAACGCGGCCTTTTTACGGTTCCTGGCCTTTTGCTGGCCTTTTGCTCACATGTTCTTTCCTGCGTTATCCCCTGATTCTGTGGATAACCGTATTACCGCCTTTGAGTGAGCTGATACCGCTCGCCGCAGCCGAACGACCGAGCGCAGCGAGTCAGTGAGCGAGGAAGCGGAAGAGCGCCTGATGCGGTATTTTCTCCTTACGCATCTGTGCGGTATTTCACACCGCATATCGTGCACTCTCAGTACAATCTGCTCTGATGCCGCATAGTTAAGCCAGTATACACTCCGCTATCGCTACGTGACTGGGTCATGGCTGCGCCCCGACACCCGCCAACACCCGCTGACGCGCCCTGACGGGCTTGTCTGCTCCCGGCATCCGCTTACAGACAAGCTGTGACCGTCTCCGGGAGCTGCATGTGTCAGAGGTTTTCACCGTCATCACCGAAACGCGCGAGGCAGCAGATCAATTCGCGCGCGAAGGCGAAGCGGCATGCATAATGTGCCTGTCAAATGGACGAAGCAGGGATTCTGCAAACCCTATGCTACTCCGTCAAGCCGTCAATTGTCTGATTCGTTACCAATTATGACAACTTGACGGCTACATCATTCACTTTTTCTTCACAACCGGCACGGAACTCGCTCGGGCTGGCCCCGGTGCATTTTTTAAATACCCGCGAGAAATAGAGTTGATCGTCAAAACCAACATTGCGACCGACGGTGGCGATAGGCATCCGGGTGGTGCTCAAAAGCAGCTTCGCCTGGCTGATACGTTGGTCCTCGCGCCAGCTTAAGACGCTAATCCCTAACTGCTGGCGGAAAAGATGTGACAGACGCGACGGCGACAAGCAAACATGCTGTGCGACGCTGGCGATATCAAAATTGCTGTCTGCCAGGTGATCGCTGATGTACTGACAAGCCTCGCGTACCCGATTATCCATCGGTGGATGGAGCGACTCGTTAATCGCTTCCATGCGCCGCAGTAACAATTGCTCAAGCAGATTTATCGCCAGCAGCTCCGAATAGCGCCCTTCCCCTTGCCCGGCGTTAATGATTTGCCCAAACAGGTCGCTGAAATGCGGCTGGTGCGCTTCATCCGGGCGAAAGAACCCCGTATTGGCAAATATTGACGGCCAGTTAAGCCATTCATGCCAGTAGGCGCGCGGACGAAAGTAAACCCACTGGTGATACCATTCGCGAGCCTCCGGATGACGACCGTAGTGATGAATCTCTCCTGGCGGGAACAGCAAAATATCACCCGGTCGGCAAACAAATTCTCGTCCCTGATTTTTCACCACCCCCTGACCGCGAATGGTGAGATTGAGAATATAACCTTTCATTCCCAGCGGTCGGTCGATAAAAAAATCGAGATAACCGTTGGCCTCAATCGGCGTTAAACCCGCCACCAGATGGGCATTAAACGAGTATCCCGGCAGCAGGGGATCATTTTGCGCTTCAGCCATACTTTTCATACTCCCGCCATTCAGAGAAGAAACCAATTGTCCATATTGCATCAGACATTGCCGTCACTGCGTCTTTTACTGGCTCTTCTCGCTAACCAAACCGGTAACCCCGCTTATTAAAAGCATTCTGTAACAAAGCGGGACCAAAGCCATGACAAAAACGCGTAACAAAAGTGTCTATAATCACGGCAGAAAAGTCCACATTGATTATTTGCACGGCGTCACACTTTGCT"
 
-###### 2. Define functions that will be called later on inside the server ######
+################ 2. Define costum functions that will be called later on inside the server ################
 
 ### function to make a random DNA sequence of length n, for testing
 # example_seq <- function(n) {
@@ -17,9 +17,9 @@ sumoBB2 <-"GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATT
 # }
 
 
-### Function to parse FASTA format and create a data frame
+### Function to clean the FASTA input (remove spaces and empty lines) and create a data frame and a list
 
-parse_fasta <- function(input_text) {
+clean_fasta <- function(input_text) {
   # Initialize empty vectors to store sequence names and sequences
   seq_names <- character(0)
   seq_data <- character(0)
@@ -27,7 +27,8 @@ parse_fasta <- function(input_text) {
   # Split the input text into lines, remove spaces, and ignore empty lines
     # the nchar(lines) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
   lines <- unlist(strsplit(input_text, "\n"))
-  lines <- gsub(" ", "", lines)  # Remove spaces from each line
+  lines <- gsub(" ", "", lines)  
+    # Remove spaces from each line
   seq_names <- lines[str_detect(lines, "^>")]
   seq_data <- lines[!str_detect(lines, "^>") & nchar(lines) > 0]
   
@@ -45,8 +46,8 @@ parse_fasta <- function(input_text) {
   return(list(fasta_list, fasta_df))
 }
 
-
-### Bsai_locate function uses values of the fasta_list as input and finds BsaI sites
+### Bsai_locate function uses values of the fasta_list as input, finds BsaI sites, 
+### and returns a data frame with info about when BsaI starts, ends, if fw or rv, and the position in the codon
 
 bsai_locate <- function(seq) {
   fw_matches <- str_locate_all(seq, "GGTCTC")[[1]]
@@ -54,7 +55,7 @@ bsai_locate <- function(seq) {
   
   if (is.null(fw_matches) && is.null(rv_matches)) {
     # If no matches were found, create a row with NA values
-    combined_df <-
+    bsaI_locate_df <-
       data.frame(
         start = NA,
         end = NA,
@@ -68,10 +69,9 @@ bsai_locate <- function(seq) {
                           end = NA,
                           dir = 'fw')
     } else {
-      fw_df <-
-        data.frame(start = fw_matches[, 1],
-                   end = fw_matches[, 2],
-                   dir = 'fw')
+      fw_df <- data.frame(start = fw_matches[, 1],
+                          end = fw_matches[, 2],
+                          dir = 'fw')
     }
     
     if (length(rv_matches) == 0) {
@@ -85,28 +85,54 @@ bsai_locate <- function(seq) {
                    dir = 'rv')
     }
     
-    combined_df <- bind_rows(fw_df, rv_df) %>%
+    bsaI_locate_df <- bind_rows(fw_df, rv_df) %>%
       mutate(cod_pos = ifelse(!is.na(start), ((start + 2) %% 3) + 1, NA),
              seq_name = "Seq")
   }
   
-  combined_df <- combined_df[order(combined_df$start),]
+  bsaI_locate_df <- bsaI_locate_df[order(bsaI_locate_df$start), ]
   
-  combined_df <- combined_df[!is.na(combined_df$start),]
-  return(combined_df)
+  bsaI_locate_df <- bsaI_locate_df[!is.na(bsaI_locate_df$start), ]
+  return(bsaI_locate_df)
+  
 }
 
+### This function changes the necessary codons in the original sequence to remove BsaI sites found
+### returns a text with the modified sequence
+
+  remove_bsai <- function(df, seq) {
+    # Replace codons in the input sequence
+    modified_sequence <- seq
+    for (i in seq_len(nrow(df))) {
+      start_pos <- df[i, "start"]
+      end_pos <- df[i, "end"]
+      replacement <- df[i, "change_cod_to"]
+      pos_in_seq <- df[i, "calc_pos"]
+      
+      modified_sequence <-
+        paste0(
+          substring(modified_sequence, 1, pos_in_seq - 1),
+          replacement,
+          substring(modified_sequence, pos_in_seq + 3)
+        )
+    }
+    modified_sequence
+  }
+
 ### func. to determine how many fragments are required given a sequence and a max. frag. length
+  
 calc_fragments <- function(seq, max_len) {
   ceiling(nchar(seq) / max_len) # ceiling() rounds up to next integer
 }
 
 ### function to calculate the break points in a sequence, given max. frag. length
+
 calc_break_points <- function(seq, max_len) {
   (calc_fragments(seq, max_len) - 1) * 2
 }
 
 ### func. to create n_chunks sequence fragments, returns vector of strings
+
 seq_chunks <- function(seq, n_chunks) {
   if (n_chunks == 1) {
     return(seq)
@@ -116,6 +142,7 @@ seq_chunks <- function(seq, n_chunks) {
 }
 
 ### func. to create df with seq. fragments, given sequence and max. frag. length
+
 split_seq_in_chunks <- function(seq, max_len) {
   if (seq == '' || !is.numeric(max_len) || is.na(max_len)) {
     return(data.frame())
@@ -129,17 +156,20 @@ split_seq_in_chunks <- function(seq, max_len) {
   ) # convert list into data frame, can add more info (columns) about fragments
 }
 
-###### 3. Server where the functions are called ######
+################ 3. Server where the functions are called ################ 
 
 server <- function(input, output, session) {
-  # accept multiple fasta sequences
-  parsed_data <- reactive({
+  
+ ### Use the clean_fasta function to remove spaces and empty lines from text input
+ ### Accepts multiple fasta sequences as input and gives a table as output 
+  
+  clean_multiple_fasta <- reactive({
     input_text <- input$fasta_input
-    parse_fasta(input_text)
+    clean_fasta(input_text)
   })
   
   output$fasta_table <- renderDT({
-    parsed_data()[[2]]
+    clean_multiple_fasta()[[2]]
   })
   
   # for testing; create random sequences of length specified in input$ex_len
@@ -176,47 +206,51 @@ server <- function(input, output, session) {
     df
   }
   
-  modified_seq <- function(df, seq) {
-    # Replace codons in the input sequence
-    modified_sequence <- seq
-    for (i in seq_len(nrow(df))) {
-      start_pos <- df[i, "start"]
-      end_pos <- df[i, "end"]
-      replacement <- df[i, "change_cod_to"]
-      pos_in_seq <- df[i, "calc_pos"]
-      
-      modified_sequence <-
-        paste0(
-          substring(modified_sequence, 1, pos_in_seq - 1),
-          replacement,
-          substring(modified_sequence, pos_in_seq + 3)
-        )
-    }
-    modified_sequence
-  }
-  
+  ### take the cleaned up input with multiple fasta sequences and create a df and a list of seq without bsai sites
   processed_input <- reactive({
-    seq_list <- parsed_data()[[1]]
-    list_bsai_dfs <- lapply(seq_list, function(x) {
+    
+    seq_list <- clean_multiple_fasta()[[1]]
+    list_wo_bsai <- lapply(seq_list, function(x) {
       df <- bsai_table(x)
-      modified_sequence <- modified_seq(df, x)
+      modified_sequence <- remove_bsai(df, x)
       list(df, modified_sequence)
     })
     
-    seqs <- lapply(list_bsai_dfs, function(x)
+    seqs <- lapply(list_wo_bsai, function(x)
       x[[2]])
     
+    # create text output with input sequences without bsai sites (it is actually an input so it can be modified if the user wants)    
     fasta_out <-
       c(rbind(names(seqs), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
     updateTextInput(session = getDefaultReactiveDomain(),
                     inputId = 'mod_seq',
                     value = fasta_out)
     
-    list_bsai_dfs
+    list(list_wo_bsai, fasta_out)
+    
   })
+
   
+  # Download button with table without BsaI sites 
+  output$downloadCSV_wo_bsai<- downloadHandler(
+
+    filename = function() {
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      #Use the clean_fasta function to create a data frame using fasta_out as input (which is the text output containing sequences without bsai sites)
+        # Extract the names and sequences from processed_input()
+        df_wo_bsai <- clean_fasta(processed_input()[[2]])[[2]]
+        print(df_wo_bsai)
+
+        # Write the data frame to a CSV file
+        write.table(df_wo_bsai, file, sep = ";", row.names = FALSE, quote = FALSE)
+        
+    }
+  )
+   
   observe(processed_input())
-  
+
   # output table for bsai sites
   # filling a new text input field with the new sequence
   # output$bsai_table <- renderDT({
@@ -228,10 +262,10 @@ server <- function(input, output, session) {
   
   
   # output table for fragments
-  output$frag_table <- renderDT({
-    fragm.df <- split_seq_in_chunks(seq = input$mod_seq,
-                           max_len = as.numeric(input$frag_len))
-    fragm.df
+  # output$frag_table <- renderDT({
+  #   fragm.df <- split_seq_in_chunks(seq = input$mod_seq,
+  #                          max_len = as.numeric(input$frag_len))
+  #   fragm.df
     # fragm.df$p5_Bsa <- BsaMid1
     # fragm.df$p3_Bsa <- BsaMid2
     # fragm.df[1, "p5_Bsa"] <- BsaTGGT
@@ -304,7 +338,7 @@ server <- function(input, output, session) {
     #   full_fragm.df$full_fragm <- ifelse(fragm.df$test, paste(fragm.df$p5_Bsa, fragm.df$p5_overhang, fragm.df$fragments, fragm.df$p3_Bsa), xxxxxxxxxxx)
     # print(full_fragm.df)
     # list(fragm.df, full_fragm.df)
-   })
+   # })
   # #
   
   # # return some info about fragments as text
