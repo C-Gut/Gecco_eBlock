@@ -5,6 +5,7 @@ library(BiocManager)
 library(Biostrings)
 library(stringr)
 library(dplyr)
+library(openxlsx)
 
 ui <- fluidPage(
   
