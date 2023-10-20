@@ -235,10 +235,13 @@ server <- function(input, output, session) {
     
     seqs <- lapply(list_wo_bsai, function(x)
       x[[2]])
+    print("seqs")
+    print(seqs)
+
     
     # create text output with input sequences without bsai sites (it is actually an input so it can be modified if the user wants)    
     fasta_out <-
-      c(rbind(names(seqs), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
+      c(rbind(str_replace(names(seqs), '$', '_noBsai'), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
     updateTextInput(session = getDefaultReactiveDomain(),
                     inputId = 'mod_seq',
                     value = fasta_out)
