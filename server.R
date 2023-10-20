@@ -23,21 +23,7 @@ clean_fasta <- function(input_text) {
   # Initialize empty vectors to store sequence names and sequences
   seq_names <- character(0)
   seq_data <- character(0)
-  
-  # if (str_detect(input_text, "\t")) {
-  #   print("tsv detected")
-  #   print(input_text)
-  #   
-  #   # Convert the input string to a tibble
-  #   tsv_data <- read_tsv(input_text, col_names = FALSE)
-  #   
-  #   input_text <- paste(">", tsv_data[, 1], "\n", tsv_data[, 2], sep = "")
-  # }
-  # else{
 
-   # Change the tab-separation to a line break so both fasta and tab-separated input can be treated the same way
-  # input_text <- gsub("\t", "\n", input_text)
-  
   # Split the input text into lines, remove spaces
   lines <- unlist(strsplit(input_text, "\n"))
   lines <- gsub(" ", "", lines)
@@ -61,23 +47,6 @@ clean_fasta <- function(input_text) {
   
   return(list(fasta_list, fasta_df))
   }
-
-# ### Function to take tab separated values copied from excel and create a list and a data frame like in the function where a fasta is processed (clean_fasta)
-# 
-# tsv_to_clean_fasta <- function(input_text) {
-#    
-#     # Convert the input string to a tibble
-#     tsv_data <- read_tsv(input_text, col_names = FALSE)
-#     input_text <- paste(">", tsv_data[, 1], "\n", tsv_data[, 2], sep = "")
-# 
-#   # # Create a data frame from the vectors
-#   # fasta_df <- data.frame(Name = seq_names, Sequence = seq_data)
-#   # Create a list from the vectors
-#   fasta_list <- as.list(seq_data)
-#   names(fasta_list) <- seq_names
-#   return(list(fasta_list, fasta_df))
-# }
-#   
 
 ### Bsai_locate function uses values of the fasta_list as input, finds BsaI sites, 
 ### and returns a data frame with info about when BsaI starts, ends, if fw or rv, and the position in the codon
@@ -200,15 +169,18 @@ server <- function(input, output, session) {
     
     input_text <- input$fasta_input
     
+    # Here it checks if the input is a tab separated value (copied from excel),
+      #if so, converts it into fasta format and then uses the clean_fasta function to process it
+
     if (str_detect(input_text, "\t")) {
-      print("tsv detected")
       # Convert the input string to a tibble
       tsv_data <- read_tsv(input_text, col_names = FALSE)
+      # Create FASTA format using paste
       input_text <- paste(">", tsv_data$X1, "\n", tsv_data$X2, sep = "")
+      # Apply the clean_fasta function
       clean_fasta(input_text)
 
     } else {
-      print("tsv not detected")
       clean_fasta(input_text)
        }
   })
@@ -286,7 +258,6 @@ server <- function(input, output, session) {
       #Use the clean_fasta function to create a data frame using fasta_out as input (which is the text output containing sequences without bsai sites)
         # Extract the names and sequences from processed_input()
         df_wo_bsai <- clean_fasta(processed_input()[[2]])[[2]]
-        print(df_wo_bsai)
 
         # Write the data frame to a CSV file
         write.table(df_wo_bsai, file, sep = ";", row.names = FALSE, quote = FALSE)
