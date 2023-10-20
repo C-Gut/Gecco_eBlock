@@ -24,35 +24,26 @@ clean_fasta <- function(input_text) {
   seq_names <- character(0)
   seq_data <- character(0)
   
-  # Check if input contains tabs
-  # if (any(grepl("\t", input_text))) {
-  #   input_text <- gsub("\t", "\n", input_text)
-  #   print("lines1:")
-  #   print(lines)
+  # if (str_detect(input_text, "\t")) {
+  #   print("tsv detected")
+  #   print(input_text)
   #   
-  #   # Split the input text by tabs to separate names and sequences
-  #   lines <- unlist(strsplit(input_text, "\n"))
-  # 
-  #   print("lines3")
-  #   print(lines)
-  #   lines <- gsub(" ", "", lines)
-  # 
-  #   seq_names <- sapply(lines, function(line) strsplit(line, "\t")[[1]][1])
-  #   print("names:")
-  #   print(seq_names)
-  #   seq_data <- sapply(lines, function(line) strsplit(line, "\t")[[1]][2])
+  #   # Convert the input string to a tibble
+  #   tsv_data <- read_tsv(input_text, col_names = FALSE)
   #   
-  #   print("data:")
-  #   print(seq_data)
-  # 
-  # } else {
+  #   input_text <- paste(">", tsv_data[, 1], "\n", tsv_data[, 2], sep = "")
+  # }
+  # else{
+
+   # Change the tab-separation to a line break so both fasta and tab-separated input can be treated the same way
+  # input_text <- gsub("\t", "\n", input_text)
   
-  # Split the input text into lines, remove spaces, and ignore empty lines
-    # the nchar(lines) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
-  input_text <- gsub("\t", "\n", input_text)
+  # Split the input text into lines, remove spaces
   lines <- unlist(strsplit(input_text, "\n"))
   lines <- gsub(" ", "", lines)
-    # Remove spaces from each line
+  
+  # Define what will be the name and the sequence data
+  # the nchar(lines) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
   seq_names <- lines[str_detect(lines, "^>")]
   seq_data <- lines[!str_detect(lines, "^>") & nchar(lines) > 0]
     
@@ -69,7 +60,24 @@ clean_fasta <- function(input_text) {
   names(fasta_list) <- seq_names
   
   return(list(fasta_list, fasta_df))
-}
+  }
+
+# ### Function to take tab separated values copied from excel and create a list and a data frame like in the function where a fasta is processed (clean_fasta)
+# 
+# tsv_to_clean_fasta <- function(input_text) {
+#    
+#     # Convert the input string to a tibble
+#     tsv_data <- read_tsv(input_text, col_names = FALSE)
+#     input_text <- paste(">", tsv_data[, 1], "\n", tsv_data[, 2], sep = "")
+# 
+#   # # Create a data frame from the vectors
+#   # fasta_df <- data.frame(Name = seq_names, Sequence = seq_data)
+#   # Create a list from the vectors
+#   fasta_list <- as.list(seq_data)
+#   names(fasta_list) <- seq_names
+#   return(list(fasta_list, fasta_df))
+# }
+#   
 
 ### Bsai_locate function uses values of the fasta_list as input, finds BsaI sites, 
 ### and returns a data frame with info about when BsaI starts, ends, if fw or rv, and the position in the codon
@@ -189,8 +197,20 @@ server <- function(input, output, session) {
  ### Accepts multiple fasta sequences as input and gives a table as output 
   
   clean_multiple_fasta <- reactive({
+    
     input_text <- input$fasta_input
-    clean_fasta(input_text)
+    
+    if (str_detect(input_text, "\t")) {
+      print("tsv detected")
+      # Convert the input string to a tibble
+      tsv_data <- read_tsv(input_text, col_names = FALSE)
+      input_text <- paste(">", tsv_data$X1, "\n", tsv_data$X2, sep = "")
+      clean_fasta(input_text)
+
+    } else {
+      print("tsv not detected")
+      clean_fasta(input_text)
+       }
   })
   
   output$fasta_table <- renderDT({
