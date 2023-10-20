@@ -262,9 +262,7 @@ server <- function(input, output, session) {
       #Use the clean_fasta function to create a data frame using fasta_out as input (which is the text output containing sequences without bsai sites)
         # Extract the names and sequences from processed_input()
         df_wo_bsai <- clean_fasta(processed_input()[[2]])[[2]]
-        print("df_wo_bsai:")
-        print(df_wo_bsai)
-        
+        # Remove the > symbol from the data frame that can be downloaded as csv
         df_wo_bsai$Name <- sub(">", "", df_wo_bsai$Name)
         # Write the data frame to a CSV file
         write.table(df_wo_bsai, file, sep = ";", row.names = FALSE, quote = FALSE)
