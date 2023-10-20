@@ -242,10 +242,11 @@ server <- function(input, output, session) {
     # create text output with input sequences without bsai sites (it is actually an input so it can be modified if the user wants)    
     fasta_out <-
       c(rbind(str_replace(names(seqs), '$', '_noBsai'), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
+    # c(rbind(str_replace(gsub(">", "", names(seqs)), '$', '_noBsai'), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
     updateTextInput(session = getDefaultReactiveDomain(),
                     inputId = 'mod_seq',
                     value = fasta_out)
-    
+    # fasta_out_df <- as.data.frame(fasta_out, row.names = NULL)
     list(list_wo_bsai, fasta_out)
     
   })
@@ -255,13 +256,16 @@ server <- function(input, output, session) {
   output$downloadCSV_wo_bsai<- downloadHandler(
 
     filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
+      paste("woBsa-", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
       #Use the clean_fasta function to create a data frame using fasta_out as input (which is the text output containing sequences without bsai sites)
         # Extract the names and sequences from processed_input()
         df_wo_bsai <- clean_fasta(processed_input()[[2]])[[2]]
-
+        print("df_wo_bsai:")
+        print(df_wo_bsai)
+        
+        df_wo_bsai$Name <- sub(">", "", df_wo_bsai$Name)
         # Write the data frame to a CSV file
         write.table(df_wo_bsai, file, sep = ";", row.names = FALSE, quote = FALSE)
         
