@@ -317,11 +317,11 @@ server <- function(input, output, session) {
               duplicated(column1_to_check, fromLast = TRUE))
     
     # Check if there are any duplicated values
+    fragm.df$p5_overhang_check_unique <- TRUE
     if (length(duplicated_rows) > 0) {
       cat("Duplicate values found in the following rows:\n")
       for (row_num in duplicated_rows) {
         cat("Row", row_num, ":", combined_column[row_num], "\n")
-        # fragm.df$p5_overhang_check_unique[row_num] <- FALSE
         fragm.df[row_num, "p5_overhang_check_unique"] <- FALSE
       }
     } else {
@@ -346,57 +346,54 @@ server <- function(input, output, session) {
     #3# does any overhang have more than 2 repeats?
     
     # Function to check for repeated characters more than twice
-    has_repeated_characters <- function(text) {
-      any(rle(strsplit(text, "")[[1]])$lengths > 2)
+    has_no_repeated_characters <- function(text) {
+      !any(rle(strsplit(text, "")[[1]])$lengths > 2)
     }
     # Check if each value in the 'Text' column has repeated characters more than twice
     fragm.df$p5_overhang_check_repeats <-
-      sapply(fragm.df$p5_overhang, has_repeated_characters)
-    
-    # Invert the 'repeat' column, so it's TRUE for rows with repeats and FALSE for others
-    fragm.df$p5_overhang_check_repeats <-
-      !fragm.df$p5_overhang_check_repeats
-    
+      sapply(fragm.df$p5_overhang, has_no_repeated_characters)
+
     #4# pass all checks?
-    
+    print(fragm.df)
     # Create a new column 'test' based on the conditions
-    fragm.df$test <-
-      ifelse(
-        fragm.df$p5_overhang_check_unique &
-          fragm.df$p5_overhang_check_palindrome &
-          fragm.df$p5_overhang_check_repeats,
-        TRUE,
-        FALSE
-      )
+    fragm.df$test <- apply(fragm.df[,c("p5_overhang_check_unique", "p5_overhang_check_palindrome", "p5_overhang_check_repeats")], 
+                           1, all)
+      
+    # fragm.df$test <-
+    #   ifelse(
+    #     fragm.df$p5_overhang_check_unique &
+    #       fragm.df$p5_overhang_check_palindrome &
+    #       fragm.df$p5_overhang_check_repeats,
+    #     TRUE,
+    #     FALSE
+    #   )
     
     ### this only if all checks are true, otherwise change fragments
     # Create another data frame by pasting values from fragm.df
     
-    full_fragm.df <- data.frame(full_fragm = NA)
+    # full_fragm.df <- data.frame(full_fragm = NA)
     
-    full_fragm.df$full_fragm <-
-      ifelse(
-        fragm.df$test,
-        paste(
-          fragm.df$p5_Bsa,
-          fragm.df$p5_overhang,
-          fragm.df$fragments,
-          fragm.df$p3_Bsa
-        ),
-
-      )
-    print(full_fragm.df)
-    list(fragm.df, full_fragm.df)
+    # full_fragm.df$full_fragm <-
+    #   ifelse(
+    #     fragm.df$test,
+    #     paste(
+    #       fragm.df$p5_Bsa,
+    #       fragm.df$p5_overhang,
+    #       fragm.df$fragments,
+    #       fragm.df$p3_Bsa
+    #     ),
+    # 
+    #   )
+    # print(full_fragm.df)
+    fragm.df
   }
  ## output table for fragments
  output$frag_table <- renderDT({
    seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
    print(seqs_wo_bsa.l)
    split_fragm.l <- lapply(seqs_wo_bsa.l,function(x) split_seq_in_chunks(x, 10))
-  print()
-    #})
-  # #
-  
+   processed_frag.l <- lapply(split_fragm.l, function(x) process_frags(x))
+   
   # # return some info about fragments as text
   # output$total_len <- renderText({
   #   frag_input_seq <- input$mod_seq
