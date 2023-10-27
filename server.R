@@ -142,7 +142,6 @@ seq_chunks <- function(seq, n_chunks) {
 }
 
 ### func. to create df with seq. fragments, given sequence and max. frag. length
-
 split_seq_in_chunks <- function(seq, max_len) {
   if (seq == '' || !is.numeric(max_len) || is.na(max_len)) {
     return(data.frame())
@@ -290,91 +289,111 @@ server <- function(input, output, session) {
 
  ##Clean multiple fasta sequences coming from the modified sequence without bsaI sites
   clean_multiple_mod_fasta <- reactive({
-      input_text <- input$mod_seq
-      clean_fasta(input_text)
+      clean_fasta(input$mod_seq)
   })
 
-  output$fasta_mod_table <- renderDT({
-    clean_multiple_mod_fasta()[1]
-  })
+  process_frags <- function(fragm.df) {
+    fragm.df$p5_Bsa <- BsaMid1
+    fragm.df$p3_Bsa <- BsaMid2
+    fragm.df[1, "p5_Bsa"] <- BsaTGGT
+    fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG
+    fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
+    #fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
+    print(fragm.df[, "p5_overhang"])
+    ### checks overhangs
+    #1# are all overhangs unique?
+    # Find duplicated values and report row numbers
+    
+    # Define the columns you want to compare for uniqueness
+    column1_to_check <- fragm.df$p5_overhang
+    column2_to_check <- fragm.df$p3_overhang
+    
+    # Combine both columns into a single vector for comparison
+    combined_column <- c(column1_to_check, column2_to_check)
+    
+    # Find duplicated values and report row numbers
+    duplicated_rows <-
+      which(duplicated(column1_to_check) |
+              duplicated(column1_to_check, fromLast = TRUE))
+    
+    # Check if there are any duplicated values
+    if (length(duplicated_rows) > 0) {
+      cat("Duplicate values found in the following rows:\n")
+      for (row_num in duplicated_rows) {
+        cat("Row", row_num, ":", combined_column[row_num], "\n")
+        # fragm.df$p5_overhang_check_unique[row_num] <- FALSE
+        fragm.df[row_num, "p5_overhang_check_unique"] <- FALSE
+      }
+    } else {
+      cat("No duplicate values found between the two columns.\n")
+      fragm.df$p5_overhang_check_unique <- TRUE
+    }
+    
+    #2# is any overhang palindromic?
+    
+    # Function to check if a DNAString is palindromic
+    is_palindromic <- function(sequence) {
+      complement_sequence <- reverseComplement(DNAString(sequence))
+      identical(sequence, as.character(complement_sequence))
+    }
+    
+    # Check if each sequence in the 'Sequence' column is palindromic
+    fragm.df$p5_overhang_check_palindrome <-
+      sapply(fragm.df$p5_overhang, function(seq)
+        ! is_palindromic(seq))
+    
+    
+    #3# does any overhang have more than 2 repeats?
+    
+    # Function to check for repeated characters more than twice
+    has_repeated_characters <- function(text) {
+      any(rle(strsplit(text, "")[[1]])$lengths > 2)
+    }
+    # Check if each value in the 'Text' column has repeated characters more than twice
+    fragm.df$p5_overhang_check_repeats <-
+      sapply(fragm.df$p5_overhang, has_repeated_characters)
+    
+    # Invert the 'repeat' column, so it's TRUE for rows with repeats and FALSE for others
+    fragm.df$p5_overhang_check_repeats <-
+      !fragm.df$p5_overhang_check_repeats
+    
+    #4# pass all checks?
+    
+    # Create a new column 'test' based on the conditions
+    fragm.df$test <-
+      ifelse(
+        fragm.df$p5_overhang_check_unique &
+          fragm.df$p5_overhang_check_palindrome &
+          fragm.df$p5_overhang_check_repeats,
+        TRUE,
+        FALSE
+      )
+    
+    ### this only if all checks are true, otherwise change fragments
+    # Create another data frame by pasting values from fragm.df
+    
+    full_fragm.df <- data.frame(full_fragm = NA)
+    
+    full_fragm.df$full_fragm <-
+      ifelse(
+        fragm.df$test,
+        paste(
+          fragm.df$p5_Bsa,
+          fragm.df$p5_overhang,
+          fragm.df$fragments,
+          fragm.df$p3_Bsa
+        ),
 
+      )
+    print(full_fragm.df)
+    list(fragm.df, full_fragm.df)
+  }
  ## output table for fragments
  output$frag_table <- renderDT({
-  fragm.df <- split_seq_in_chunks(seq = input$mod_fragm,
-                          max_len = as.numeric(input$frag_len))
-  mod_fragm <- lapply(clean_multiple_mod_fasta()[[1]], fragm.df)
- #  # fragm.df$p5_Bsa <- BsaMid1
-  # fragm.df$p3_Bsa <- BsaMid2
-  # fragm.df[1, "p5_Bsa"] <- BsaTGGT
-  # fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG
-  # fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
-  # #fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
-  # print(fragm.df[, "p5_overhang"])
-    #   ### checks overhangs
-    #     #1# are all overhangs unique?
-    #
-    #       # Find duplicated values and report row numbers
-    #
-    #   # Define the columns you want to compare for uniqueness
-    #   column1_to_check <- fragm.df$p5_overhang
-    #   column2_to_check <- fragm.df$p3_overhang
-    #
-    #   # Combine both columns into a single vector for comparison
-    #   combined_column <- c(column1_to_check, column2_to_check)
-    #
-    #   # Find duplicated values and report row numbers
-    #   duplicated_rows <- which(duplicated(column1_to_check) | duplicated(column1_to_check, fromLast = TRUE))
-    #
-    #   # Check if there are any duplicated values
-    #   if (length(duplicated_rows) > 0) {
-    #     cat("Duplicate values found in the following rows:\n")
-    #     for (row_num in duplicated_rows) {
-    #       cat("Row", row_num, ":", combined_column[row_num], "\n")
-    #       fragm.df$p5_overhang_check_unique[i] <- FALSE
-    #     }
-    #   } else {
-    #     cat("No duplicate values found between the two columns.\n")
-    #     fragm.df$p5_overhang_check_unique <- TRUE
-    #
-    #   }
-    #
-    #     #2# is any overhang palindromic?
-    #
-    #   # Function to check if a DNAString is palindromic
-    #   is_palindromic <- function(sequence) {
-    #     complement_sequence <- reverseComplement(DNAString(sequence))
-    #     identical(sequence, as.character(complement_sequence))
-    #   }
-    #
-    #   # Check if each sequence in the 'Sequence' column is palindromic
-    #   fragm.df$p5_overhang_check_palindrome <- sapply(fragm.df$p5_overhang, function(seq) !is_palindromic(seq))
-    #
-    #
-    #     #3# does any overhang have more than 2 repeats?
-    #
-    #   # Function to check for repeated characters more than twice
-    #   has_repeated_characters <- function(text) {
-    #     any(rle(strsplit(text, "")[[1]])$lengths > 2)
-    #   }
-    #   # Check if each value in the 'Text' column has repeated characters more than twice
-    #   fragm.df$p5_overhang_check_repeats <- sapply(fragm.df$p5_overhang, has_repeated_characters)
-    #
-    #   # Invert the 'repeat' column, so it's TRUE for rows with repeats and FALSE for others
-    #   fragm.df$p5_overhang_check_repeats <- !fragm.df$p5_overhang_check_repeats
-    #
-    #   #4# pass all checks?
-    #
-    #   # Create a new column 'test' based on the conditions
-    #   fragm.df$test <- ifelse(fragm.df$p5_overhang_check_unique & fragm.df$p5_overhang_check_palindrome & fragm.df$p5_overhang_check_repeats, TRUE, FALSE)
-    #
-    #   ### this only if all checks are true, otherwise change fragments
-    #   # Create another data frame by pasting values from fragm.df
-    #
-    #   full_fragm.df <- data.frame(full_fragm = NA)
-    #
-    #   full_fragm.df$full_fragm <- ifelse(fragm.df$test, paste(fragm.df$p5_Bsa, fragm.df$p5_overhang, fragm.df$fragments, fragm.df$p3_Bsa), xxxxxxxxxxx)
-    # print(full_fragm.df)
-    # list(fragm.df, full_fragm.df)
+   seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
+   print(seqs_wo_bsa.l)
+   split_fragm.l <- lapply(seqs_wo_bsa.l,function(x) split_seq_in_chunks(x, 10))
+  print()
     #})
   # #
   
@@ -386,6 +405,7 @@ server <- function(input, output, session) {
   #   HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>",
   #               "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
   #               "Final number of bases: &nbsp", as.character(total_len)))
+     
      })
   
 }
