@@ -26,19 +26,19 @@ ATGCTAGCTAGCTAGGTCTCTAGCTAGCTAGCTAGCGGTCTCTAGCTAGCTAGC
 CGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGAT
 >Seq3
 TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACG", 
-label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
-      
-
+      label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
       hr(),
-      HTML("<strong><u>Output</u></strong>"),    
+      HTML("<strong><u>Output</u></strong>"),
       br(),
       br(),
       textAreaInput("mod_seq", "Suggested sequence without BsaI sites:", width = "100%"),
-downloadButton("downloadCSV_wo_bsai", "Download CSV"),
-hr(),
-HTML("<strong>Fragments</strong>"),
-br(),
-DTOutput("fasta_mod_table")
+      downloadButton("downloadCSV_wo_bsai", "Download CSV"),
+      hr(),
+      HTML("<strong>Fragments</strong>"),
+      br(), 
+      # # Create a text input for the DNA sequence to be introduced by the user
+      textInput('frag_len', 'eblock fragment max. length', value = 10),
+      DTOutput("frag_table")
     ),
     
     # Right column (occupies the right half)
