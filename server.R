@@ -393,6 +393,7 @@ server <- function(input, output, session) {
    print(seqs_wo_bsa.l)
    split_fragm.l <- lapply(seqs_wo_bsa.l,function(x) split_seq_in_chunks(x, 10))
    processed_frag.l <- lapply(split_fragm.l, function(x) process_frags(x))
+   bind_rows(processed_frag.l, .id = "seq")
    
   # # return some info about fragments as text
   # output$total_len <- renderText({
