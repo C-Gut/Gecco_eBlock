@@ -18,7 +18,6 @@ sumoBB2 <-"GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCATT
 
 
 ### Function to clean the FASTA input and create a data frame and a list. It accepts both fasta format and tab-separated field as input
-
 clean_fasta <- function(input_text) {
   # Initialize empty vectors to store sequence names and sequences
   seq_names <- character(0)
@@ -101,7 +100,6 @@ bsai_locate <- function(seq) {
 
 ### This function changes the necessary codons in the original sequence to remove BsaI sites found
 ### returns a text with the modified sequence
-
   remove_bsai <- function(df, seq) {
     # Replace codons in the input sequence
     modified_sequence <- seq
@@ -161,6 +159,10 @@ split_seq_in_chunks <- function(seq, max_len) {
 ################ 3. Server where the functions are called ################ 
 
 server <- function(input, output, session) {
+
+#######################################################################################
+##################################### PARSE INPUT #####################################
+#######################################################################################
   
  ### Use the clean_fasta function to remove spaces and empty lines from text input
  ### Accepts multiple fasta sequences as input and gives a table as output 
@@ -198,6 +200,10 @@ server <- function(input, output, session) {
   #   }
   # }, ignoreInit = TRUE)
   
+#######################################################################################
+################################## Remove BsaI sites ##################################
+####################################################################################### 
+
   ### Use the bsai_locate function. Process the sequence: upper case, detect bsai sites, find position within codon, suggest swapped codon
   
   bsai_table <- function(seq) {
@@ -235,10 +241,7 @@ server <- function(input, output, session) {
     
     seqs <- lapply(list_wo_bsai, function(x)
       x[[2]])
-    print("seqs")
-    print(seqs)
 
-    
     # create text output with input sequences without bsai sites (it is actually an input so it can be modified if the user wants)    
     fasta_out <-
       c(rbind(str_replace(names(seqs), '$', '_noBsai'), as.character(unlist(seqs)))) %>% paste(collapse = '\n')
@@ -272,28 +275,41 @@ server <- function(input, output, session) {
    
   observe(processed_input())
 
-  # output table for bsai sites
-  # filling a new text input field with the new sequence
+  # # output table for bsai sites
+  # # filling a new text input field with the new sequence
   # output$bsai_table <- renderDT({
   #   updateTextInput(session = getDefaultReactiveDomain(),
-  #                   inputId = 'mod_seq',
+  #   inputId = 'mod_seq',
   #                   value = processed_input())
   #  datatable(processed_input()[[1]], options = list(dom = 't'))  # option removes (here) pointless search field
   # })
   
-  
-  # output table for fragments
-  # output$frag_table <- renderDT({
-  #   fragm.df <- split_seq_in_chunks(seq = input$mod_seq,
-  #                          max_len = as.numeric(input$frag_len))
-  #   fragm.df
-    # fragm.df$p5_Bsa <- BsaMid1
-    # fragm.df$p3_Bsa <- BsaMid2
-    # fragm.df[1, "p5_Bsa"] <- BsaTGGT
-    # fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG
-    # fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
-    # #fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
-    # print(fragm.df[, "p5_overhang"])
+#######################################################################################
+###################################### FRAGMENTS ######################################
+####################################################################################### 
+
+ ##Clean multiple fasta sequences coming from the modified sequence without bsaI sites
+  clean_multiple_mod_fasta <- reactive({
+      input_text <- input$mod_seq
+      clean_fasta(input_text)
+  })
+
+  # output$fasta_mod_table <- renderDT({
+  #   clean_multiple_mod_fasta()[[2]]
+  # })  
+
+ ## output table for fragments
+ output$frag_table <- renderDT({
+  fragm.df <- split_seq_in_chunks(seq = input$mod_fragm,
+                          max_len = as.numeric(input$frag_len))
+  mod_fragm <- lapply(clean_multiple_mod_fasta()[[1]], fragm.df)
+ #  # fragm.df$p5_Bsa <- BsaMid1
+  # fragm.df$p3_Bsa <- BsaMid2
+  # fragm.df[1, "p5_Bsa"] <- BsaTGGT
+  # fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG
+  # fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
+  # #fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
+  # print(fragm.df[, "p5_overhang"])
     #   ### checks overhangs
     #     #1# are all overhangs unique?
     #
@@ -359,7 +375,7 @@ server <- function(input, output, session) {
     #   full_fragm.df$full_fragm <- ifelse(fragm.df$test, paste(fragm.df$p5_Bsa, fragm.df$p5_overhang, fragm.df$fragments, fragm.df$p3_Bsa), xxxxxxxxxxx)
     # print(full_fragm.df)
     # list(fragm.df, full_fragm.df)
-   # })
+    #})
   # #
   
   # # return some info about fragments as text
@@ -370,6 +386,6 @@ server <- function(input, output, session) {
   #   HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>",
   #               "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
   #               "Final number of bases: &nbsp", as.character(total_len)))
-  #  })
+     })
   
 }
