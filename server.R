@@ -294,9 +294,9 @@ server <- function(input, output, session) {
       clean_fasta(input_text)
   })
 
-  # output$fasta_mod_table <- renderDT({
-  #   clean_multiple_mod_fasta()[[2]]
-  # })  
+  output$fasta_mod_table <- renderDT({
+    clean_multiple_mod_fasta()[1]
+  })
 
  ## output table for fragments
  output$frag_table <- renderDT({

@@ -38,7 +38,7 @@ downloadButton("downloadCSV_wo_bsai", "Download CSV"),
 hr(),
 HTML("<strong>Fragments</strong>"),
 br(),
-DTOutput("frag_table")
+DTOutput("fasta_mod_table")
     ),
     
     # Right column (occupies the right half)
