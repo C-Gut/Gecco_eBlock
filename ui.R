@@ -28,32 +28,26 @@ CGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGAT
 TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACG", 
 label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
       
-      br(),
+
       hr(),
       HTML("<strong><u>Output</u></strong>"),    
       br(),
       br(),
       textAreaInput("mod_seq", "Suggested sequence without BsaI sites:", width = "100%"),
-      hr(),
-      DTOutput("frag_table"),     
+downloadButton("downloadCSV_wo_bsai", "Download CSV"),
+hr(),
+HTML("<strong>Fragments</strong>"),
+br(),
+DTOutput("frag_table")
     ),
     
     # Right column (occupies the right half)
     column(width = 6,
       HTML("<strong><u>Extracted Sequences</u></strong>"),
       br(),
-      br(),
       DTOutput("fasta_table"),
-
     )
   ),
-HTML("<strong>Download sequence(s) without BsaI sites</strong>"),
-sidebarLayout(
-  sidebarPanel(
-    downloadButton("downloadCSV_wo_bsai", "Download CSV")
-  ),
-  mainPanel(
-    tableOutput("df_wo_bsai")
-  )
-)
+
+
 )
