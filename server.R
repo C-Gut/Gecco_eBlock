@@ -395,6 +395,7 @@ server <- function(input, output, session) {
    fragments.df <- bind_rows(processed_frag.l, .id = "seq") 
    as.data.frame(fragments.df)
    row.names(fragments.df) <- NULL
+   colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks")
    fragments.df
   }
   # # return some info about fragments as text
