@@ -258,7 +258,7 @@ server <- function(input, output, session) {
   output$downloadCSV_wo_bsai<- downloadHandler(
 
     filename = function() {
-      paste("woBsa-", Sys.Date(), ".csv", sep="")
+      paste("woBsa-", Sys.Date(), ".xlsx", sep="")
     },
     content = function(file) {
       #Use the clean_fasta function to create a data frame using fasta_out as input (which is the text output containing sequences without bsai sites)
@@ -267,8 +267,7 @@ server <- function(input, output, session) {
         # Remove the > symbol from the data frame that can be downloaded as csv
         df_wo_bsai$Name <- sub(">", "", df_wo_bsai$Name)
         # Write the data frame to a CSV file
-        write.table(df_wo_bsai, file, sep = ";", row.names = FALSE, quote = FALSE)
-        
+        write.xlsx(df_wo_bsai, file, sep = ";", rowNames = FALSE, quote = FALSE)
     }
   )
    
@@ -390,11 +389,14 @@ server <- function(input, output, session) {
  ## output table for fragments
  output$frag_table <- renderDT({
    seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
-   print(seqs_wo_bsa.l)
+   if (length(seqs_wo_bsa.l) > 0) {
    split_fragm.l <- lapply(seqs_wo_bsa.l,function(x) split_seq_in_chunks(x, 10))
    processed_frag.l <- lapply(split_fragm.l, function(x) process_frags(x))
-   bind_rows(processed_frag.l, .id = "seq")
-   
+   fragments.df <- bind_rows(processed_frag.l, .id = "seq") 
+   as.data.frame(fragments.df)
+   row.names(fragments.df) <- NULL
+   fragments.df
+  }
   # # return some info about fragments as text
   # output$total_len <- renderText({
   #   frag_input_seq <- input$mod_seq
@@ -403,7 +405,7 @@ server <- function(input, output, session) {
   #   HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>",
   #               "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
   #               "Final number of bases: &nbsp", as.character(total_len)))
-     
+    
      })
   
 }
