@@ -360,18 +360,24 @@ server <- function(input, output, session) {
     fragm.df$test <- apply(fragm.df[,c("p5_overhang_check_unique", "p5_overhang_check_palindrome", "p5_overhang_check_repeats")], 
                            1, all)
     # If all the checks of the over hangs don´t pass
-    # cat("Do all fragments pass the OH checks?", all(fragm.df$test))
-    # if (all(fragm.df$test) = FALSE) {
-    #   
-    # }
-    # 
+     cat("Do all fragments pass the OH checks?", all(fragm.df$test))
+     
+     # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
+     # Show that in a different column, for now
+     fragm.df$new_fragm <- fragm.df$fragments
+     fragm.df$new_fragm[fragm.df$test == FALSE] <- substring(fragm.df$new_fragm[fragm.df$test == FALSE], 1, nchar(fragm.df$new_fragm[fragm.df$test == FALSE]) - 1)
+
     # Create a new column with the overhangs added to each fragment
+    #fragm.df$OH5prev <- c(NA, fragm.df$p5_overhang[-length(fragm.df$p5_overhang)])
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
-    fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$OH5prev, fragm.df$fragments, fragm.df$p3_Bsa)
-    # New column for first fragmen with bsai 5' site
-    fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"])   
-    fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(fragm.df[1, "fragments"], BsaSTOPCTTG)
     
+
+    #fragm.df$OH5prev <- (reverseComplement(DNAStringSet(fragm.df$OH5prev)))
+    
+    fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$fragments, fragm.df$OH5prev, fragm.df$p3_Bsa)
+    # New column for first fragmen with bsai 5' site
+    fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"], fragm.df[1, "OH5prev"], BsaMid2)   
+    fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(BsaMid1, fragm.df[nrow(fragm.df), "fragments"], BsaSTOPCTTG)
 
     # fragm.df$test <-
     #   ifelse(
@@ -411,8 +417,8 @@ server <- function(input, output, session) {
    as.data.frame(fragments.df)
    
    row.names(fragments.df) <- NULL
-   colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks", "5´OH prev", "Fragm OH")
-   
+   colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks", "New fragm", "5´OH prev", "Fragm OH")
+
    fragments.df
    } 
    
@@ -428,7 +434,6 @@ server <- function(input, output, session) {
      write.xlsx(fragments.df, file, sep = ";", rowNames = FALSE, quote = FALSE)
    }
  )
- 
 }
 
 ## Add Bsa sites to beginning or end of the fragments
