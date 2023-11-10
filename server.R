@@ -408,21 +408,42 @@ server <- function(input, output, session) {
     fragm.df
   }
  ## output table for fragments
- output$frag_table <- renderDT({
-   seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
-   if (length(seqs_wo_bsa.l) > 0) {
-   split_fragm.l <- lapply(seqs_wo_bsa.l,function(x) split_seq_in_chunks(x, 10))
-   processed_frag.l <- lapply(split_fragm.l, function(x) process_frags(x))
-   fragments.df <- bind_rows(processed_frag.l, .id = "seq") 
-   as.data.frame(fragments.df)
-   
-   row.names(fragments.df) <- NULL
-   colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks", "New fragm", "5´OH prev", "Fragm OH")
-
-   fragments.df
-   } 
-   
-     })
+  output$frag_table <- renderDT({
+    seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
+    print(input$frag_len)
+    if (length(seqs_wo_bsa.l) > 0) {
+      split_fragm.l <-
+        lapply(seqs_wo_bsa.l, function(x)
+        
+          split_seq_in_chunks(x, as.numeric(input$frag_len)))
+      processed_frag.l <-
+        lapply(split_fragm.l, function(x)
+          process_frags(x))
+      fragments.df <- bind_rows(processed_frag.l, .id = "seq")
+      as.data.frame(fragments.df)
+      
+      row.names(fragments.df) <- NULL
+      colnames(fragments.df) <-
+        c(
+          "Name",
+          "Length",
+          "Fragments",
+          "5'BasI",
+          "3'BsaI",
+          "5'OH",
+          "5'OH unique",
+          "5'OH palindrome",
+          "5' repeats",
+          "Pass all checks",
+          "New fragm",
+          "5´OH prev",
+          "Fragm OH"
+        )
+      
+      fragments.df
+    }
+    
+  })
  # Download button with table with fragments 
  output$downloadXLS_fragm<- downloadHandler(
    
