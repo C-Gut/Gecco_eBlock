@@ -1,6 +1,6 @@
 ################ 1. Set fixed variables ################
 
-BsaTGGT <- "CTGGTCTCGTGGT"
+BsaSTART <- "CTGGTCTCGTGGT"
 BsaSTOPCTTG <- "TAACTTGAGAGACCTG"
 BsaMid2 <- "AGAGACCTG"
 BsaMid1 <- "CTGGTCTCG"
@@ -294,13 +294,15 @@ server <- function(input, output, session) {
   process_frags <- function(fragm.df) {
     fragm.df$p5_Bsa <- BsaMid1
     fragm.df$p3_Bsa <- BsaMid2
-    fragm.df[1, "p5_Bsa"] <- BsaTGGT
+    fragm.df[1, "p5_Bsa"] <- BsaSTART
     fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG
     fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
     #fragm.df$p3_overhang <- substr(fragm.df$fragments, nchar(fragm.df$fragments) - 3, nchar(fragm.df$fragments))
     print(fragm.df[, "p5_overhang"])
     ### checks overhangs
+    
     #1# are all overhangs unique?
+    
     # Find duplicated values and report row numbers
     
     # Define the columns you want to compare for uniqueness
@@ -353,11 +355,24 @@ server <- function(input, output, session) {
       sapply(fragm.df$p5_overhang, has_no_repeated_characters)
 
     #4# pass all checks?
-    print(fragm.df)
+
     # Create a new column 'test' based on the conditions
     fragm.df$test <- apply(fragm.df[,c("p5_overhang_check_unique", "p5_overhang_check_palindrome", "p5_overhang_check_repeats")], 
                            1, all)
-      
+    # If all the checks of the over hangs don´t pass
+    # cat("Do all fragments pass the OH checks?", all(fragm.df$test))
+    # if (all(fragm.df$test) = FALSE) {
+    #   
+    # }
+    # 
+    # Create a new column with the overhangs added to each fragment
+    fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
+    fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$OH5prev, fragm.df$fragments, fragm.df$p3_Bsa)
+    # New column for first fragmen with bsai 5' site
+    fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"])   
+    fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(fragm.df[1, "fragments"], BsaSTOPCTTG)
+    
+
     # fragm.df$test <-
     #   ifelse(
     #     fragm.df$p5_overhang_check_unique &
@@ -383,7 +398,7 @@ server <- function(input, output, session) {
     #     ),
     # 
     #   )
-    # print(full_fragm.df)
+
     fragm.df
   }
  ## output table for fragments
@@ -394,15 +409,21 @@ server <- function(input, output, session) {
    processed_frag.l <- lapply(split_fragm.l, function(x) process_frags(x))
    fragments.df <- bind_rows(processed_frag.l, .id = "seq") 
    as.data.frame(fragments.df)
+   
    row.names(fragments.df) <- NULL
-   colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks")
+   colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks", "5´OH prev", "Fragm OH")
    fragments.df
-  }
+   }
+   
+## Add Bsa sites to beginning or end of the fragments
+   ## This will need an if statement to be done only when all fragments pass all the overhang checkss
+   #print(fragments.df[1, "fragments"])
+   
   # # return some info about fragments as text
   # output$total_len <- renderText({
   #   frag_input_seq <- input$mod_seq
   #   mid_sites_to_add <- calc_break_points(seq = frag_input_seq, max_len = as.numeric(input$frag_len))
-  #   total_len <- nchar(frag_input_seq) + nchar(BsaTGGT) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
+  #   total_len <- nchar(frag_input_seq) + nchar(BsaSTART) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
   #   HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>",
   #               "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
   #               "Final number of bases: &nbsp", as.character(total_len)))
