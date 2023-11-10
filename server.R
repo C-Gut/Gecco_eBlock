@@ -412,22 +412,34 @@ server <- function(input, output, session) {
    
    row.names(fragments.df) <- NULL
    colnames(fragments.df) <- c("Name", "Length", "Fragments", "5'BasI", "3'BsaI", "5'OH", "5'OH unique", "5'OH palindrome", "5' repeats", "Pass all checks", "5´OH prev", "Fragm OH")
+   
    fragments.df
-   }
+   } 
    
-## Add Bsa sites to beginning or end of the fragments
-   ## This will need an if statement to be done only when all fragments pass all the overhang checkss
-   #print(fragments.df[1, "fragments"])
-   
-  # # return some info about fragments as text
-  # output$total_len <- renderText({
-  #   frag_input_seq <- input$mod_seq
-  #   mid_sites_to_add <- calc_break_points(seq = frag_input_seq, max_len = as.numeric(input$frag_len))
-  #   total_len <- nchar(frag_input_seq) + nchar(BsaSTART) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
-  #   HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>",
-  #               "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
-  #               "Final number of bases: &nbsp", as.character(total_len)))
-    
      })
-  
+ # Download button with table with fragments 
+ output$downloadXLS_fragm<- downloadHandler(
+   
+   filename = function() {
+     paste("fragm-", Sys.Date(), ".xlsx", sep="")
+   },
+   content = function(file) {
+     # Write the data frame to a XLSX file
+     write.xlsx(fragments.df, file, sep = ";", rowNames = FALSE, quote = FALSE)
+   }
+ )
+ 
 }
+
+## Add Bsa sites to beginning or end of the fragments
+## This will need an if statement to be done only when all fragments pass all the overhang checkss
+#print(fragments.df[1, "fragments"])
+
+# # return some info about fragments as text
+# output$total_len <- renderText({
+#   frag_input_seq <- input$mod_seq
+#   mid_sites_to_add <- calc_break_points(seq = frag_input_seq, max_len = as.numeric(input$frag_len))
+#   total_len <- nchar(frag_input_seq) + nchar(BsaSTART) + nchar(BsaSTOPCTTG) + (mid_sites_to_add * nchar(BsaMid1))
+#   HTML(paste0("Input sequence length: &nbsp", as.character(nchar(frag_input_seq)), "<br>",
+#               "Number of fragments &nbsp: &nbsp", as.character(ceiling(nchar(frag_input_seq)/(max_len = as.numeric(input$frag_len)))), "<br>",
+#               "Final number of bases: &nbsp", as.character(total_len)))
