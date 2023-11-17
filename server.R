@@ -121,8 +121,31 @@ bsai_locate <- function(seq) {
 
 ### func. to determine how many fragments are required given a sequence and a max. frag. length
   
+# calc_fragments <- function(seq, max_len) {
+#   ceiling(nchar(seq) / max_len) # ceiling() rounds up to next integer
+# }
+
 calc_fragments <- function(seq, max_len) {
-  ceiling(nchar(seq) / max_len) # ceiling() rounds up to next integer
+  # Calculate the length of the first and last fragments
+  first_last_length <- max_len - 4
+  
+  # Calculate the number of full fragments
+  full_fragments <- floor((nchar(seq) - 2*first_last_length) / max_len)
+  full_fragments + 2
+  print("first_last_length")
+  print(first_last_length)
+  print("full_fragments")
+  print(full_fragments)
+  
+  # Split the string into fragments
+  # fragments <- c(
+  #   substring(seq, 1, first_last_length),
+  #   substring(seq, first_last_length + 1, first_last_length + max_len * full_fragments),
+  #   substring(seq, first_last_length + max_len * full_fragments + 1)
+  # )
+  # 
+  # return(fragments)
+  # 
 }
 
 ### function to calculate the break points in a sequence, given max. frag. length
