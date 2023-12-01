@@ -21,11 +21,11 @@ ui <- fluidPage(
       helpText("Paste your FASTA sequences below:"),
       textAreaInput(inputId = "fasta_input", value =
 ">Seq1
-ATGCTAGCTAGCTAGGTCTCTAGCTAGCTAGCTAGCGGTCTCTAGCTAGCTAGC
+ATGCTAGCTAGCTAGGTCTCTAGCTAGCTAGCTAGCGGTCTCTAGCTAGCTAGCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 >Seq2
-CGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGAT
+CGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 >Seq3
-TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACG", 
+TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
       label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
       hr(),
       HTML("<strong><u>Output</u></strong>"),
@@ -37,7 +37,7 @@ TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACG",
       HTML("<strong>Fragments</strong>"),
       br(), 
       # # Create a text input for the DNA sequence to be introduced by the user
-      textInput('frag_len', 'eblock fragment max. length', value = 7),
+      textInput('frag_len', 'eblock fragment max. length', value = 17),
       DTOutput("frag_table"),
       #downloadButton("downloadXLS_fragm", "Download Excel File"),
     ),
