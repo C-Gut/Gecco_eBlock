@@ -120,62 +120,59 @@ bsai_locate <- function(seq) {
   }
 
 ### func. to determine how many fragments are required given a sequence and a max. frag. length
+  # The first and last fragments need to have 4 nucleotides less than the rest, 
+  # Adding 8 nucleotides to the length of the sequences allows to calculate the amount of fragments by dividing by max_len
   
-# calc_fragments <- function(seq, max_len) {
-#   ceiling(nchar(seq) / max_len) # ceiling() rounds up to next integer
+  calc_n_fragments <- function(seq, max_len) {
+    ceiling((nchar(seq) + 8) / max_len) # ceiling() rounds up to next integer
+  }
+
+# ### function to calculate the break points in a sequence, given max. frag. length
+# 
+# calc_break_points <- function(seq, max_len) {
+#   (calc_n_fragments(seq, max_len) - 1) * 2
 # }
 
-calc_fragments <- function(seq, max_len) {
-  # Calculate the length of the first and last fragments
-  first_last_length <- max_len - 4
-  
-  # Calculate the number of full fragments
-  full_fragments <- floor((nchar(seq) - 2*first_last_length) / max_len)
-  full_fragments + 2
-  print("first_last_length")
-  print(first_last_length)
-  print("full_fragments")
-  print(full_fragments)
-  
-  # Split the string into fragments
-  # fragments <- c(
-  #   substring(seq, 1, first_last_length),
-  #   substring(seq, first_last_length + 1, first_last_length + max_len * full_fragments),
-  #   substring(seq, first_last_length + max_len * full_fragments + 1)
-  # )
-  # 
-  # return(fragments)
-  # 
-}
-
-### function to calculate the break points in a sequence, given max. frag. length
-
-calc_break_points <- function(seq, max_len) {
-  (calc_fragments(seq, max_len) - 1) * 2
-}
-
 ### func. to create n_chunks sequence fragments, returns vector of strings
+  seq_chunks <- function(seq, n_chunks, max_len) {
+    # if only 1 chunk is requested, return input and stop
+    if (n_chunks == 1) {
+      return(seq)
+    } 
+    # create vector from string 
+    seq <- str_split(seq, '')[[1]] 
+    # split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)) # returns list where each item is vector chunk
+    
+    # Calculate the length of the first and last fragments
+    first_last_length <- max_len - 4
+    
+    # Calculate number of fragments except first and last
+    full_fragments <- function(seq, max_len) {
+         (calc_n_fragments(seq, max_len) - 2)
+       }
 
-seq_chunks <- function(seq, n_chunks) {
-  if (n_chunks == 1) {
-    return(seq)
-  } # if only 1 chunk is requested, return input and stop
-  seq <- str_split(seq, '')[[1]] # create vector from string
-  split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)) # returns list where each item is vector chunk
-}
-
+    # Split the string into fragments
+    seq_chunks <- c(
+      substring(seq, 1, first_last_length),
+      substring(seq, first_last_length + 1, first_last_length + max_len * full_fragments),
+      substring(seq, first_last_length + max_len * full_fragments + 1)
+    )
+    return(seq_chunks)
+  }
+  print("162")
 ### func. to create df with seq. fragments, given sequence and max. frag. length
 split_seq_in_chunks <- function(seq, max_len) {
   if (seq == '' || !is.numeric(max_len) || is.na(max_len)) {
     return(data.frame())
   }
-  chunks <- seq_chunks(seq = seq, n_chunks = calc_fragments(seq, max_len)) %>% lapply(., function(x)
+  chunks <- seq_chunks(seq = seq, n_chunks = calc_n_fragments(seq, max_len)) %>% lapply(., function(x)
       paste(x, collapse = ''))
   data.frame(
     length = lapply(chunks, function(x)
       str_length(x)) %>% unlist(),
     fragments = unlist(chunks)
-  ) # convert list into data frame, can add more info (columns) about fragments
+  ) 
+  # convert list into data frame, can add more info (columns) about fragments
 }
 
 ################ 3. Server where the functions are called ################ 
@@ -391,11 +388,7 @@ server <- function(input, output, session) {
      fragm.df$new_fragm[fragm.df$test == FALSE] <- substring(fragm.df$new_fragm[fragm.df$test == FALSE], 1, nchar(fragm.df$new_fragm[fragm.df$test == FALSE]) - 1)
 
     # Create a new column with the overhangs added to each fragment
-    #fragm.df$OH5prev <- c(NA, fragm.df$p5_overhang[-length(fragm.df$p5_overhang)])
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
-    
-
-    #fragm.df$OH5prev <- (reverseComplement(DNAStringSet(fragm.df$OH5prev)))
     
     fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$fragments, fragm.df$OH5prev, fragm.df$p3_Bsa)
     # New column for first fragmen with bsai 5' site
