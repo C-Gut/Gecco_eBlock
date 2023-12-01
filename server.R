@@ -100,32 +100,32 @@ bsai_locate <- function(seq) {
 
 ### This function changes the necessary codons in the original sequence to remove BsaI sites found
 ### returns a text with the modified sequence
-  remove_bsai <- function(df, seq) {
-    # Replace codons in the input sequence
-    modified_sequence <- seq
-    for (i in seq_len(nrow(df))) {
-      start_pos <- df[i, "start"]
-      end_pos <- df[i, "end"]
-      replacement <- df[i, "change_cod_to"]
-      pos_in_seq <- df[i, "calc_pos"]
-      
-      modified_sequence <-
-        paste0(
-          substring(modified_sequence, 1, pos_in_seq - 1),
-          replacement,
-          substring(modified_sequence, pos_in_seq + 3)
-        )
-    }
-    modified_sequence
+remove_bsai <- function(df, seq) {
+  # Replace codons in the input sequence
+  modified_sequence <- seq
+  for (i in seq_len(nrow(df))) {
+    start_pos <- df[i, "start"]
+    end_pos <- df[i, "end"]
+    replacement <- df[i, "change_cod_to"]
+    pos_in_seq <- df[i, "calc_pos"]
+    
+    modified_sequence <-
+      paste0(
+        substring(modified_sequence, 1, pos_in_seq - 1),
+        replacement,
+        substring(modified_sequence, pos_in_seq + 3)
+      )
   }
+  modified_sequence
+}
 
 ### func. to determine how many fragments are required given a sequence and a max. frag. length
-  # The first and last fragments need to have 4 nucleotides less than the rest, 
-  # Adding 8 nucleotides to the length of the sequences allows to calculate the amount of fragments by dividing by max_len
-  
-  calc_n_fragments <- function(seq, max_len) {
-    ceiling((nchar(seq) + 8) / max_len) # ceiling() rounds up to next integer
-  }
+# The first and last fragments need to have 4 and 7 nucleotides less than the rest, 
+# Adding 8 nucleotides to the length of the sequences allows to calculate the amount of fragments by dividing by max_len
+
+calc_n_fragments <- function(seq, max_len) {
+  ceiling((nchar(seq) + 13) / max_len) # ceiling() rounds up to next integer
+}
 
 # ### function to calculate the break points in a sequence, given max. frag. length
 # 
@@ -134,45 +134,98 @@ bsai_locate <- function(seq) {
 # }
 
 ### func. to create n_chunks sequence fragments, returns vector of strings
-  seq_chunks <- function(seq, n_chunks, max_len) {
-    # if only 1 chunk is requested, return input and stop
-    if (n_chunks == 1) {
-      return(seq)
-    } 
-    # create vector from string 
-    seq <- str_split(seq, '')[[1]] 
-    # split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)) # returns list where each item is vector chunk
+# seq_chunks <- function(seq, n_chunks, max_len) {
+#   # if only 1 chunk is requested, return input and stop
+#   if (n_chunks == 1) {
+#     return(seq)
+#   } 
+#   # create vector from string 
+# 
+#   seq <- str_split(seq, '')[[1]] 
+#   print("seq:")
+#   print(seq)
+#   print("cut()")
+#   subtr
+#   print(cut(seq_along(seq), n_chunks, labels = FALSE))
+#   print("split:")
+#   print(split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)))
+#   # split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)) # returns list where each item is vector chunk
+#   print("145")
+#   # Calculate the length of the first and last fragments
+#   first_last_length <- max_len - 4
+#   print("148")
+#   # Calculate number of fragments except first and last
+#   full_fragments <- function(seq, max_len) {
+#        (calc_n_fragments(seq, max_len) - 2)
+#   }
+#   print("153")
+#   print("full_fragments")
+  
+#########
+  split_vector = function(seq, n_chunks, max_length, x = 0) {
+    # Ensure valid input
+    if (n_chunks > seq || n_chunks < 1) {
+      stop("Invalid number of parts")
+    }
     
-    # Calculate the length of the first and last fragments
-    first_last_length <- max_len - 4
+    # Basic split
+    base_size = seq %/% n_chunks
+    remainder = seq %% n_chunks
     
-    # Calculate number of fragments except first and last
-    full_fragments <- function(seq, max_len) {
-         (calc_n_fragments(seq, max_len) - 2)
-       }
-
-    # Split the string into fragments
-    seq_chunks <- c(
-      substring(seq, 1, first_last_length),
-      substring(seq, first_last_length + 1, first_last_length + max_len * full_fragments),
-      substring(seq, first_last_length + max_len * full_fragments + 1)
-    )
-    return(seq_chunks)
+    # Initial distribution
+    parts = rep(base_size, n_chunks)
+    parts[1:remainder] = parts[1:remainder] + 1
+    
+    # Adjust the first and last part
+    if (n_chunks > 1) {
+      parts[1] = max(1, parts[1] - 4)
+      parts[n_chunks] = max(1, parts[n_chunks] - 7)  # Updated adjustment to -7
+    }
+    # Trim parts that exceed the max length
+    parts = pmin(parts, max_length)
+    # Recalculate middle parts if necessary
+    if (sum(parts) != seq) {
+      diff = seq - sum(parts)
+      mid_indices = 2:(n_chunks-1)
+      mid_parts = length(mid_indices)
+      parts[mid_indices] = rep(base_size + diff %/% mid_parts, mid_parts)
+      parts[mid_indices[1:(diff %% mid_parts)]] = parts[mid_indices[1:(diff %% mid_parts)]] + 1
+    }
+    
+    return(parts)
   }
-  print("162")
+# Existing split_vector function here (as defined earlier)
+
+seq_chunks = function(seq, n_chunks, x = 0) {
+  # Calculate the lengths for splitting
+  split_lengths = split_vector(nchar(seq), n_chunks, x)
+  print("201")
+  
+  # Split the string according to the lengths
+  start = 1
+  end = 0
+  result = c()
+  for (len in split_lengths) {
+    end = start + len - 1
+    result = c(result, substr(seq, start, end))
+    start = end + 1
+  }
+  print("212")
+  print(result)
+  return(result)
+}
 ### func. to create df with seq. fragments, given sequence and max. frag. length
 split_seq_in_chunks <- function(seq, max_len) {
   if (seq == '' || !is.numeric(max_len) || is.na(max_len)) {
     return(data.frame())
   }
   chunks <- seq_chunks(seq = seq, n_chunks = calc_n_fragments(seq, max_len)) %>% lapply(., function(x)
-      paste(x, collapse = ''))
+    paste(x, collapse = ''))
   data.frame(
     length = lapply(chunks, function(x)
       str_length(x)) %>% unlist(),
     fragments = unlist(chunks)
-  ) 
-  # convert list into data frame, can add more info (columns) about fragments
+  ) # convert list into data frame, can add more info (columns) about fragments
 }
 
 ################ 3. Server where the functions are called ################ 
