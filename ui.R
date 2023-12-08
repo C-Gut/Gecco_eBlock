@@ -37,7 +37,7 @@ TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACGAAAAAAAAAAAAAAAAAAA
       HTML("<strong>Fragments</strong>"),
       br(), 
       # # Create a text input for the DNA sequence to be introduced by the user
-      textInput('frag_len', 'eblock fragment max. length', value = 17),
+      textInput('frag_len', 'eblock fragment max. length', value = 15),
       DTOutput("frag_table"),
       #downloadButton("downloadXLS_fragm", "Download Excel File"),
     ),
