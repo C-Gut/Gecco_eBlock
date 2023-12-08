@@ -120,7 +120,7 @@ remove_bsai <- function(df, seq) {
 }
 
 ### func. to determine how many fragments are required given a sequence and a max. frag. length
-# The first and last fragments need to have 4 and 7 nucleotides less than the rest, 
+# The first and last fragments need to have 4 and 3 nucleotides less than the rest, 
 # Adding 8 nucleotides to the length of the sequences allows to calculate the amount of fragments by dividing by max_len
 
 calc_n_fragments <- function(seq, max_len) {
@@ -162,43 +162,47 @@ calc_n_fragments <- function(seq, max_len) {
 #   print("full_fragments")
   
 #########
-  split_vector = function(seq, n_chunks, max_length, x = 0) {
-    # Ensure valid input
-    if (n_chunks > seq || n_chunks < 1) {
-      stop("Invalid number of parts")
-    }
-    
-    # Basic split
-    base_size = seq %/% n_chunks
-    remainder = seq %% n_chunks
-    
-    # Initial distribution
-    parts = rep(base_size, n_chunks)
-    parts[1:remainder] = parts[1:remainder] + 1
-    
-    # Adjust the first and last part
-    if (n_chunks > 1) {
-      parts[1] = max(1, parts[1] - 4)
-      parts[n_chunks] = max(1, parts[n_chunks] - 7)  # Updated adjustment to -7
-    }
-    # Trim parts that exceed the max length
-    parts = pmin(parts, max_length)
-    # Recalculate middle parts if necessary
-    if (sum(parts) != seq) {
-      diff = seq - sum(parts)
-      mid_indices = 2:(n_chunks-1)
-      mid_parts = length(mid_indices)
-      parts[mid_indices] = rep(base_size + diff %/% mid_parts, mid_parts)
-      parts[mid_indices[1:(diff %% mid_parts)]] = parts[mid_indices[1:(diff %% mid_parts)]] + 1
-    }
-    
-    return(parts)
+split_vector = function(seq, n_chunks, x = 0) {
+  # Ensure valid input
+  if (n_chunks > seq || n_chunks < 1) {
+    stop("Invalid number of parts")
   }
+  
+  # Basic split
+  base_size = seq %/% n_chunks
+  print("base size")
+  print(base_size)
+  remainder = seq %% n_chunks
+  print(remainder)
+  
+  # Initial distribution
+  parts = rep(base_size, n_chunks)
+  parts[1:remainder] = parts[1:remainder] + 1
+  
+  # Adjust the first and last part
+  if (n_chunks > 1) {
+    parts[1] = max(1, parts[1] - 4)
+    parts[n_chunks] = max(1, parts[n_chunks] - 3)  
+  }
+print(parts)
+  # Ensure no part is empty
+  parts = pmax(parts, 1)
+  
+ # # Recalculate middle parts if necessary
+ #  if (sum(parts) != seq) {
+ #    diff = seq - sum(parts)
+ #    mid_indices = 2:(n_chunks-1)
+ #    mid_parts = length(mid_indices)
+ #    parts[mid_indices] = rep(base_size + diff %/% mid_parts, mid_parts)
+ #    parts[mid_indices[1:(diff %% mid_parts)]] = parts[mid_indices[1:(diff %% mid_parts)]] + 1
+ #  }  
+  return(parts)
+}
 # Existing split_vector function here (as defined earlier)
 
-seq_chunks = function(seq, n_chunks, x = 0) {
+seq_chunks = function(seq, n_chunks, x_first = 0, x_last = 0) {
   # Calculate the lengths for splitting
-  split_lengths = split_vector(nchar(seq), n_chunks, x)
+  split_lengths = split_vector(nchar(seq), n_chunks, x_first)
   print("201")
   
   # Split the string according to the lengths
@@ -214,6 +218,7 @@ seq_chunks = function(seq, n_chunks, x = 0) {
   print(result)
   return(result)
 }
+
 ### func. to create df with seq. fragments, given sequence and max. frag. length
 split_seq_in_chunks <- function(seq, max_len) {
   if (seq == '' || !is.numeric(max_len) || is.na(max_len)) {
@@ -435,6 +440,10 @@ server <- function(input, output, session) {
     # If all the checks of the over hangs don´t pass
      cat("Do all fragments pass the OH checks?", all(fragm.df$test))
      
+     if (!all(fragm.df$test)) {
+       print("not all tests are passed")
+     }
+     
      # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
      # Show that in a different column, for now
      fragm.df$new_fragm <- fragm.df$fragments
@@ -447,6 +456,11 @@ server <- function(input, output, session) {
     # New column for first fragmen with bsai 5' site
     fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"], fragm.df[1, "OH5prev"], BsaMid2)   
     fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(BsaMid1, fragm.df[nrow(fragm.df), "fragments"], BsaSTOPCTTG)
+    print("fragm.df$fragm_OH")
+    
+    ## Create a new column with the length of the final fragments
+    fragm.df$length_final_fragm <- nchar(fragm.df$fragm_OH)
+    print(fragm.df)
 
     # fragm.df$test <-
     #   ifelse(
@@ -458,21 +472,7 @@ server <- function(input, output, session) {
     #   )
     
     ### this only if all checks are true, otherwise change fragments
-    # Create another data frame by pasting values from fragm.df
-    
-    # full_fragm.df <- data.frame(full_fragm = NA)
-    
-    # full_fragm.df$full_fragm <-
-    #   ifelse(
-    #     fragm.df$test,
-    #     paste(
-    #       fragm.df$p5_Bsa,
-    #       fragm.df$p5_overhang,
-    #       fragm.df$fragments,
-    #       fragm.df$p3_Bsa
-    #     ),
-    # 
-    #   )
+
 
     fragm.df
   }
@@ -506,7 +506,8 @@ server <- function(input, output, session) {
           "Pass all checks",
           "New fragm",
           "5´OH prev",
-          "Fragm OH"
+          "Fragm OH", 
+          "Length final fragm"
         )
       
       fragments.df
@@ -526,9 +527,6 @@ server <- function(input, output, session) {
  )
 }
 
-## Add Bsa sites to beginning or end of the fragments
-## This will need an if statement to be done only when all fragments pass all the overhang checkss
-#print(fragments.df[1, "fragments"])
 
 # # return some info about fragments as text
 # output$total_len <- renderText({
