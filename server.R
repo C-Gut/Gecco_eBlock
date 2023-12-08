@@ -333,7 +333,6 @@ server <- function(input, output, session) {
   
   # Download button with table without BsaI sites 
   output$downloadCSV_wo_bsai<- downloadHandler(
-
     filename = function() {
       paste("woBsa-", Sys.Date(), ".xlsx", sep="")
     },
@@ -496,22 +495,21 @@ server <- function(input, output, session) {
           "Fragm OH", 
           "Length final fragm"
         )
-      
+      # Download button with table with fragments 
+      output$downloadXLS_fragm<- downloadHandler(
+        filename = function() {
+          paste("fragm-", Sys.Date(), ".xlsx", sep="")
+        },
+        content = function(file) {
+          # Write the data frame to a XLSX file
+          write.xlsx(fragments.df, file, sep = ";", rowNames = FALSE, quote = FALSE)
+        }
+      )
       fragments.df
     }
     
   })
- # Download button with table with fragments 
- output$downloadXLS_fragm<- downloadHandler(
-   
-   filename = function() {
-     paste("fragm-", Sys.Date(), ".xlsx", sep="")
-   },
-   content = function(file) {
-     # Write the data frame to a XLSX file
-     write.xlsx(fragments.df, file, sep = ";", rowNames = FALSE, quote = FALSE)
-   }
- )
+
 }
 
 
