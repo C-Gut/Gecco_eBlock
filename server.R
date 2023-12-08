@@ -26,11 +26,11 @@ clean_fasta <- function(input_text) {
   # Split the input text into lines, remove spaces
   lines <- unlist(strsplit(input_text, "\n"))
   lines <- gsub(" ", "", lines)
-  
+
   # Define what will be the name and the sequence data
   # the nchar(lines) > 0 condition checks if the line is not empty (has a length greater than 0) after removing leading and trailing whitespace using trimws. Lines that are empty or contain only whitespace characters will be ignored when extracting seq_data.
   seq_names <- lines[str_detect(lines, "^>")]
-  seq_data <- lines[!str_detect(lines, "^>") & nchar(lines) > 0]
+  seq_data <- toupper(lines[!str_detect(lines, "^>") & nchar(lines) > 0])
     
   
   if (length(seq_names) != length(seq_data)) {
@@ -439,11 +439,7 @@ server <- function(input, output, session) {
                            1, all)
     # If all the checks of the over hangs don´t pass
      cat("Do all fragments pass the OH checks?", all(fragm.df$test))
-     
-     if (!all(fragm.df$test)) {
-       
-     }
-     
+
      # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
      # Show that in a different column, for now
      fragm.df$new_fragm <- fragm.df$fragments
@@ -461,21 +457,39 @@ server <- function(input, output, session) {
     ## Create a new column with the length of the final fragments
     fragm.df$length_final_fragm <- nchar(fragm.df$fragm_OH)
     print(fragm.df)
-
-    # fragm.df$test <-
-    #   ifelse(
-    #     fragm.df$p5_overhang_check_unique &
-    #       fragm.df$p5_overhang_check_palindrome &
-    #       fragm.df$p5_overhang_check_repeats,
-    #     TRUE,
-    #     FALSE
-    #   )
-    
-    ### this only if all checks are true, otherwise change fragments
-
-
     fragm.df
   }
+  
+  ## Function to check for fragments that don´t pass the test and modify them
+   fix_checks <- function(data) {
+    repeat {
+      # Check for false values
+      false_values <- fragm.df$test == FALSE
+
+      # If there are false values, manipulate the strings
+      if (any(false_values)) {
+        # Loop through false values and update strings
+        for (i in which(false_values)) {
+          if (i > 1) {
+            # Remove the first character from the current row
+            current_string <- substr(fragm.df$fragments[i], 2, nchar(fragm.df$fragments[i]))
+
+            # Add the removed character to the end of the previous row's string
+            fragm.df$fragments[i - 1] <- paste0(fragm.df$fragments[i - 1], substr(fragm.df$fragments[i], 1, 1))
+
+            # Update the current row's string
+            fragm.df$fragments[i] <- current_string
+          }
+        }
+      } else {
+        # If no false values, break the loop
+        break
+      }
+    }
+
+    return(data)
+  }
+
  ## output table for fragments
   output$frag_table <- renderDT({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
@@ -505,8 +519,8 @@ server <- function(input, output, session) {
           "3'BsaI",
           "5'OH",
           "5'OH unique",
-          "5'OH palindrome",
-          "5' repeats",
+          "5'OH no palindrome",
+          "5'OH no repeats",
           "Pass all checks",
           "New fragm",
           "5´OH prev",
