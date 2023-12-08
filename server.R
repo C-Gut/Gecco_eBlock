@@ -133,35 +133,34 @@ calc_n_fragments <- function(seq, max_len) {
 #   (calc_n_fragments(seq, max_len) - 1) * 2
 # }
 
-### func. to create n_chunks sequence fragments, returns vector of strings
-# seq_chunks <- function(seq, n_chunks, max_len) {
-#   # if only 1 chunk is requested, return input and stop
-#   if (n_chunks == 1) {
-#     return(seq)
-#   } 
-#   # create vector from string 
-# 
-#   seq <- str_split(seq, '')[[1]] 
-#   print("seq:")
-#   print(seq)
-#   print("cut()")
-#   subtr
-#   print(cut(seq_along(seq), n_chunks, labels = FALSE))
-#   print("split:")
-#   print(split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)))
-#   # split(seq, cut(seq_along(seq), n_chunks, labels = FALSE)) # returns list where each item is vector chunk
-#   print("145")
-#   # Calculate the length of the first and last fragments
-#   first_last_length <- max_len - 4
-#   print("148")
-#   # Calculate number of fragments except first and last
-#   full_fragments <- function(seq, max_len) {
-#        (calc_n_fragments(seq, max_len) - 2)
-#   }
-#   print("153")
-#   print("full_fragments")
-  
-#########
+## Function to check for fragments that don´t pass the test and modify them
+fix_checks <- function(data) {
+  repeat {
+    # Check for false values
+    false_values <- fragm.df$test == FALSE
+    
+    # If there are false values, manipulate the strings
+    if (any(false_values)) {
+      # Loop through false values and update strings
+      for (i in which(false_values)) {
+        if (i > 1) {
+          # Remove the first character from the current row
+          current_string <- substr(fragm.df$fragments[i], 2, nchar(fragm.df$fragments[i]))
+          
+          # Add the removed character to the end of the previous row's string
+          fragm.df$fragments[i - 1] <- paste0(fragm.df$fragments[i - 1], substr(fragm.df$fragments[i], 1, 1))
+          
+          # Update the current row's string
+          fragm.df$fragments[i] <- current_string
+        }
+      }
+    } else {
+      # If no false values, break the loop
+      break
+    }
+  }
+  return(data)
+}
 split_vector = function(seq, n_chunks, x = 0) {
   # Ensure valid input
   if (n_chunks > seq || n_chunks < 1) {
@@ -460,36 +459,6 @@ server <- function(input, output, session) {
     fragm.df
   }
   
-  ## Function to check for fragments that don´t pass the test and modify them
-   fix_checks <- function(data) {
-    repeat {
-      # Check for false values
-      false_values <- fragm.df$test == FALSE
-
-      # If there are false values, manipulate the strings
-      if (any(false_values)) {
-        # Loop through false values and update strings
-        for (i in which(false_values)) {
-          if (i > 1) {
-            # Remove the first character from the current row
-            current_string <- substr(fragm.df$fragments[i], 2, nchar(fragm.df$fragments[i]))
-
-            # Add the removed character to the end of the previous row's string
-            fragm.df$fragments[i - 1] <- paste0(fragm.df$fragments[i - 1], substr(fragm.df$fragments[i], 1, 1))
-
-            # Update the current row's string
-            fragm.df$fragments[i] <- current_string
-          }
-        }
-      } else {
-        # If no false values, break the loop
-        break
-      }
-    }
-
-    return(data)
-  }
-
  ## output table for fragments
   output$frag_table <- renderDT({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
