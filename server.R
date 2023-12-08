@@ -441,7 +441,7 @@ server <- function(input, output, session) {
      cat("Do all fragments pass the OH checks?", all(fragm.df$test))
      
      if (!all(fragm.df$test)) {
-       print("not all tests are passed")
+       
      }
      
      # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
@@ -479,12 +479,16 @@ server <- function(input, output, session) {
  ## output table for fragments
   output$frag_table <- renderDT({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
-    print(input$frag_len)
+    
+    # The fragment length given by the user will refer to the final fragments with the addition of over hangs. 
+      # Because the frag_len is used to split initial fragments without OH, we subtract 22, which is the length of OH added later
+    frag_len <- as.numeric(input$frag_len) -22
+    
     if (length(seqs_wo_bsa.l) > 0) {
       split_fragm.l <-
         lapply(seqs_wo_bsa.l, function(x)
         
-          split_seq_in_chunks(x, as.numeric(input$frag_len)))
+          split_seq_in_chunks(x, frag_len))
       processed_frag.l <-
         lapply(split_fragm.l, function(x)
           process_frags(x))
