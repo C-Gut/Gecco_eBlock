@@ -232,6 +232,44 @@ split_seq_in_chunks <- function(seq, max_len) {
   ) # convert list into data frame, can add more info (columns) about fragments
 }
 
+# Sample data frame
+your_data <- data.frame(
+  strings_column = c("apple", "banana", "cherry", "date"),
+  boolean_column = c(TRUE, FALSE, TRUE, FALSE)
+)
+
+## Function to check the fragments that do not pass all the tests and fix themç
+# This function needs a data frame as an input
+fix_checks <- function(data) {
+  repeat {
+    # Check for false values
+    false_values <- fragm.df$fragments == FALSE
+    
+    # If there are false values, manipulate the strings
+    if (any(false_values)) {
+      # Loop through false values and update strings
+      for (i in which(false_values)) {
+        if (i > 1) {
+          # Remove the first character from the current row
+          current_string <- substr(fragm.df$fragments[i], 2, nchar(fragm.df$fragments[i]))
+          
+          # Add the removed character to the end of the previous row's string
+          fragm.df$fragments[i - 1] <- paste0(fragm.df$fragments[i - 1], substr(fragm.df$fragments[i], 1, 1))
+          
+          # Update the current row's string
+          fragm.df$fragments[i] <- current_string
+        }
+      }
+    } else {
+      # If no false values, break the loop
+      break
+    }
+  }
+  
+  return(data)
+}
+
+
 ################ 3. Server where the functions are called ################ 
 
 server <- function(input, output, session) {
@@ -430,9 +468,13 @@ server <- function(input, output, session) {
     # Create a new column 'test' based on the conditions
     fragm.df$test <- apply(fragm.df[,c("p5_overhang_check_unique", "p5_overhang_check_palindrome", "p5_overhang_check_repeats")], 
                            1, all)
-    
     # If all the checks of the over hangs don´t pass
      cat("Do all fragments pass the OH checks?", all(fragm.df$test))
+
+     # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
+     # Show that in a different column, for now
+     fragm.df$new_fragm <- fragm.df$fragments
+     fragm.df$new_fragm[fragm.df$test == FALSE] <- substring(fragm.df$new_fragm[fragm.df$test == FALSE], 1, nchar(fragm.df$new_fragm[fragm.df$test == FALSE]) - 1)
 
     # Create a new column with the overhangs added to each fragment
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
@@ -444,8 +486,14 @@ server <- function(input, output, session) {
 
     # Create a new column with the length of the final fragments
     fragm.df$length_final_fragm <- nchar(fragm.df$fragm_OH)
+    
+    ## Call the function to fix the fragments that do not pass all the tests
+    fixed_fragments.df <- fix_checks(fragm.df)    
+  
     fragm.df
   }
+  
+
   
  ## output table for fragments
   output$frag_table <- renderDT({
