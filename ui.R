@@ -21,12 +21,7 @@ ui <- fluidPage(
       helpText("Paste your FASTA sequences below:"),
       textAreaInput(inputId = "fasta_input", value =
 ">Seq1
-ATGCTAGCTAGCTAGGTCTCTAGCTAGCTAGCTAGCGGTCTCTAGCTAGCTAGCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
->Seq2
-CGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
->Seq3
-TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
-      label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
+GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTATTCTTTCACTGGCTTCTACATAGACTGGGTGAAGCAGAGTCCTGGAAAGAGCCTTGAGTGGATTGGATATATTTTTCCTTCCAATGGTGAAACCAGCTACAACCAGAAGTTCAAGGGCAAGGCCACATTGACTGTAGACAAATCTTCCAGCACAGTCAACATGCAGCTCAACAGCCTGACATCTGAGGACTCTGCAGTCTATTACTGTGCAAGACAGGCTTTTTACTACTTTGACTACTGGGGCCAAGGCACCACTCTCACAGTCTCCTCA",      label = "Sequence(s)", placeholder = "Paste FASTA sequences here...", width = '100%', height = '20vh'),
       hr(),
       HTML("<strong><u>Output</u></strong>"),
       br(),
@@ -35,9 +30,10 @@ TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACGAAAAAAAAAAAAAAAAAAA
       downloadButton("downloadCSV_wo_bsai", "Download Excel File"),
       hr(),
       HTML("<strong>Fragments</strong>"),
+      br(),
       br(), 
       # # Create a text input for the DNA sequence to be introduced by the user
-      textInput('frag_len', 'eblock fragment max. length', value = 35),
+      textInput('frag_len', 'eblock fragment max. length', value = 100),
       DTOutput("frag_table"),
       downloadButton("downloadXLS_fragm", "Download Excel File"),
     ),
@@ -49,6 +45,5 @@ TACGTACGTACGTACGAGACCTTCGTACGTACGTACGTACGTACGTACGTACGTACGTACGAAAAAAAAAAAAAAAAAAA
       DTOutput("fasta_table"),
     )
   ),
-
 
 )
