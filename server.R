@@ -498,7 +498,7 @@ server <- function(input, output, session) {
           "Name",
           "Length",
           "Fragments",
-          "5'BasI",
+          "5'BsaI",
           "3'BsaI",
           "5'OH",
           "5'OH unique",
