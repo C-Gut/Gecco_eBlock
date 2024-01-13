@@ -523,6 +523,18 @@ server <- function(input, output, session) {
       fragments.df <- fragments.df %>%
         select(1, "Fragm OH", "Length final fragm", 2:ncol(fragments.df))
       
+      ##Change the fragment names
+      # Split the "Name" column into parts
+      name_parts <- strsplit(fragments.df$Name, "_")
+      seq_identifiers <- sapply(name_parts, function(x) x[1])
+      chunk_identifiers <- letters[sequence(table(seq_identifiers))]
+      
+      # Generate new row names
+      new_row_names <- paste0(">", seq_identifiers, "_f", chunk_identifiers)
+      
+      # Update the values in the "Name" column
+      fragments.df$Name <- new_row_names
+      
       fragments.df
     }
   })
