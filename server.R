@@ -462,11 +462,9 @@ server <- function(input, output, session) {
         print("fixing false")
         fixed_fragments.df <- fix_checks(fragm.df)  
       }
-    
   fragm.df
   }
 
-  
  ## output table for fragments
   output$frag_table <- renderDT({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
@@ -485,13 +483,12 @@ server <- function(input, output, session) {
       split_fragm.l <-
         lapply(seqs_wo_bsa.l, function(x)
           split_seq_in_chunks(x, frag_len))
-      print(split_fragm.l)
       processed_frag.l <-
         lapply(split_fragm.l, function(x)
           process_frags(x))
-      print(processed_frag.l)
       fragments.df <- bind_rows(processed_frag.l, .id = "seq")
       as.data.frame(fragments.df)
+      fragments.df$new_names <- 
       row.names(fragments.df) <- NULL
       colnames(fragments.df) <-
         c(
@@ -510,6 +507,7 @@ server <- function(input, output, session) {
           "Fragm OH", 
           "Length final fragm"
         )
+      
       # Download button with table with fragments 
       output$downloadXLS_fragm<- downloadHandler(
         filename = function() {
@@ -520,6 +518,11 @@ server <- function(input, output, session) {
           write.xlsx(fragments.df, file, sep = ";", rowNames = FALSE, quote = FALSE)
         }
       )
+      
+      # Change the order of the columns
+      fragments.df <- fragments.df %>%
+        select(1, "Fragm OH", "Length final fragm", 2:ncol(fragments.df))
+      
       fragments.df
     }
   })
