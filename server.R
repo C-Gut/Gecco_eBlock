@@ -142,10 +142,7 @@ split_vector = function(seq, n_chunks, x = 0) {
   
   # Basic split
   base_size = seq %/% n_chunks
-  print("base size")
-  print(base_size)
   remainder = seq %% n_chunks
-  print(remainder)
   
   # Initial distribution
   parts = rep(base_size, n_chunks)
@@ -156,7 +153,7 @@ split_vector = function(seq, n_chunks, x = 0) {
     parts[1] = max(1, parts[1] - 4)
     parts[n_chunks] = max(1, parts[n_chunks] - 3)  
   }
-print(parts)
+
   # Ensure no part is empty
   parts = pmax(parts, 1)
   
@@ -332,7 +329,7 @@ server <- function(input, output, session) {
     updateTextInput(session = getDefaultReactiveDomain(),
                     inputId = 'mod_seq',
                     value = fasta_out)
-    # fasta_out_df <- as.data.frame(fasta_out, row.names = NULL)
+    fasta_out_df <- as.data.frame(fasta_out, row.names = NULL)
     list(list_wo_bsai, fasta_out)
   })
   
@@ -352,6 +349,11 @@ server <- function(input, output, session) {
     }
   )
   observe(processed_input())
+  
+# create a table with the whole plasmid sequences  
+ output$whole_seq.df <- renderDT({
+    whole_seq <- clean_fasta(processed_input()[[2]])[[2]]
+    })
 
   # # output table for bsai sites
   # # filling a new text input field with the new sequence
@@ -527,10 +529,10 @@ server <- function(input, output, session) {
       # Split the "Name" column into parts
       name_parts <- strsplit(fragments.df$Name, "_")
       seq_identifiers <- sapply(name_parts, function(x) x[1])
-      chunk_identifiers <- letters[sequence(table(seq_identifiers))]
+      chunk_identifiers <- toupper(letters[sequence(table(seq_identifiers))])
       
       # Generate new row names
-      new_row_names <- paste0(">", seq_identifiers, "_f", chunk_identifiers)
+      new_row_names <- paste0(seq_identifiers, "_f", chunk_identifiers)
       
       # Update the values in the "Name" column
       fragments.df$Name <- new_row_names
