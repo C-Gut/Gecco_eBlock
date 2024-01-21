@@ -9,7 +9,7 @@ library(openxlsx)
 library(shinyjs)
 
 ui <- fluidPage(
-  
+
   # App title
   titlePanel("eBlock Design"),
   
@@ -43,17 +43,14 @@ GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTA
   HTML("<strong>Fragments</strong>"),
   br(),
   br(), 
-  # # Create a text input for the DNA sequence to be introduced by the user
+  ## Create a text input for the DNA sequence to be introduced by the user
   textInput('frag_len', 'eblock fragment max. length', value = 100),
-  DTOutput("frag_table"),
+  DTOutput("frag_table", width = "95vw"),
   downloadButton("downloadXLS_fragm", "Download Excel File"),
   br(),
   br(),
-  HTML("<strong>Plasmid</strong>"),
-  br(),
-  br(),
   selectInput("plasmid", "Plasmid", c("pBAD", "pBAD SUMO")),
-  DTOutput("whole_seq.df"),
+  DTOutput("whole_seq.df", width = "95vw"),
   #downloadButton("downloadCSV_vector", "Download Excel File")
 
 )

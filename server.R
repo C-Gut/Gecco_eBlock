@@ -367,7 +367,10 @@ server <- function(input, output, session) {
       # Change column names
       colnames(whole_seq) <- c("Vector Name", "Vector Sequence")
     }
-    whole_seq
+    datatable(whole_seq, 
+              options = list(
+                scrollX = TRUE)
+              )
     })
  
  # # Download button with vector 
@@ -549,7 +552,7 @@ server <- function(input, output, session) {
       
       # Change the order of the columns
       fragments.df <- fragments.df %>%
-        select(1, "Fragm OH", "Length final fragm", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev", 7:ncol(fragments.df))
+        select(1, "Fragm OH", "Length final fragm", "Pass all checks", "5'OH unique", "5'OH no palindrome", "5'OH no repeats", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev")
       
       ##Change the fragment names
       # Split the "Name" column into parts
@@ -562,21 +565,16 @@ server <- function(input, output, session) {
       
       # Update the values in the "Name" column
       fragments.df$Name <- new_row_names
-      
-      # Add a new column for row color based on "Pass all checks"
-      fragments.df$color <- ifelse(fragments.df[,"Pass all checks"] == FALSE, "orange", "white")
-      
-      # Display the interactive HTML table with conditional row coloring
-      datatable(fragments.df, options = list(
-        pageLength = 10
-      ), rownames = FALSE) %>%
-        formatStyle(
-          columns = c("Pass_all_checks"),
-          valueColumns = c("color"),
-          backgroundColor = styleColorBar("white", "orange")
-        )
-      
-      fragments.df
+
+      datatable(fragments.df, 
+                options = list(
+                  # autoWidth = TRUE,
+                  # columnDefs = list(
+                  #   list(width="100px", targets = c(2))
+                  # )
+                   scrollX = TRUE
+                  # columnDefs = list(list(targets = c(2), className = "dt-left"))  
+                )) %>% formatStyle(columns = c("Pass all checks"), target = "row", backgroundColor = styleEqual(c(TRUE, FALSE), c("white", "orange")))
     }
   })
 }
