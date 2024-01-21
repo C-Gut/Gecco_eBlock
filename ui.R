@@ -29,13 +29,6 @@ GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTA
       textAreaInput("mod_seq", "Suggested sequence without BsaI sites:", width = "100%"),
       downloadButton("downloadCSV_wo_bsai", "Download Excel File"),
       hr(),
-      HTML("<strong>Fragments</strong>"),
-      br(),
-      br(), 
-      # # Create a text input for the DNA sequence to be introduced by the user
-      textInput('frag_len', 'eblock fragment max. length', value = 100),
-      DTOutput("frag_table"),
-      downloadButton("downloadXLS_fragm", "Download Excel File"),
     ),
     
     # Right column (occupies the right half)
@@ -43,7 +36,23 @@ GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTA
       HTML("<strong><u>Extracted Sequences</u></strong>"),
       br(),
       DTOutput("fasta_table"),
-    )
+    ),
   ),
+
+  HTML("<strong>Fragments</strong>"),
+  br(),
+  br(), 
+  # # Create a text input for the DNA sequence to be introduced by the user
+  textInput('frag_len', 'eblock fragment max. length', value = 100),
+  DTOutput("frag_table"),
+  downloadButton("downloadXLS_fragm", "Download Excel File"),
+  br(),
+  br(),
+  HTML("<strong>Plasmid</strong>"),
+  br(),
+  br(),
+  selectInput("plasmid", "Choose Plasmid", c("pBAD", "pBAD SUMO")),
+  DTOutput("whole_seq.df")
+
 
 )
