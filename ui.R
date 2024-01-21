@@ -6,6 +6,7 @@ library(Biostrings)
 library(stringr)
 library(dplyr)
 library(openxlsx)
+library(shinyjs)
 
 ui <- fluidPage(
   
@@ -51,8 +52,8 @@ GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTA
   HTML("<strong>Plasmid</strong>"),
   br(),
   br(),
-  selectInput("plasmid", "Choose Plasmid", c("pBAD", "pBAD SUMO")),
-  DTOutput("whole_seq.df")
-
+  selectInput("plasmid", "Plasmid", c("pBAD", "pBAD SUMO")),
+  DTOutput("whole_seq.df"),
+  #downloadButton("downloadCSV_vector", "Download Excel File")
 
 )

@@ -369,7 +369,19 @@ server <- function(input, output, session) {
     }
     whole_seq
     })
-
+ 
+ # # Download button with vector 
+ # output$downloadCSV_vector<- downloadHandler(
+ #   filename = function() {
+ #     paste("vector-", Sys.Date(), ".xlsx", sep="")
+ #   }, 
+ #   content = function(file) {
+ #     whole_seq <- output$whole_seq.df
+ #    # Write the data frame to a CSV file
+ #    write.xlsx(whole_seq, file, sep = ";", rowNames = FALSE, quote = FALSE)
+ #    }
+  #)
+ 
   # # output table for bsai sites
   # # filling a new text input field with the new sequence
   # output$bsai_table <- renderDT({
@@ -457,10 +469,10 @@ server <- function(input, output, session) {
     # If all the checks of the over hangs don´t pass
      cat("Do all fragments pass the OH checks?", all(fragm.df$test))
 
-     # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
-     # Show that in a different column, for now
-     fragm.df$new_fragm <- fragm.df$fragments
-     fragm.df$new_fragm[fragm.df$test == FALSE] <- substring(fragm.df$new_fragm[fragm.df$test == FALSE], 1, nchar(fragm.df$new_fragm[fragm.df$test == FALSE]) - 1)
+     # # Find rows that don´t pass the checks and modify the fragment sequence by removing the las nucleotide
+     # # Show that in a different column, for now
+     # fragm.df$new_fragm <- fragm.df$fragments
+     # fragm.df$new_fragm[fragm.df$test == FALSE] <- substring(fragm.df$new_fragm[fragm.df$test == FALSE], 1, nchar(fragm.df$new_fragm[fragm.df$test == FALSE]) - 1)
 
     # Create a new column with the overhangs added to each fragment
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
@@ -473,12 +485,12 @@ server <- function(input, output, session) {
     # Create a new column with the length of the final fragments
     fragm.df$length_final_fragm <- nchar(fragm.df$fragm_OH)
     
-    # If there are false values, call the function to fix the fragments that do not pass all the tests
-    fixed_fragments.df <- data.frame()
-      if (any(fragm.df$test) == FALSE){
-        print("fixing false")
-        fixed_fragments.df <- fix_checks(fragm.df)  
-      }
+    # # If there are false values, call the function to fix the fragments that do not pass all the tests
+    # fixed_fragments.df <- data.frame()
+    #   if (any(fragm.df$test) == FALSE){
+    #     print("fixing false")
+    #     fixed_fragments.df <- fix_checks(fragm.df)  
+    #   }
   fragm.df
   }
 
@@ -519,7 +531,6 @@ server <- function(input, output, session) {
           "5'OH no palindrome",
           "5'OH no repeats",
           "Pass all checks",
-          "New fragm",
           "5´OH prev",
           "Fragm OH", 
           "Length final fragm"
@@ -538,7 +549,7 @@ server <- function(input, output, session) {
       
       # Change the order of the columns
       fragments.df <- fragments.df %>%
-        select(1, "Fragm OH", "Length final fragm", 2:ncol(fragments.df))
+        select(1, "Fragm OH", "Length final fragm", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev", 7:ncol(fragments.df))
       
       ##Change the fragment names
       # Split the "Name" column into parts
@@ -551,6 +562,19 @@ server <- function(input, output, session) {
       
       # Update the values in the "Name" column
       fragments.df$Name <- new_row_names
+      
+      # Add a new column for row color based on "Pass all checks"
+      fragments.df$color <- ifelse(fragments.df[,"Pass all checks"] == FALSE, "orange", "white")
+      
+      # Display the interactive HTML table with conditional row coloring
+      datatable(fragments.df, options = list(
+        pageLength = 10
+      ), rownames = FALSE) %>%
+        formatStyle(
+          columns = c("Pass_all_checks"),
+          valueColumns = c("color"),
+          backgroundColor = styleColorBar("white", "orange")
+        )
       
       fragments.df
     }
