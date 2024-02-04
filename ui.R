@@ -7,6 +7,7 @@ library(stringr)
 library(dplyr)
 library(openxlsx)
 library(shinyjs)
+library(shinyWidgets)
 
 ui <- fluidPage(
 
@@ -44,7 +45,8 @@ GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTA
   br(),
   br(), 
   ## Create a text input for the DNA sequence to be introduced by the user
-  textInput('frag_len', 'eblock fragment max. length', value = 100),
+fluidRow(column(3, textInput('frag_len', 'eblock fragment max. length', value = 100)),
+         column(3, shinyWidgets::materialSwitch("full_seq", "show whole sequence", value = TRUE))),
   DTOutput("frag_table", width = "95vw"),
   downloadButton("downloadXLS_fragm", "Download Excel File"),
   br(),

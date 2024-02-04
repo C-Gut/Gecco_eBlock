@@ -11,12 +11,6 @@ sumoBB2 <- "GGCCCGAACAAAAACTCATCTCAGAAGAGGATCTGAATAGCGCCGTCGACCATCATCATCATCATCAT
 
 ################ 2. Define costum functions that will be called later on inside the server ################
 
-### function to make a random DNA sequence of length n, for testing
-# example_seq <- function(n) {
-#   sample(c('A', 'C', 'T', 'G'), n, replace = TRUE) %>% paste0(collapse = '')
-# }
-
-
 ### Function to clean the FASTA input and create a data frame and a list. It accepts both fasta format and tab-separated field as input
 clean_fasta <- function(input_text) {
   # Initialize empty vectors to store sequence names and sequences
@@ -426,7 +420,15 @@ server <- function(input, output, session) {
     ##1## are all overhangs unique?
     
     # Find duplicated values and report row numbers
+  if (length(nrow(fragm.df) == 1)){
+    fragm.df$p5_overhang <- TRUE
+    fragm.df$p5_overhang_check_unique <- TRUE
+    fragm.df$p5_overhang_check_palindrome <- TRUE
+    fragm.df$p5_overhang_check_repeats <- TRUE
+    fragm.df$test <- TRUE
+    fragm.df$OH5prev <- TRUE
     
+  } else {
     # Define the columns you want to compare for uniqueness
     column1_to_check <- fragm.df$p5_overhang
     #column2_to_check <- fragm.df$p3_overhang
@@ -490,7 +492,8 @@ server <- function(input, output, session) {
 
     # Create a new column with the overhangs added to each fragment
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
-
+  }
+    
     fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$fragments, fragm.df$OH5prev, fragm.df$p3_Bsa)
     if (length(nrow(fragm.df)) > 1) {
       # New column for first fragment with bsai 5' site
@@ -511,7 +514,7 @@ server <- function(input, output, session) {
   }
 
  ## output table for fragments
-  output$frag_table <- renderDT({
+  frag_table.df <- reactive({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
     print(seqs_wo_bsa.l)
     
@@ -553,17 +556,7 @@ server <- function(input, output, session) {
           "Length final fragm"
         )
       
-    # Download button with table with fragments 
-    output$downloadXLS_fragm <- downloadHandler(
-        filename = function() {
-          paste("fragm-", Sys.Date(), ".xlsx", sep="")
-        },
-        content = function(file) {
-          # Write the data frame to a XLSX file
-          write.xlsx(fragments.df, file, sep = ";", rowNames = FALSE, quote = FALSE)
-        }
-      )
-      
+
       # Change the order of the columns
       fragments.df <- fragments.df %>%
         select(1, "Fragm OH", "Length final fragm", "Pass all checks", "5'OH unique", "5'OH no palindrome", "5'OH no repeats", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev")
@@ -573,13 +566,35 @@ server <- function(input, output, session) {
       seq_identifiers <- str_remove(fragments.df$Name, "_noBsai")
       chunk_identifiers <- toupper(letters[sequence(table(seq_identifiers))])
       fragments.df$Name <- str_replace(fragments.df$Name, "_noBsai", paste0("_f", chunk_identifiers))
-
-      datatable(fragments.df, 
-                options = list(
-                   scrollX = TRUE
-                )) %>% formatStyle(columns = c("Pass all checks"), target = "row", backgroundColor = styleEqual(c(TRUE, FALSE), c("white", "orange")))
     }
+    fragments.df
   })
+  
+  output$frag_table <- renderDT({
+    df <- frag_table.df()
+    if (input$full_seq) {
+      df[,"Fragm OH"] <- paste0(str_extract(df[,"Fragm OH"], "^.{18}"), "...", str_extract(df[,"Fragm OH"], ".{18}$"))
+      df[,"Fragments"] <- paste0(str_extract(df[,"Fragments"], "^.{18}"), "...", str_extract(df[,"Fragments"], ".{18}$"))
+      
+     }
+    datatable(df,
+              options = list(scrollX = TRUE)) %>% formatStyle(
+                columns = c("Pass all checks"),
+                target = "row",
+                backgroundColor = styleEqual(c(TRUE, FALSE), c("white", "orange"))
+              )
+  })
+  
+  # Download button with table with fragments 
+  output$downloadXLS_fragm <- downloadHandler(
+    filename = function() {
+      paste("fragm-", Sys.Date(), ".xlsx", sep="")
+    },
+    content = function(file) {
+      # Write the data frame to a XLSX file
+      write.xlsx(frag_table.df(), file, sep = ";", rowNames = FALSE, quote = FALSE)
+    }
+  )
 }
 
 # # return some info about fragments as text
