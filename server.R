@@ -350,6 +350,11 @@ server <- function(input, output, session) {
   )
   observe(processed_input())
   
+#######################################################################################
+#################################### WHOLE VECTORS #################################### 
+####################################################################################### 
+
+    
 # create a table with the whole plasmid sequences  
   # Whole_se.df is made into a reactive function that can be called later on (downloadbutton)
   # We could use renderDT if we had to do all the calculations in this function only ones.
@@ -379,7 +384,7 @@ server <- function(input, output, session) {
               options = list(scrollX = TRUE))
   })
  
- # Download button with vectorç
+ # Download button with vectors
  output$downloadCSV_vector<- downloadHandler(
    filename = function() {
      paste("vector-", Sys.Date(), ".xlsx", sep="")
@@ -409,14 +414,13 @@ server <- function(input, output, session) {
   clean_multiple_mod_fasta <- reactive({
       clean_fasta(input$mod_seq)
   })
-
   process_frags <- function(fragm.df) {
     fragm.df$p5_Bsa <- BsaMid1
     fragm.df$p3_Bsa <- BsaMid2
     fragm.df[1, "p5_Bsa"] <- BsaSTART
     fragm.df[nrow(fragm.df), "p3_Bsa"] <- BsaSTOPCTTG
     fragm.df$p5_overhang <- substr(fragm.df$fragments, 1, 4)
-
+    
   ###### checks overhangs #######
     
     ##1## are all overhangs unique?
@@ -486,12 +490,14 @@ server <- function(input, output, session) {
 
     # Create a new column with the overhangs added to each fragment
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
-    
-    fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$fragments, fragm.df$OH5prev, fragm.df$p3_Bsa)
-    # New column for first fragmen with bsai 5' site
-    fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"], fragm.df[1, "OH5prev"], BsaMid2)   
-    fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(BsaMid1, fragm.df[nrow(fragm.df), "fragments"], BsaSTOPCTTG)
 
+    fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$fragments, fragm.df$OH5prev, fragm.df$p3_Bsa)
+    if (length(nrow(fragm.df)) > 1) {
+      # New column for first fragment with bsai 5' site
+      fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"], fragm.df[1, "OH5prev"], BsaMid2)
+      fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(BsaMid1, fragm.df[nrow(fragm.df), "fragments"], BsaSTOPCTTG)
+    }
+    
     # Create a new column with the length of the final fragments
     fragm.df$length_final_fragm <- nchar(fragm.df$fragm_OH)
     
@@ -507,6 +513,7 @@ server <- function(input, output, session) {
  ## output table for fragments
   output$frag_table <- renderDT({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
+    print(seqs_wo_bsa.l)
     
       # The fragment length given by the user will refer to the final fragments with the addition of over hangs. 
       # Because the frag_len is used to split initial fragments without OH, we subtract 22, which is the length of OH added later
@@ -547,7 +554,7 @@ server <- function(input, output, session) {
         )
       
     # Download button with table with fragments 
-    output$downloadXLS_fragm<- downloadHandler(
+    output$downloadXLS_fragm <- downloadHandler(
         filename = function() {
           paste("fragm-", Sys.Date(), ".xlsx", sep="")
         },
@@ -560,18 +567,12 @@ server <- function(input, output, session) {
       # Change the order of the columns
       fragments.df <- fragments.df %>%
         select(1, "Fragm OH", "Length final fragm", "Pass all checks", "5'OH unique", "5'OH no palindrome", "5'OH no repeats", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev")
-##$$$$$$$$$$      
-      ##Change the fragment names
-      # Split the "Name" column into parts
-      name_parts <- strsplit(fragments.df$Name, "_")
-      seq_identifiers <- sapply(name_parts, function(x) x[1])
+    
+      ## Change the fragment names
+        # Remove -noBsai from current name, 
+      seq_identifiers <- str_remove(fragments.df$Name, "_noBsai")
       chunk_identifiers <- toupper(letters[sequence(table(seq_identifiers))])
-      
-      # Generate new row names
-      new_row_names <- paste0(seq_identifiers, "_f", chunk_identifiers)
-      
-      # Update the values in the "Name" column
-      fragments.df$Name <- new_row_names
+      fragments.df$Name <- str_replace(fragments.df$Name, "_noBsai", paste0("_f", chunk_identifiers))
 
       datatable(fragments.df, 
                 options = list(
