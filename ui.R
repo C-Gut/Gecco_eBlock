@@ -50,7 +50,7 @@ GAAGTCCAGCTGCAGCAGTCTGGACCTGAGCTGGTGAAGCCTGGGGCTTCAGTGAAGATATCCTGCAAGGCTTCTGGTTA
   br(),
   br(),
   selectInput("plasmid", "Plasmid", c("pBAD", "pBAD SUMO")),
-  DTOutput("whole_seq.df", width = "95vw"),
-  #downloadButton("downloadCSV_vector", "Download Excel File")
+  DTOutput("whole_seq_table", width = "95vw"),
+  downloadButton("downloadCSV_vector", "Download Excel File")
 
 )

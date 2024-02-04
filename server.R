@@ -351,7 +351,11 @@ server <- function(input, output, session) {
   observe(processed_input())
   
 # create a table with the whole plasmid sequences  
- output$whole_seq.df <- renderDT({
+  # Whole_se.df is made into a reactive function that can be called later on (downloadbutton)
+  # We could use renderDT if we had to do all the calculations in this function only ones.
+  # The last row has to be the table that we get as an output from this function.
+  
+  whole_seq.df <- reactive({
     whole_seq <- clean_fasta(processed_input()[[2]])[[2]]
     if (input$plasmid == "pBAD"){
       whole_seq$Sequence <- paste0(BBseq1, whole_seq$Sequence, BBseq2)
@@ -367,23 +371,26 @@ server <- function(input, output, session) {
       # Change column names
       colnames(whole_seq) <- c("Vector Name", "Vector Sequence")
     }
-    datatable(whole_seq, 
-              options = list(
-                scrollX = TRUE)
-              )
-    })
+    whole_seq
+  })
+  
+  output$whole_seq_table <- renderDT({
+    datatable(whole_seq.df(),
+              options = list(scrollX = TRUE))
+  })
  
- # # Download button with vector 
- # output$downloadCSV_vector<- downloadHandler(
- #   filename = function() {
- #     paste("vector-", Sys.Date(), ".xlsx", sep="")
- #   }, 
- #   content = function(file) {
- #     whole_seq <- output$whole_seq.df
- #    # Write the data frame to a CSV file
- #    write.xlsx(whole_seq, file, sep = ";", rowNames = FALSE, quote = FALSE)
- #    }
-  #)
+ # Download button with vectorç
+ output$downloadCSV_vector<- downloadHandler(
+   filename = function() {
+     paste("vector-", Sys.Date(), ".xlsx", sep="")
+   },
+   content = function(file) {
+    # Write the data frame to a CSV file
+     # We are calling a reactive function, therefore the name has to be followed by ().whole_seq.df()
+    write.xlsx(whole_seq.df(), file, sep = ";", rowNames = FALSE, quote = FALSE)
+    }
+ )
+
  
   # # output table for bsai sites
   # # filling a new text input field with the new sequence
@@ -539,8 +546,8 @@ server <- function(input, output, session) {
           "Length final fragm"
         )
       
-      # Download button with table with fragments 
-      output$downloadXLS_fragm<- downloadHandler(
+    # Download button with table with fragments 
+    output$downloadXLS_fragm<- downloadHandler(
         filename = function() {
           paste("fragm-", Sys.Date(), ".xlsx", sep="")
         },
@@ -553,7 +560,7 @@ server <- function(input, output, session) {
       # Change the order of the columns
       fragments.df <- fragments.df %>%
         select(1, "Fragm OH", "Length final fragm", "Pass all checks", "5'OH unique", "5'OH no palindrome", "5'OH no repeats", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev")
-      
+##$$$$$$$$$$      
       ##Change the fragment names
       # Split the "Name" column into parts
       name_parts <- strsplit(fragments.df$Name, "_")
@@ -568,12 +575,7 @@ server <- function(input, output, session) {
 
       datatable(fragments.df, 
                 options = list(
-                  # autoWidth = TRUE,
-                  # columnDefs = list(
-                  #   list(width="100px", targets = c(2))
-                  # )
                    scrollX = TRUE
-                  # columnDefs = list(list(targets = c(2), className = "dt-left"))  
                 )) %>% formatStyle(columns = c("Pass all checks"), target = "row", backgroundColor = styleEqual(c(TRUE, FALSE), c("white", "orange")))
     }
   })
