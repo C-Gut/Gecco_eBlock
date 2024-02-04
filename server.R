@@ -128,7 +128,7 @@ calc_n_fragments <- function(seq, max_len) {
 # }
 
 
-split_vector = function(seq, n_chunks, x = 0) {
+split_vector <- function(seq, n_chunks, x = 0) {
   # Ensure valid input
   if (n_chunks > seq || n_chunks < 1) {
     stop("Invalid number of parts")
@@ -408,7 +408,7 @@ server <- function(input, output, session) {
   clean_multiple_mod_fasta <- reactive({
       clean_fasta(input$mod_seq)
   })
-  process_frags <- function(fragm.df) {
+   process_frags <- function(fragm.df) {
     fragm.df$p5_Bsa <- BsaMid1
     fragm.df$p3_Bsa <- BsaMid2
     fragm.df[1, "p5_Bsa"] <- BsaSTART
@@ -420,15 +420,6 @@ server <- function(input, output, session) {
     ##1## are all overhangs unique?
     
     # Find duplicated values and report row numbers
-  if (length(nrow(fragm.df) == 1)){
-    fragm.df$p5_overhang <- TRUE
-    fragm.df$p5_overhang_check_unique <- TRUE
-    fragm.df$p5_overhang_check_palindrome <- TRUE
-    fragm.df$p5_overhang_check_repeats <- TRUE
-    fragm.df$test <- TRUE
-    fragm.df$OH5prev <- TRUE
-    
-  } else {
     # Define the columns you want to compare for uniqueness
     column1_to_check <- fragm.df$p5_overhang
     #column2_to_check <- fragm.df$p3_overhang
@@ -492,14 +483,12 @@ server <- function(input, output, session) {
 
     # Create a new column with the overhangs added to each fragment
     fragm.df$OH5prev <- c(fragm.df$p5_overhang[-1], NA)
-  }
-    
     fragm.df$fragm_OH <- paste0(fragm.df$p5_Bsa, fragm.df$fragments, fragm.df$OH5prev, fragm.df$p3_Bsa)
-    if (length(nrow(fragm.df)) > 1) {
-      # New column for first fragment with bsai 5' site
-      fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"], fragm.df[1, "OH5prev"], BsaMid2)
-      fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(BsaMid1, fragm.df[nrow(fragm.df), "fragments"], BsaSTOPCTTG)
-    }
+    
+    # New column for first fragment with bsai 5' site
+    fragm.df[1, "fragm_OH"] <- paste0(BsaSTART, fragm.df[1, "fragments"], fragm.df[1, "OH5prev"], BsaMid2)
+    fragm.df[nrow(fragm.df), "fragm_OH"] <- paste0(BsaMid1, fragm.df[nrow(fragm.df), "fragments"], BsaSTOPCTTG)
+    
     
     # Create a new column with the length of the final fragments
     fragm.df$length_final_fragm <- nchar(fragm.df$fragm_OH)
@@ -516,8 +505,7 @@ server <- function(input, output, session) {
  ## output table for fragments
   frag_table.df <- reactive({
     seqs_wo_bsa.l <- clean_multiple_mod_fasta()[[1]]
-    print(seqs_wo_bsa.l)
-    
+
       # The fragment length given by the user will refer to the final fragments with the addition of over hangs. 
       # Because the frag_len is used to split initial fragments without OH, we subtract 22, which is the length of OH added later
     
@@ -537,7 +525,13 @@ server <- function(input, output, session) {
           process_frags(x))
       fragments.df <- bind_rows(processed_frag.l, .id = "seq")
       as.data.frame(fragments.df)
-      fragments.df$new_names <- 
+      single_frag <- table(fragments.df$seq) %>% as.data.frame()
+      single_frag <- single_frag[single_frag$Freq == 1, "Var1"]
+      fragments.df[fragments.df$seq == single_frag, 7:10] <- TRUE
+#$$
+      # fragments.df[fragments.df$seq == single_frag, "fragm_OH"] <- paste0(BsaSTART, fragm.df[fragments.df$seq == single_frag, "fragments"],BsaSTOPCTTG)
+      
+      #fragments.df$new_names <- 
       row.names(fragments.df) <- NULL
       colnames(fragments.df) <-
         c(
