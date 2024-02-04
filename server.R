@@ -363,14 +363,14 @@ server <- function(input, output, session) {
   whole_seq.df <- reactive({
     whole_seq <- clean_fasta(processed_input()[[2]])[[2]]
     if (input$plasmid == "pBAD"){
-      whole_seq$Sequence <- paste0(BBseq1, whole_seq$Sequence, BBseq2)
+      whole_seq$Sequence <- paste0(BBseq1, whole_seq$Sequence, "TAA", BBseq2)
       whole_seq <- whole_seq %>%
         mutate(Name = gsub("^>(.*)_noBsai$", "pBAD-\\1", Name))
       # Change column names
       colnames(whole_seq) <- c("Vector Name", "Vector Sequence")
     }
     if (input$plasmid == "pBAD SUMO"){
-      whole_seq$Sequence <- paste0(sumoBB1, whole_seq$Sequence, sumoBB2)
+      whole_seq$Sequence <- paste0(sumoBB1, whole_seq$Sequence, "TAA", sumoBB2)
       whole_seq <- whole_seq %>%
         mutate(Name = gsub("^>(.*)_noBsai$", "pBAD-SUMO-\\1", Name))
       # Change column names
