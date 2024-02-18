@@ -530,6 +530,7 @@ server <- function(input, output, session) {
       single_frag <- table(fragments.df$seq) %>% as.data.frame()
       single_frag <- single_frag[single_frag$Freq == 1, "Var1"]
       fragments.df[fragments.df$seq == single_frag, 7:10] <- TRUE
+      print(fragments.df)
 
       # Select the rows where there is a single fragment and add the correct sequences to the beginning and end of the fragment
       fragments.df[fragments.df$seq == single_frag, "fragm_OH"] <- paste0(BsaSTART, fragments.df[fragments.df$seq == single_frag, "fragments"],BsaSTOPCTTG)
@@ -559,7 +560,6 @@ server <- function(input, output, session) {
         select(1, "Fragm OH", "Length final fragm", "Pass all checks", "5'OH unique", "5'OH no palindrome", "5'OH no repeats", "Fragments", "Length", "5'BsaI", "3'BsaI", "5'OH", "5´OH prev")
     
       ## Change the fragment names
-        # Remove -noBsai from current name, 
       seq_identifiers <- str_remove(fragments.df$Name, "_noBsai")
       chunk_identifiers <- toupper(letters[sequence(table(seq_identifiers))])
       fragments.df$Name <- str_replace(fragments.df$Name, "_noBsai", paste0("_f", chunk_identifiers))
