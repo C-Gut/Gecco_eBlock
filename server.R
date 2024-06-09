@@ -1,3 +1,4 @@
+
 ################ 1. Set fixed variables ################
 
 BsaSTART <- "CTGGTCTCGTGGT"
@@ -197,7 +198,7 @@ split_seq_in_chunks <- function(seq, max_len) {
 ## Function to check the fragments that do not pass all the tests and fix them
 # This function needs a data frame as an input
 fix_checks <- function(fragm.df) {
-  print('fixing')
+  # print('fixing')
   # repeat {
     # Check for false values
     false_values <- fragm.df$test == FALSE
@@ -380,7 +381,7 @@ server <- function(input, output, session) {
         colnames(whole_seq) <- c("Vector Name", "Vector Sequence")
       }
       if (input$plasmid == "pBAD SUMO"){
-        whole_seq$Sequence <- paste0(sumoBB1, whole_seq$Sequence, "TAA", sumoBB2)
+        whole_seq$Sequence <- paste0(sumoBB1, whole_seq$Sequence, "TAACTTG", sumoBB2)
         whole_seq <- whole_seq %>%
           mutate(Name = gsub("^>(.*)_noBsai$", "pBAD-SUMO-\\1", Name))
         # Change column names
@@ -549,18 +550,15 @@ server <- function(input, output, session) {
         # Select the rows where there is a single fragment and change all the checks to TRUE
         single_frag <- table(fragments.df$seq)[names(seqs_wo_bsa.l)] %>% as.data.frame()
         single_frag <- single_frag[single_frag$Freq == 1, "Var1"]
-        
         # table doesn't work if it's just a single input, so need to create it manually
-        if (is.null(single_frag) && nrow(fragments.df) == 1) {
+        if (is.null(single_frag)) {
           single_frag <- data.frame('Var1' = names(seqs_wo_bsa.l), 'Freq' = 1)
         }
-        print(paste('single frags are:'))
-        print(single_frag)
         fragments.df[fragments.df$seq == single_frag, 7:10] <- TRUE
         # print(fragments.df)
   
         # Select the rows where there is a single fragment and add the correct sequences to the beginning and end of the fragment
-        fragments.df[fragments.df$seq %in% single_frag, "fragm_OH"] <- paste0(BsaSTART, fragments.df[fragments.df$seq %in% single_frag, "fragments"],BsaSTOPCTTG)
+        fragments.df[fragments.df$seq == single_frag, "fragm_OH"] <- paste0(BsaSTART, fragments.df[fragments.df$seq == single_frag, "fragments"],BsaSTOPCTTG)
         
         #fragments.df$new_names <- 
         row.names(fragments.df) <- NULL
