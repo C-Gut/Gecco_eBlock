@@ -551,14 +551,14 @@ server <- function(input, output, session) {
         single_frag <- table(fragments.df$seq)[names(seqs_wo_bsa.l)] %>% as.data.frame()
         single_frag <- single_frag[single_frag$Freq == 1, "Var1"]
         # table doesn't work if it's just a single input, so need to create it manually
-        if (is.null(single_frag)) {
+        if (is.null(single_frag) && nrow(fragments.df) == 1) {
           single_frag <- data.frame('Var1' = names(seqs_wo_bsa.l), 'Freq' = 1)
         }
-        fragments.df[fragments.df$seq == single_frag, 7:10] <- TRUE
+        fragments.df[fragments.df$seq %in% single_frag, 7:10] <- TRUE
         # print(fragments.df)
   
         # Select the rows where there is a single fragment and add the correct sequences to the beginning and end of the fragment
-        fragments.df[fragments.df$seq == single_frag, "fragm_OH"] <- paste0(BsaSTART, fragments.df[fragments.df$seq == single_frag, "fragments"],BsaSTOPCTTG)
+        fragments.df[fragments.df$seq %in% single_frag, "fragm_OH"] <- paste0(BsaSTART, fragments.df[fragments.df$seq %in% single_frag, "fragments"],BsaSTOPCTTG)
         
         #fragments.df$new_names <- 
         row.names(fragments.df) <- NULL
